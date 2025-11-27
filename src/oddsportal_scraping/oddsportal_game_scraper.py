@@ -10,13 +10,20 @@ import time
 from webdriver_manager.chrome import ChromeDriverManager
 from pathlib import Path
 
+
+
+
+
+
+
+
 def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
     """
-    Scrapes all game data for league.
+    Scrapes all game data for league from OddsPortal.
 
     Args:
-        sport (str): String object of sport (e.g. "american-football").
-        seasons (list): List object of strings of season names (e.g. "nfl-2024-2025).
+        sport (str): String object of sport name compatible with OddsPortal (e.g. "american-football").
+        seasons (list): List object of strings of season names compatible with OddsPortal (e.g. "nfl-2024-2025).
         output_file (Path): Path object of CSV file where game data will be saved.
 
     Returns
@@ -31,18 +38,23 @@ def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
     total_data = []
 
 
+
+
     # default values
     date = "31 Dec 1999"
     season_type = "Regular"
 
 
+
+
     # iterate through each season
     for season in seasons:
         print(f"scraping season {season}")
-
-
         driver.get(f"https://www.oddsportal.com/{sport}/usa/{season}/results")
-
+        
+        
+        
+        
         # find number of pages for each season
         wait = WebDriverWait(driver, 10)
         wait.until(
@@ -52,12 +64,17 @@ def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
         last_page = int(pagination[-2].text)
 
 
-        # iterate through each page
+
+
+        # iterate through each page for league
         curr_page = 1
         while True:
             print(f"scraping page {curr_page}")
+            # reset by scrolling to top and ensure top of webpage is loaded
             driver.execute_script("window.scrollTo(0, 0);")
             time.sleep(4)
+
+
 
 
             # scroll to bottom to load all rows
@@ -71,6 +88,8 @@ def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
                 last_height = new_height
 
 
+
+            # determine number of event rows on page, should be 50 for all pages except last    
             if curr_page != last_page:
                 for i in range(50):
                     try:
@@ -89,9 +108,11 @@ def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
                 events = driver.find_elements(By.CLASS_NAME, "eventRow")
 
 
-            # iterate through events
+
+
+            # iterate through event rows
             for event in events:
-                # load new values of date and header
+                # load new values of date and header if they exist
                 try:
                     # presence of date header means new date
                     date_header = event.find_element(By.CSS_SELECTOR, '[data-testid="date-header"]')
@@ -99,24 +120,31 @@ def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
                         date = date_header.text.split("-")[0].strip()
                     except:
                         date = "31 Dec 1999"
+                    
+                    # date header can also contain season type, but if not, it is regular season
                     try:
                         season_type = date_header.text.split("-", 1)[1].strip()
                     except:
                         season_type = "Regular"
                 except:
-                    # no date header, so same date as last row
+                    # no date header, so same date and season type as last row
                     pass
-                
-                
+
+
+
+                # load game data from event row
                 game_data = {}
                 game = event.find_element(By.CSS_SELECTOR, '[data-testid="game-row"]')
                 game_info = game.text.splitlines()
 
-                
+
+
+
                 if "canc." in game_info:
                     # game was cancelled, skip
                     continue
-                
+
+
 
 
                 # check if game is played at neutral location
@@ -148,6 +176,7 @@ def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
 
 
 
+
                 # isolate and split info in each row
                 team_1_idx = 1
                 team_2_idx = 5
@@ -166,12 +195,13 @@ def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
                     moneyline_x_idx += 1
                 if sport == "hockey":
                     moneyline_2_idx += 1
-
                 if moneyline_2_idx >= len(game_info):
                     print(f"ERROR: game data unaligned")
                     continue
-            
 
+
+
+                # store data
                 game_data["date"] = date
                 game_data["season_type"] = season_type
                 game_data["neutral"] = 1 if neutral else 0
@@ -191,15 +221,16 @@ def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
                 total_data.append(game_data)
 
 
+
+
             # finished with season
             if curr_page == last_page:
                 break
 
-            # if curr_page == 14 and season == "mlb-2014":
-            #     curr_page = 16
-            #     driver.get("")
-                
-            # click next button to go to next page
+
+
+
+            # not finished, so click next button to go to next page
             try:
                 next_btn = wait.until(
                     EC.presence_of_element_located(
@@ -212,50 +243,62 @@ def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
                 next_btn.click()
                 curr_page += 1
                 time.sleep(8)
-
             except TimeoutException:
                 # no next button found
                 print(f"ERROR: no next button found on page {curr_page}")
                 exit(1)
 
-        with open(f"nhl_{season.replace('-', '_')}.csv", mode='w', newline='', encoding='utf-8') as csv_file:
-            fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_2", "neutral", "game_url"]
-            if sport == "hockey":
-                fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_x", "moneyline_2", "neutral", "game_url"]
-            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-            writer.writeheader()
-            for game in total_data:
-                writer.writerow(game)
-
-            
 
 
+        # optional intermediary save point
+        # with open(f"{season.replace('-', '_')}.csv", mode='w', newline='', encoding='utf-8') as csv_file:
+        #     fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_2", "neutral", "game_url"]
+        #     if sport == "hockey":
+        #         fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_x", "moneyline_2", "neutral", "game_url"]
+        #     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+        #     writer.writeheader()
+        #     for game in total_data:
+        #         writer.writerow(game)
 
+
+
+
+
+
+
+
+    # save final data
     with open(output_file, mode='w', newline='', encoding='utf-8') as csv_file:
         fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_2", "neutral", "game_url"]
         if sport == "hockey":
             fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_x", "moneyline_2", "neutral", "game_url"]
-
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
         for game in total_data:
             writer.writerow(game)
 
 
+
+
+
+
+
+
 if __name__ == "__main__":
-    league = "nhl"
-    league_to_sport_dict = {
-        "mlb": "baseball",
-        "nba": "basketball",
-        "nfl": "american-football",
-        "nhl": "hockey"
-    }
-    league_to_seasons_dict = {
-        "mlb": [f"{league}-{year}" for year in range(2025, 2007, -1)],
-        "nba": [f"{league}-{year}-{year+1}" for year in range(2024, 2007, -1)],
-        "nfl": [f"{league}-{year}-{year+1}" for year in range(2024, 2007, -1)],
-        "nhl": [f"{league}-{year}-{year+1}" for year in range(2024, 2007, -1)]
-    }
-    scrape_league_games(sport=league_to_sport_dict[league],
-                        seasons=league_to_seasons_dict[league],
-                        output_file=f"raw_data/oddsportal_{league}.csv")
+    leagues = ["mlb", "nba", "nfl", "nhl"]
+    for league in leagues:
+        league_to_sport_dict = {
+            "mlb": "baseball",
+            "nba": "basketball",
+            "nfl": "american-football",
+            "nhl": "hockey"
+        }
+        league_to_seasons_dict = {
+            "mlb": [f"{league}-{year}" for year in range(2025, 2007, -1)],
+            "nba": [f"{league}-{year}-{year+1}" for year in range(2024, 2007, -1)],
+            "nfl": [f"{league}-{year}-{year+1}" for year in range(2024, 2007, -1)],
+            "nhl": [f"{league}-{year}-{year+1}" for year in range(2024, 2007, -1)]
+        }
+        scrape_league_games(sport=league_to_sport_dict[league],
+                            seasons=league_to_seasons_dict[league],
+                            output_file=f"raw_data/oddsportal_{league}.csv")
