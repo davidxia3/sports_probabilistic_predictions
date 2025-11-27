@@ -13,13 +13,13 @@ from pathlib import Path
 
 
 
-def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
+def scrape_league_games(sport: str, seasons: list[str], output_file: Path) -> None:
     """
     Scrapes all game data for league from OddsPortal.
 
     Args:
         sport (str): String object of sport name compatible with OddsPortal (e.g. "american-football").
-        seasons (list): List object of strings of season names compatible with OddsPortal (e.g. "nfl-2024-2025).
+        seasons (list[str]): List object of strings of season names compatible with OddsPortal (e.g. "nfl-2024-2025).
         output_file (Path): Path object of CSV file where game data will be saved.
 
     Returns

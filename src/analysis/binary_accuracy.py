@@ -1,31 +1,35 @@
 import pandas as pd
 from pathlib import Path
-import csv
 
 
 
 
-def compute_binary_accuracy(data_file: Path, method: str) -> float:
+def compute_binary_accuracy(data_file: Path, method: str, all_methods: list[str]) -> float:
     """
-    Computes the binary accuracy of the prediction method in a file.
+    Computes the binary accuracy of a prediction method using only the rows where
+    all prediction methods have non-missing values.
 
     Args:
-        data_file (Path): Path object of CSV file with game data.
-        method (str): String object of name of column header in file with prediction probability.
-    
+        data_file (Path): CSV file containing game data.
+        method (str): Column name of the prediction probability to evaluate.
+        all_methods (list[str]): List of all prediction method column names.
+
     Returns:
-        float: Float object of binary_accuracy of probabilistic prediction. 
+        float: Binary accuracy computed only over rows where all methods are present.
     """
 
     df = pd.read_csv(data_file)
-    mask = df[method].notna()
 
-    # a probabilistic prediction greater than or equal to 0.5 for team 1, indicates team 1 is the binary prediction
-    accuracy = ((df.loc[mask, method] >= 0.5).astype(int) == df.loc[mask, 'result']).mean()
+    # keep only rows where all method columns are not NA
+    mask = df[all_methods].notna().all(axis=1)
+
+    # compute binary prediction (>= 0.5 means team 1 predicted to win)
+    preds = (df.loc[mask, method] >= 0.5).astype(int)
+
+    # compute accuracy
+    accuracy = (preds == df.loc[mask, "result"]).mean()
+
     return accuracy
-
-
-
 
 
 
@@ -33,13 +37,30 @@ def compute_binary_accuracy(data_file: Path, method: str) -> float:
 if __name__ == "__main__":
     output = []
     leagues = ["mlb", "nba", "nfl", "nhl"]
+    base_methods = ["ml", "elopoint", "elowin", "keener", "massey", "od"]
+
     for league in leagues:
-        output.append({'league': league, 'method': "ml_prob", 'binary_accuracy': compute_binary_accuracy(f"processed_data/{league}.csv", "ml_prob")})
+
+        # full list of prediction columns for this league
+        all_methods = [f"{m}_prob" for m in base_methods]
+
+        # NFL has one extra method
         if league == "nfl":
-            output.append({'league': league, 'method': "elo_prob", 'binary_accuracy': compute_binary_accuracy(f"processed_data/{league}.csv", "elo_prob")})
-    with open("results/binary_accuracy.csv", mode='w', newline='', encoding='utf-8') as csv_file:
-        fieldnames = ["league", "method", "binary_accuracy"]
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        writer.writeheader()
-        for game in output:
-            writer.writerow(game)
+            all_methods.append("elo_prob")
+
+        # compute accuracy for each method
+        for method in all_methods:
+            acc = compute_binary_accuracy(
+                data_file=f"processed_data/{league}.csv",
+                method=method,
+                all_methods=all_methods
+            )
+            output.append({
+                "league": league,
+                "method": method,
+                "binary_accuracy": acc
+            })
+
+    output_df = pd.DataFrame(output)
+    output_df = output_df.sort_values(by="binary_accuracy", ascending=False)
+    output_df.to_csv("results/binary_accuracy.csv", index=False)

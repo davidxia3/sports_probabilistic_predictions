@@ -1,6 +1,13 @@
 from pathlib import Path
 import pandas as pd
 import json
+import numpy as np
+from ratingslib.ratings.elo import Elo
+from ratingslib.ratings.keener import Keener
+from ratingslib.ratings.massey import Massey
+from ratingslib.ratings.od import OffenseDefense
+from ratingslib.utils.enums import ratings
+from ratingslib.ratings.methods import normalization_rating
 
 
 
@@ -313,20 +320,20 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
 
     # reformat some of the raw data
     new_df = pd.DataFrame({
-        "date": raw_df["date"].apply(format_date),
-        "season": raw_df["game_url"].apply(get_season),
+        "Date": raw_df["date"].apply(format_date),
+        "Season": raw_df["game_url"].apply(get_season),
         "regular": raw_df["season_type"].apply(is_regular),
-        "home_team": raw_df["team_1"].apply(lambda x: get_team_abbr(x, team_abbr_file)),
-        "away_team": raw_df["team_2"].apply(lambda x: get_team_abbr(x, team_abbr_file)),
-        "points_1": raw_df["points_1"].apply(format_points).astype("Int64"),
-        "points_2": raw_df["points_2"].apply(format_points).astype("Int64"),
+        "HomeTeam": raw_df["team_1"].apply(lambda x: get_team_abbr(x, team_abbr_file)),
+        "AwayTeam": raw_df["team_2"].apply(lambda x: get_team_abbr(x, team_abbr_file)),
+        "FTHG": raw_df["points_1"].apply(format_points).astype("Int64"),
+        "FTAG": raw_df["points_2"].apply(format_points).astype("Int64"),
         "neutral": raw_df["neutral"],
         "game_url": raw_df["game_url"]
     })
 
     # determine result of game
     new_df["result"] = new_df.apply(
-        lambda row: get_result(row["points_1"], row["points_2"]),
+        lambda row: get_result(row["FTHG"], row["FTAG"]),
         axis=1
     ).astype("Int64")
 
@@ -362,7 +369,7 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
     non_regular_len = len(new_df[new_df["regular"] == 0])
     neutrals_len = len(new_df[new_df["neutral"] == 1])
     ties_len = len(new_df[new_df["result"].isna()])
-    na_team_len = len(new_df[(new_df["home_team"].isna()) | (new_df["away_team"].isna())])
+    na_team_len = len(new_df[(new_df["HomeTeam"].isna()) | (new_df["AwayTeam"].isna())])
     missing_ml_len = len(new_df[(new_df["ml_prob"].isna())])
     print(f"total: {total_len}")
     print(f"non regular season: {non_regular_len} ({non_regular_len / total_len})")
@@ -378,8 +385,8 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
         (new_df["regular"] == 1) &
         (new_df["neutral"] == 0) &
         (new_df["result"].notna()) &
-        (new_df["home_team"].notna()) &
-        (new_df["away_team"].notna()) &
+        (new_df["HomeTeam"].notna()) &
+        (new_df["AwayTeam"].notna()) &
         (new_df["ml_prob"].notna())
     )
     clean_df = new_df[mask].copy()
@@ -388,9 +395,9 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
 
 
     # determine which games occur in second half of regular season for each season
-    clean_df = clean_df.sort_values(by=["season", "date"], ascending=[False, False])
-    season_counts = clean_df.groupby("season")["date"].transform("count")
-    reverse_rank = clean_df.groupby("season").cumcount()
+    clean_df = clean_df.sort_values(by=["Season", "Date"], ascending=[False, False])
+    season_counts = clean_df.groupby("Season")["Date"].transform("count")
+    reverse_rank = clean_df.groupby("Season").cumcount()
     clean_df["second_half"] = (reverse_rank < (season_counts / 2)).astype(int)
 
 
@@ -407,7 +414,7 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
             elo_mapping[game_id_str2] = 1 - row["elo_prob1"]
         
         for i, row in clean_df.iterrows():
-            game_id_str = f'{row["date"]}_{row["home_team"]}_{row["away_team"]}'
+            game_id_str = f'{row["Date"]}_{row["HomeTeam"]}_{row["AwayTeam"]}'
             if game_id_str in elo_mapping:
                 clean_df.loc[i, "elo_prob"] = elo_mapping[game_id_str]
             else:
@@ -417,25 +424,102 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
 
 
 
+    # compute RatingsLib probabilistic predictions
+    clean_df['Date'] = pd.to_datetime(clean_df['Date'], format="%Y-%m-%d")
+
+    clean_df["elopoint_prob"] = pd.NA
+    clean_df["elowin_prob"] = pd.NA
+    clean_df["keener_prob"] = pd.NA
+    clean_df["massey_prob"] = pd.NA
+    clean_df["od_prob"] = pd.NA
+
+    for index, row in clean_df.iterrows():
+        season_df = clean_df[clean_df['Season'] == row['Season']]
+
+        filtered_df = season_df[(season_df['Date'] < row['Date'])]
+
+        unique_teams = pd.unique(filtered_df[['HomeTeam', 'AwayTeam']].values.ravel())
+        unique_teams_df = pd.DataFrame(unique_teams, columns=['Item'])
+
+        home = row['HomeTeam']
+        away = row['AwayTeam']
+
+        try:
+            elopoint = Elo(version=ratings.ELOPOINT, starting_point=0).rate(filtered_df, unique_teams_df)
+            elopoint['rating'] = normalization_rating(elopoint, "rating")
+            elopoint['rating'] = normalization_rating(elopoint, "rating")
+            ep_home = elopoint[elopoint["Item"] == home].iloc[0]["rating"]
+            ep_away = elopoint[elopoint["Item"] == away].iloc[0]["rating"]
+            clean_df.at[index, "elopoint_prob"] = ep_home / (ep_home + ep_away)
+        except:
+            clean_df.at[index, "elopoint_prob"] = pd.NA
+
+        try:
+            elowin = Elo(version=ratings.ELOWIN, starting_point=0).rate(filtered_df, unique_teams_df)
+            elowin['rating'] = normalization_rating(elowin, "rating")
+            ew_home = elowin[elowin["Item"] == home].iloc[0]["rating"]
+            ew_away = elowin[elowin["Item"] == away].iloc[0]["rating"]
+            clean_df.at[index, "elowin_prob"] = ew_home / (ew_home + ew_away)
+        except:
+            clean_df.at[index, "elowin_prob"] = pd.NA
+
+        try:
+            keener = Keener(normalization=False).rate(filtered_df, unique_teams_df)
+            keener['rating'] = normalization_rating(keener, "rating")
+            keener_home = keener[keener["Item"] == home].iloc[0]["rating"]
+            keener_away = keener[keener["Item"] == away].iloc[0]["rating"]
+            clean_df.at[index, "keener_prob"] = keener_home / (keener_home + keener_away)
+        except:
+            clean_df.at[index, "keener_prob"] = pd.NA
+
+
+        try:
+            massey = Massey().rate(filtered_df, unique_teams_df)
+            massey['rating'] = normalization_rating(massey, "rating")
+            massey_home = massey[massey["Item"] == home].iloc[0]["rating"]
+            massey_away = massey[massey["Item"] == away].iloc[0]["rating"]
+            clean_df.at[index, "massey_prob"] = massey_home / (massey_home + massey_away)
+        except:
+            clean_df.at[index, "massey_prob"] = pd.NA
+
+
+        try:    
+            od = OffenseDefense(tol=0.0001).rate(filtered_df, unique_teams_df)
+            od['rating'] = normalization_rating(od, "rating")
+            od_home = od[od["Item"] == home].iloc[0]["rating"]
+            od_away = od[od["Item"] == away].iloc[0]["rating"]
+            clean_df.at[index, "od_prob"] = od_home / (od_home + od_away)
+        except:
+            clean_df.at[index, "od_prob"] = np.nan
+
+
 
 
 
 
     # save the result
     new_order = [
-        "date", "season", "second_half",
-        "home_team", "away_team", "result",
+        "Date", "Season", "second_half",
+        "HomeTeam", "AwayTeam", "result",
         "bookmaker_profit", "ml_prob",
+        "elopoint_prob", "elowin_prob", "keener_prob", "massey_prob", "od_prob",
         "game_url"
     ]
     if league == "nfl":
         new_order = [
-            "date", "season", "second_half",
-            "home_team", "away_team", "result",
+            "Date", "Season", "second_half",
+            "HomeTeam", "AwayTeam", "result",
             "bookmaker_profit", "ml_prob", "elo_prob",
+            "elopoint_prob", "elowin_prob", "keener_prob", "massey_prob", "od_prob",
             "game_url"
         ]
     clean_df = clean_df[new_order]
+    clean_df = clean_df.rename(columns={
+        "Date": "date",
+        "Season": "season",
+        "HomeTeam": "home_team",
+        "AwayTeam": "away_team"
+    })
     clean_df.to_csv(output_save_file, index=False)
 
 
