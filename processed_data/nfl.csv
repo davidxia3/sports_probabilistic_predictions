@@ -1,4 +1,4 @@
-date,season,second_half,team_1,team_2,result,bookmaker_profit,ml_prob,elo_prob,game_url
+date,season,second_half,home_team,away_team,result,bookmaker_profit,ml_prob,elo_prob,game_url
 2025-01-05,2025,1,det,min,1,0.03855954935622319,0.5867501775682831,,https://www.oddsportal.com/american-football/usa/nfl-2024-2025/detroit-lions-minnesota-vikings-zFfW3JlI/
 2025-01-05,2025,1,ari,sf,1,0.04506679542893943,0.6642538117973201,,https://www.oddsportal.com/american-football/usa/nfl-2024-2025/arizona-cardinals-san-francisco-49ers-lr4dit5C/
 2025-01-05,2025,1,den,kc,1,0.043887147335423204,0.8258258258258258,,https://www.oddsportal.com/american-football/usa/nfl-2024-2025/denver-broncos-kansas-city-chiefs-SliO5uK5/

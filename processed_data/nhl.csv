@@ -1,4 +1,4 @@
-date,season,second_half,team_1,team_2,result,bookmaker_profit,ml_prob,game_url
+date,season,second_half,home_team,away_team,result,bookmaker_profit,ml_prob,game_url
 2025-04-17,2025,1,la,cgy,0,0.0531660692951017,0.6193177214164167,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/los-angeles-kings-calgary-flames-IqJ1lvHL/
 2025-04-17,2025,1,buf,phi,1,0.05453696630167215,0.5911981325713366,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/buffalo-sabres-philadelphia-flyers-z1sKAia5/
 2025-04-17,2025,1,cbj,nyi,1,0.05386595073403044,0.6204745639869,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/columbus-blue-jackets-new-york-islanders-tb2uEQ5c/

@@ -1,4 +1,4 @@
-date,season,second_half,team_1,team_2,result,bookmaker_profit,ml_prob,game_url
+date,season,second_half,home_team,away_team,result,bookmaker_profit,ml_prob,game_url
 2025-04-13,2025,1,gs,lac,0,0.04563623202089828,0.5981699425097071,https://www.oddsportal.com/basketball/usa/nba-2024-2025/golden-state-warriors-los-angeles-clippers-th7QRFR6/
 2025-04-13,2025,1,hou,den,0,0.044872795380053176,0.32115916050489207,https://www.oddsportal.com/basketball/usa/nba-2024-2025/houston-rockets-denver-nuggets-SlsiDGCD/
 2025-04-13,2025,1,mem,dal,1,0.04217273954116063,0.4613143412107478,https://www.oddsportal.com/basketball/usa/nba-2024-2025/memphis-grizzlies-dallas-mavericks-tUOwyK4K/
