@@ -48,7 +48,7 @@ def is_regular(season_type: str) -> int:
 
 def get_team_abbr(team_name: str, team_abbr_file: Path) -> str:
     """
-    Returns the team abbreviation from full team name. Default abbreviation is "unk".
+    Returns the team abbreviation from full team name. Default if key not found is NA.
     
     Args:
         team_name (str): String object of full team name.
@@ -62,7 +62,7 @@ def get_team_abbr(team_name: str, team_abbr_file: Path) -> str:
         team_abbr_dict = json.load(f)
     key = team_name.lower().replace(" ", "_").replace(".","_").replace("__","_")
     if key not in team_abbr_dict:
-        return "unk"
+        return pd.NA
     return team_abbr_dict[key]
 
 
@@ -93,18 +93,19 @@ def get_result(points_1: int, points_2: int) -> int:
         points_2 (int): Integer object of number of points scored by team 2. 
 
     Returns:
-        int: Integer object that is 1 if team 1 scored more points and 0 if team 2 scored more points. If there was a tie, return None.
+        int: Integer object that is 1 if team 1 scored more points and 0 if team 2 scored more points. If there was a tie, return NA.
     """
 
     # ensure the points are valid
-    if points_1 == None or points_2 == None:
-        return None
+    if pd.isna(points_1) or pd.isna(points_2):
+        return pd.NA
     if points_1 > points_2:
         return 1
     if points_2 > points_1:
         return 0
-    # in case of tie, return None
-    return None
+    
+    # in case of tie, return NA
+    return pd.NA
 
 
 
@@ -135,8 +136,8 @@ def format_ml(ml_1_str: str, ml_2_str: str) -> tuple[int, int]:
         ml_2_str (str): String object of moneyline of team 2.
     
     Returns:
-        int: Integer object of moneyline number of team 1. Returns None if either of the two moneylines are not integers.
-        int: Integer object of moneyline number of team 2. Returns None if either of the two moneylines are not integers.
+        int: Integer object of moneyline number of team 1. Returns NA if either of the two moneylines are not integers.
+        int: Integer object of moneyline number of team 2. Returns NA if either of the two moneylines are not integers.
     """
 
     # ensure they are integers
@@ -144,12 +145,12 @@ def format_ml(ml_1_str: str, ml_2_str: str) -> tuple[int, int]:
         ml_1 = int(ml_1_str)
         ml_2 = int(ml_2_str)
     except:
-        return None, None
-    
+        return pd.NA, pd.NA
+
     # if both are negative, this is the dual market favorite case
     if ml_1 < 0 and ml_2 < 0:
         return ml_1, ml_2
-    
+
     # otherwise, ensure that the moneyline with greater absolute value is the negative one
     if abs(ml_1) > abs(ml_2):
         ml_1 = -1 * abs(ml_1)
@@ -173,16 +174,16 @@ def format1x2(ml_1_str: str, ml_x_str: str, ml_2_str: str) -> tuple[int, int, in
         ml_2_str (str): String object of moneyline of team 2 winning.
 
     Returns:
-        int: Integer object of moneyline number of team 1 winning. Returns None if either of the three moneylines are not integers.
-        int: Integer object of moneyline number of tie happening. Returns None if either of the three moneylines are not integers.
-        int: Integer object of moneyline number of team 2 winning. Returns None if either of the three moneylines are not integers.      
+        int: Integer object of moneyline number of team 1 winning. Returns NA if either of the three moneylines are not integers.
+        int: Integer object of moneyline number of tie happening. Returns NA if either of the three moneylines are not integers.
+        int: Integer object of moneyline number of team 2 winning. Returns NA if either of the three moneylines are not integers.      
     """
 
     try:
         return int(ml_1_str), int(ml_x_str), int(ml_2_str)
     except:
-        return None, None, None
-    
+        return pd.NA, pd.NA, pd.NA
+
 
 
 
@@ -194,16 +195,16 @@ def get_implied_prob(ml: int) -> float:
         ml (int): Integer object of moneyline number for event.
 
     Returns:
-        float: Float object of implied probability of event
+        float: Float object of implied probability of event.
     """
 
-    if ml == None:
-        return None
+    if pd.isna(ml):
+        return pd.NA
     if ml < 0:
         return abs(ml) / (abs(ml) + 100)
     else:
         return 100 / (ml + 100)
-    
+
 
 
 
@@ -220,8 +221,8 @@ def get_ml_prob(p_1: float, p_2: float) -> float:
     """
 
     # ensure both probabilities are valid
-    if p_1 == None or p_2 == None:
-        return None
+    if pd.isna(p_1) or pd.isna(p_2):
+        return pd.NA
     
     # return normalized probability
     return p_1 / (p_1 + p_2)
@@ -242,11 +243,10 @@ def get_ml_bookmaker_profit(p_1: float, p_2: float) -> float:
     """
 
     # ensure both probabilities are valid
-    if p_1 == None or p_2 == None:
-        return None
+    if pd.isna(p_1) or pd.isna(p_2):
+        return pd.NA
     
     return p_1 + p_2 - 1
-
 
 
 
@@ -266,18 +266,18 @@ def get_1x2_prob_and_profit(p1: float, px: float, p2: float) -> tuple[float, flo
     """
 
     # ensure all probabilities are valid
-    if p1 == None or px == None or p2 == None:
-        return None, None
-    
+    if pd.isna(p1) or pd.isna(px) or pd.isna(p2):
+        return pd.NA, pd.NA
+
     # calculate bookmaker profit
     total_implied = p1 + px + p2
     bookmaker_profit = total_implied - 1.0
-    
+
     # get normalized probability of team 1 winning outirhgt
     p_1_fair = p1 / total_implied
     p_x_fair = px / total_implied
     p_1_outright = p_1_fair + (p_x_fair * 0.5)
-    
+
     return bookmaker_profit, p_1_outright
 
 
@@ -330,8 +330,7 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
         axis=1
     ).astype("Int64")
 
-
-    # all leagues, except NHL, use home away moneylines, where NHL uses 1x2 moneylines, so the probability logic is slightly different.
+    # all leagues, except NHL, use home away moneylines, where NHL uses 1x2 moneylines, so the probability logic is slightly different
     if league != "nhl":
         new_df[["ml_1", "ml_2"]] = raw_df.apply(
             lambda row: format_ml(row["moneyline_1"], row["moneyline_2"]),
@@ -363,37 +362,42 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
     non_regular_len = len(new_df[new_df["regular"] == 0])
     neutrals_len = len(new_df[new_df["neutral"] == 1])
     ties_len = len(new_df[new_df["result"].isna()])
-    unk_team_len = len(new_df[(new_df["home_team"] == "unk") | (new_df["away_team"] == "unk")])
+    na_team_len = len(new_df[(new_df["home_team"].isna()) | (new_df["away_team"].isna())])
     missing_ml_len = len(new_df[(new_df["ml_prob"].isna())])
     print(f"total: {total_len}")
     print(f"non regular season: {non_regular_len} ({non_regular_len / total_len})")
     print(f"neutrals: {neutrals_len} ({neutrals_len / total_len})")
     print(f"ties: {ties_len} ({ties_len / total_len})")
-    print(f"unk team: {unk_team_len} ({unk_team_len / total_len})")
+    print(f"na team: {na_team_len} ({na_team_len / total_len})")
     print(f"missing ml: {missing_ml_len} ({missing_ml_len / total_len})")
+
+
 
     # exclude invalid games from final result
     mask = (
         (new_df["regular"] == 1) &
         (new_df["neutral"] == 0) &
         (new_df["result"].notna()) &
-        (new_df["home_team"] != "unk") &
-        (new_df["away_team"] != "unk") &
+        (new_df["home_team"].notna()) &
+        (new_df["away_team"].notna()) &
         (new_df["ml_prob"].notna())
     )
-    final_df = new_df[mask].copy()
-    print(f"final len {len(final_df)} ({len(final_df) / total_len})")
+    clean_df = new_df[mask].copy()
+    print(f"final len {len(clean_df)} ({len(clean_df) / total_len})")
+
 
 
     # determine which games occur in second half of regular season for each season
-    final_df = final_df.sort_values(by=["season", "date"], ascending=[False, False])
-    season_counts = final_df.groupby("season")["date"].transform("count")
-    reverse_rank = final_df.groupby("season").cumcount()
-    final_df["second_half"] = (reverse_rank < (season_counts / 2)).astype(int)
+    clean_df = clean_df.sort_values(by=["season", "date"], ascending=[False, False])
+    season_counts = clean_df.groupby("season")["date"].transform("count")
+    reverse_rank = clean_df.groupby("season").cumcount()
+    clean_df["second_half"] = (reverse_rank < (season_counts / 2)).astype(int)
+
+
 
 
     # if an Elo file was specified, retrieve the probability derived from Elo
-    if elo_file != None:
+    if elo_file is not None:
         elo_mapping = {}
         elo_df = pd.read_csv(elo_file)
         for _, row in elo_df.iterrows():
@@ -402,12 +406,18 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
             elo_mapping[game_id_str1] = row["elo_prob1"]
             elo_mapping[game_id_str2] = 1 - row["elo_prob1"]
         
-        for i, row in final_df.iterrows():
+        for i, row in clean_df.iterrows():
             game_id_str = f'{row["date"]}_{row["home_team"]}_{row["away_team"]}'
             if game_id_str in elo_mapping:
-                final_df.loc[i, "elo_prob"] = elo_mapping[game_id_str]
+                clean_df.loc[i, "elo_prob"] = elo_mapping[game_id_str]
             else:
-                final_df.loc[i, "elo_prob"] = None
+                clean_df.loc[i, "elo_prob"] = pd.NA
+
+
+
+
+
+
 
 
 
@@ -425,9 +435,8 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
             "bookmaker_profit", "ml_prob", "elo_prob",
             "game_url"
         ]
-    final_df = final_df[new_order]
-    final_df.to_csv(output_save_file, index=False)
-
+    clean_df = clean_df[new_order]
+    clean_df.to_csv(output_save_file, index=False)
 
 
 
@@ -440,8 +449,8 @@ if __name__ == "__main__":
     for league in leagues:
         print(f"----{league}----")
         preprocess_league_games(league=league, 
-                            raw_data_file=f"raw_data/oddsportal_{league}.csv", 
-                            team_abbr_file="utility/team_abbrs.json", 
-                            output_save_file=f"processed_data/{league}.csv", 
-                            elo_file=(f"raw_data/fivethirtyeight_{league}_elo.csv" if league=="nfl" else None))
+                            raw_data_file=Path(f"raw_data/oddsportal_{league}.csv"), 
+                            team_abbr_file=Path("utility/team_abbrs.json"), 
+                            output_save_file=Path(f"processed_data/{league}.csv"), 
+                            elo_file=(Path(f"raw_data/fivethirtyeight_{league}_elo.csv") if league=="nfl" else None))
         print("-----------\n")

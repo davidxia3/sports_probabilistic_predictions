@@ -5,10 +5,6 @@ import csv
 
 
 
-
-
-
-
 def compute_binary_accuracy(data_file: Path, method: str) -> float:
     """
     Computes the binary accuracy of the prediction method in a file.

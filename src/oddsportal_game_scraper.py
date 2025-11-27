@@ -13,10 +13,6 @@ from pathlib import Path
 
 
 
-
-
-
-
 def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
     """
     Scrapes all game data for league from OddsPortal.
