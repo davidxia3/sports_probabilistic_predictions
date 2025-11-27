@@ -164,6 +164,8 @@ def scrape_league_games(sport: str, seasons: list, output_file: Path) -> None:
                     moneyline_1_idx += 1
                     moneyline_2_idx += 1
                     moneyline_x_idx += 1
+                if sport == "hockey":
+                    moneyline_2_idx += 1
 
                 if moneyline_2_idx >= len(game_info):
                     print(f"ERROR: game data unaligned")
