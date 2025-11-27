@@ -1,0 +1,6 @@
+league,method,binary_accuracy
+mlb,ml_prob,0.578885560215698
+nba,ml_prob,0.6844319056168249
+nfl,ml_prob,0.6656730107773446
+nfl,elo_prob,0.649165402124431
+nhl,ml_prob,0.5959760186972869
