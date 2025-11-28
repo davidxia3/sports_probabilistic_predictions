@@ -457,24 +457,24 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
 
     # all leagues, except NHL, use home away moneylines, where NHL uses 1x2 moneylines, so the probability logic is slightly different
     if league != "nhl":
-        new_df[["ml_1", "ml_2"]] = raw_df.apply(
+        new_df[["home_ml", "away_ml"]] = raw_df.apply(
             lambda row: format_ml(row["moneyline_1"], row["moneyline_2"]),
             axis=1,
             result_type="expand"
         ).astype("Int64")
-        new_df["implied_ml_1"] = new_df["ml_1"].apply(get_implied_prob)
-        new_df["implied_ml_2"] = new_df["ml_2"].apply(get_implied_prob)
+        new_df["implied_ml_1"] = new_df["home_ml"].apply(get_implied_prob)
+        new_df["implied_ml_2"] = new_df["away_ml"].apply(get_implied_prob)
         new_df["bookmaker_profit"] = new_df.apply(lambda row: get_ml_bookmaker_profit(row["implied_ml_1"], row["implied_ml_2"]), axis=1)
         new_df["ml_prob"] = new_df.apply(lambda row: get_ml_prob(row["implied_ml_1"], row["implied_ml_2"]), axis=1)
     else:
-        new_df[["ml_1", "ml_x", "ml_2"]] = raw_df.apply(
+        new_df[["home_ml", "tie_ml", "away_ml"]] = raw_df.apply(
             lambda row: format1x2(row["moneyline_1"], row["moneyline_x"], row["moneyline_2"]),
             axis=1,
             result_type="expand"
         ).astype("Int64")
-        new_df["implied_ml_1"] = new_df["ml_1"].apply(get_implied_prob)
-        new_df["implied_ml_x"] = new_df["ml_x"].apply(get_implied_prob)
-        new_df["implied_ml_2"] = new_df["ml_2"].apply(get_implied_prob)
+        new_df["implied_ml_1"] = new_df["home_ml"].apply(get_implied_prob)
+        new_df["implied_ml_x"] = new_df["tie_ml"].apply(get_implied_prob)
+        new_df["implied_ml_2"] = new_df["away_ml"].apply(get_implied_prob)
         new_df[["bookmaker_profit", "ml_prob"]] = new_df.apply(
             lambda row: get_1x2_prob_and_profit(row["implied_ml_1"], row["implied_ml_x"], row["implied_ml_2"]),
             axis=1,
@@ -659,6 +659,7 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
     new_order = [
         "Date", "Season", "second_half",
         "HomeTeam", "AwayTeam", "result",
+        "home_ml", "away_ml",
         "bookmaker_profit", "ml_prob",
         "elopoint_prob", "elowin_prob", "keener_prob", "massey_prob", "od_prob",
         "bt_prob",
@@ -668,7 +669,18 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
         new_order = [
             "Date", "Season", "second_half",
             "HomeTeam", "AwayTeam", "result",
+            "home_ml", "away_ml",
             "bookmaker_profit", "ml_prob", "elo_prob",
+            "elopoint_prob", "elowin_prob", "keener_prob", "massey_prob", "od_prob",
+            "bt_prob",
+            "game_url"
+        ]
+    elif league == "nhl":
+        new_order = [
+            "Date", "Season", "second_half",
+            "HomeTeam", "AwayTeam", "result",
+            "home_ml", "tie_ml", "away_ml",
+            "bookmaker_profit", "ml_prob",
             "elopoint_prob", "elowin_prob", "keener_prob", "massey_prob", "od_prob",
             "bt_prob",
             "game_url"
