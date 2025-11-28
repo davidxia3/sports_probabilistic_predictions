@@ -11,7 +11,7 @@ def compute_teamwise_winrate(csv_path: Path) -> pd.DataFrame:
         csv_path (Path): Path object of CSV file with league game data.
 
     Returns:
-        DataFrame with columns: team and winrate.
+        pd.DataFrame: DataFrame with 2 columns: team and winrate.
     """
 
     df = pd.read_csv(csv_path)

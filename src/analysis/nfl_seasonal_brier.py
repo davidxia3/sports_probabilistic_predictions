@@ -17,8 +17,8 @@ def compute_nfl_season_briers(csv_path: Path) -> pd.DataFrame:
         csv_path (Path): Path object of CSV file with league game data.
 
     Returns:
-        DataFrame with columns:
-            season, ml_brier, elo_brier, home_bias_brier, coinflip_brier
+        pd.DataFrame: DataFrame with 5 columns:
+            season, ml_brier, elo_brier, home_bias_brier, coinflip_brier.
     """
     df = pd.read_csv(csv_path)
 
