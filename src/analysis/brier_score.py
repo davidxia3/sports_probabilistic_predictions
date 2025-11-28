@@ -31,9 +31,9 @@ def load_filtered_data(data_file: Path, usable_methods: list[str], second_half_o
 
 
 
-def compute_binary_accuracy(data_file: Path, method: str, usable_methods: list[str], second_half_only: int) -> float:
+def compute_brier_score(data_file: Path, method: str, usable_methods: list[str], second_half_only: int) -> float:
     """
-    Compute the binary accuracy for a specified prediction method using only the rows where all prediction method probability columns are present.
+    Compute the Brier score for a specified prediction method using only the rows where all prediction method probability columns are present.
 
     Args:
         data_file (Path): Path object of CSV file containing game data.
@@ -42,16 +42,15 @@ def compute_binary_accuracy(data_file: Path, method: str, usable_methods: list[s
         second_half_only (int): If 1, restrict to games in second half of seasons, otherwise, use the full dataset.
 
     Returns:
-        float: The binary accuracy for the specified method.
+        float: The Brier score for the specified method.
     """
 
     df_valid = load_filtered_data(data_file, usable_methods, second_half_only)
 
     preds = df_valid[f"{method}_prob"].astype(float)
-    pred_class = (preds >= 0.5).astype(int)
     y = df_valid["result"]
 
-    return (pred_class == y).mean()
+    return ((preds - y) ** 2).mean()
 
 
 
@@ -68,6 +67,29 @@ def compute_home_win_probability(data_file: Path) -> float:
 
     df = pd.read_csv(data_file)
     return df["result"].mean()
+
+
+def compute_home_win_brier(data_file: Path, usable_methods: list[str], second_half_only: int) -> float:
+    """
+    Compute Brier score for baseline method of always predicting the home team to win using the empirical home-team win rate.
+
+    Args:
+        data_file (Path): Path object of CSV file containing game data.
+        usable_methods (list[str]): List of all prediction method names.
+        second_half_only (int): If 1, restrict to games in second half of seasons, otherwise, use the full dataset.
+
+    Returns:
+        float: Brier score for home win probability baseline method.
+    """
+
+    # baseline probability of overall home win rate
+    p_home = compute_home_win_probability(data_file)
+
+    # evaluate accuracy only on valid rows (consistent with methods)
+    df_valid = load_filtered_data(data_file, usable_methods, second_half_only)
+    y = df_valid["result"]
+
+    return ((p_home - y) ** 2).mean()
 
 
 
@@ -90,13 +112,13 @@ if __name__ == "__main__":
                 "half": second_half_only
             }
 
-            # model binary accuracies
+            # model Brier scores
             for method in all_methods:
                 row[method] = pd.NA
                 if method not in usable:
                     continue
 
-                row[method] = compute_binary_accuracy(
+                row[method] = compute_brier_score(
                     data_file=data_file,
                     method=method,
                     usable_methods=usable,
@@ -104,10 +126,14 @@ if __name__ == "__main__":
                 )
 
             # baseline Brier
-            row["home_win_base"] = compute_home_win_probability(data_file)
+            row["home_win_base"] = compute_home_win_brier(
+                data_file=data_file,
+                usable_methods=usable,
+                second_half_only=second_half_only
+            )
 
             results.append(row)
 
     # save results
     output_df = pd.DataFrame(results)
-    output_df.to_csv("results/binary_accuracy.csv", index=False)
+    output_df.to_csv("results/brier_score.csv", index=False)
