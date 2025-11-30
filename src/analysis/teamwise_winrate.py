@@ -39,7 +39,7 @@ if __name__ == "__main__":
         "mlb": Path("processed_data/mlb.csv"),
         "nba": Path("processed_data/nba.csv"),
         "nfl": Path("processed_data/nfl.csv"),
-        "nhl": Path("processed_data/nhl.csv"),
+        "nhl": Path("processed_data/nhl.csv")
     }
     
     for league, path in league_files.items():
