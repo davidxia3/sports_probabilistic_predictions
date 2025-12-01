@@ -1,3 +1,5 @@
+proportion of regular season games
+
 ----mlb----
 total: 42653
 non regular season: 686 (0.016083276674559818)
