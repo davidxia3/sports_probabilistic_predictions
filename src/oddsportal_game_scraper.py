@@ -265,12 +265,12 @@ def scrape_league_games(sport: str, seasons: list[str], output_file: Path) -> No
 
     # save final data
     with open(output_file, mode='w', newline='', encoding='utf-8') as csv_file:
-        fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_2", "neutral", "game_url"]
+        fieldnames = ["date", "season_type", "neutral", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_2", "game_url"]
         
         # oddsportal default line for hockey games is 1x2 not home/away
         # home/away lines need to be scraped separately
         if sport == "hockey":
-            fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "neutral", "game_url"]
+            fieldnames = ["date", "season_type", "neutral", "team_1", "team_2", "points_1", "points_2", "game_url"]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
         for game in total_data:

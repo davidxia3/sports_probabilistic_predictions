@@ -38,11 +38,11 @@ def scrape_nhl_ml(input_csv: Path, start_index: int=0) -> None:
     if "moneyline_2" not in df.columns:
         df["moneyline_2"] = pd.NA
         df["moneyline_2"] = df["moneyline_2"].astype("Int64")
-    df = df["date", "season_type",
+    df = df["date", "season_type", "neutral",
             "team_1", "team_2",
             "points_1", "points_2",
             "moneyline_1", "moneyline_2",
-            "neutral", "game_url"]
+            "game_url"]
 
 
     # iterate through each game
