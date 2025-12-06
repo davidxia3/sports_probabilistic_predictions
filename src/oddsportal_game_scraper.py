@@ -180,16 +180,11 @@ def scrape_league_games(sport: str, seasons: list[str], output_file: Path) -> No
                 points_2_idx = 4
                 moneyline_1_idx = 6
                 moneyline_2_idx = 7
-                moneyline_x_idx = 7
                 if game_info[moneyline_1_idx] == "OT" or game_info[moneyline_1_idx] == "pen.":
                     moneyline_1_idx += 1
                     moneyline_2_idx += 1
-                    moneyline_x_idx += 1
                 if game_info[moneyline_1_idx] == "FRO":
                     moneyline_1_idx += 1
-                    moneyline_2_idx += 1
-                    moneyline_x_idx += 1
-                if sport == "hockey":
                     moneyline_2_idx += 1
                 if moneyline_2_idx >= len(game_info):
                     print(f"ERROR: game data unaligned")
@@ -205,10 +200,12 @@ def scrape_league_games(sport: str, seasons: list[str], output_file: Path) -> No
                 game_data["team_2"] = game_info[team_2_idx]
                 game_data["points_1"] = game_info[points_1_idx]
                 game_data["points_2"] = game_info[points_2_idx]
-                game_data["moneyline_1"] = game_info[moneyline_1_idx]
-                if sport == "hockey":
-                    game_data["moneyline_x"] = game_info[moneyline_x_idx]
-                game_data["moneyline_2"] = game_info[moneyline_2_idx]
+
+                # oddsportal default line for hockey games is 1x2 not home/away
+                # home/away lines need to be scraped separately
+                if sport != "hockey":
+                    game_data["moneyline_1"] = game_info[moneyline_1_idx]
+                    game_data["moneyline_2"] = game_info[moneyline_2_idx]
                 try:
                     game_data["game_url"] = game.find_elements(By.TAG_NAME, "a")[-4].get_attribute("href")
                 except Exception as e:
@@ -249,8 +246,11 @@ def scrape_league_games(sport: str, seasons: list[str], output_file: Path) -> No
         # optional intermediary save point
         # with open(f"{season.replace('-', '_')}.csv", mode='w', newline='', encoding='utf-8') as csv_file:
         #     fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_2", "neutral", "game_url"]
+        #     
+        #     # oddsportal default line for hockey games is 1x2 not home/away
+        #     # home/away lines need to be scraped separately
         #     if sport == "hockey":
-        #         fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_x", "moneyline_2", "neutral", "game_url"]
+        #         field_names = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "neutral", "game_url"]
         #     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         #     writer.writeheader()
         #     for game in total_data:
@@ -266,8 +266,11 @@ def scrape_league_games(sport: str, seasons: list[str], output_file: Path) -> No
     # save final data
     with open(output_file, mode='w', newline='', encoding='utf-8') as csv_file:
         fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_2", "neutral", "game_url"]
+        
+        # oddsportal default line for hockey games is 1x2 not home/away
+        # home/away lines need to be scraped separately
         if sport == "hockey":
-            fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "moneyline_1", "moneyline_x", "moneyline_2", "neutral", "game_url"]
+            fieldnames = ["date", "season_type", "team_1", "team_2", "points_1", "points_2", "neutral", "game_url"]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
         for game in total_data:
