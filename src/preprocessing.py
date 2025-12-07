@@ -418,14 +418,6 @@ def preprocess_league_games(raw_data_file: Path, team_abbr_file: Path, output_sa
     ties_len = len(new_df[new_df["result"].isna()])
     na_team_len = len(new_df[(new_df["HomeTeam"].isna()) | (new_df["AwayTeam"].isna())])
     missing_ml_len = len(new_df[(new_df["ml_prob"].isna())])
-    print(f"total regular: {total_regular_len}")
-    print(f"neutrals: {neutrals_len} ({neutrals_len / total_regular_len})")
-    print(f"ties: {ties_len} ({ties_len / total_regular_len})")
-    print(f"na team: {na_team_len} ({na_team_len / total_regular_len})")
-    print(f"missing ml: {missing_ml_len} ({missing_ml_len / total_regular_len})")
-
-
-
     # exclude invalid games from final result
     mask = (
         (new_df["neutral"] == 0) &
@@ -435,6 +427,12 @@ def preprocess_league_games(raw_data_file: Path, team_abbr_file: Path, output_sa
         (new_df["ml_prob"].notna())
     )
     clean_df = new_df[mask].copy()
+
+    print(f"total regular: {total_regular_len}")
+    print(f"neutrals: {neutrals_len} ({neutrals_len / total_regular_len})")
+    print(f"ties: {ties_len} ({ties_len / total_regular_len})")
+    print(f"na team: {na_team_len} ({na_team_len / total_regular_len})")
+    print(f"missing ml: {missing_ml_len} ({missing_ml_len / total_regular_len})")
     print(f"final len {len(clean_df)} ({len(clean_df) / total_regular_len})")
 
 
