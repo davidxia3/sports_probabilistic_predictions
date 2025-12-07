@@ -2,12 +2,6 @@ from pathlib import Path
 import pandas as pd
 import json
 import numpy as np
-from ratingslib.ratings.elo import Elo
-from ratingslib.ratings.keener import Keener
-from ratingslib.ratings.massey import Massey
-from ratingslib.ratings.od import OffenseDefense
-from ratingslib.utils.enums import ratings
-from ratingslib.ratings.methods import normalization_rating
 
 
 
@@ -164,28 +158,6 @@ def format_ml(ml_1_str: str, ml_2_str: str) -> tuple[int, int]:
 
 
 
-def format1x2(ml_1_str: str, ml_x_str: str, ml_2_str: str) -> tuple[int, int, int]:
-    """
-    Returns integer objet of 1x2 moneylines.
-
-    Args:
-        ml_1_str (str): String object of moneyline of team 1 winning.
-        ml_x_str (str): String object of moneyline tie happening.
-        ml_2_str (str): String object of moneyline of team 2 winning.
-
-    Returns:
-        int: Integer object of moneyline number of team 1 winning. Returns NA if either of the three moneylines are not integers.
-        int: Integer object of moneyline number of tie happening. Returns NA if either of the three moneylines are not integers.
-        int: Integer object of moneyline number of team 2 winning. Returns NA if either of the three moneylines are not integers.      
-    """
-
-    try:
-        return int(ml_1_str), int(ml_x_str), int(ml_2_str)
-    except:
-        return pd.NA, pd.NA, pd.NA
-
-
-
 def get_implied_prob(ml: int) -> float:
     """
     Convert moneyline to implied probability.
@@ -244,41 +216,6 @@ def get_ml_bookmaker_profit(p_1: float, p_2: float) -> float:
         return pd.NA
     
     return p_1 + p_2 - 1
-
-
-
-def get_1x2_prob_and_profit(p1: float, px: float, p2: float) -> tuple[float, float]:
-    """
-    Returns the normalized probability that team 1 wins and the bookmaker profit from 1x2 moneylines.
-
-    Args:
-        p1 (float): Float object of implied probability that team 1 wins.
-        p2 (float): Float object of implied probability that tie happens.
-        p3 (float): Float object of implied probability that team 2 wins.
-
-    Returns:
-        float: Float object of bookmaker profit.
-        float: Float object of normalized probability that team 1 wins outright.
-    """
-
-    # ensure all probabilities are valid
-    if pd.isna(p1) or pd.isna(px) or pd.isna(p2):
-        return pd.NA, pd.NA
-
-    # calculate bookmaker profit
-    total_implied = p1 + px + p2
-    bookmaker_profit = total_implied - 1.0
-
-    # get normalized probability of team 1 winning outirhgt
-    p_1_fair = p1 / total_implied
-    p_x_fair = px / total_implied
-    p_1_outright = p_1_fair + (p_x_fair * 0.5)
-
-    return bookmaker_profit, p_1_outright
-
-
-
-
 
 
 
@@ -412,22 +349,24 @@ def get_loser(row: pd.Series) -> str:
 
 
 # main processing function
-def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Path, output_save_file: Path, elo_file: Path=None) -> None:
+def preprocess_league_games(raw_data_file: Path, team_abbr_file: Path, output_save_file: Path) -> None:
     """
-    Preproccesses all games for league and saves to CSV file. 
+    Preproccesses all games for league and saves to CSV file by adding 
+    - result of game
+    - moneyline based probabilistic predictions
+    - Bradley-Terry based probabilistic predictions
+    - bookmaker profit.
+
     Excludes 
     - non-regular season games
     - games at neutral venues
     - games with ties
-    - games between unrecognized teams
     - games with invalid moneyline data.
 
     Args:
-        league (str): String object of league abbreviation (e.g. "nfl").
         raw_data_file (Path): Path object of league's raw game data.
         team_abbr_file (Path): Path object of file containing dictionary mapping team names to team abbreviations.
         output_save_file (Path): Path object of file where preprocessed data will be saved.
-        elo_file (Path): Path object of file containing of win probabilities based on Elo. Default is None.
 
     Returns:
         None
@@ -449,59 +388,46 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
         "game_url": raw_df["game_url"]
     })
 
+    # throw out all non regular season games
+    new_df = new_df[new_df["regular"] == 1]
+
+
     # determine result of game
     new_df["result"] = new_df.apply(
         lambda row: get_result(row["FTHG"], row["FTAG"]),
         axis=1
     ).astype("Int64")
 
-    # all leagues, except NHL, use home away moneylines, where NHL uses 1x2 moneylines, so the probability logic is slightly different
-    if league != "nhl":
-        new_df[["home_ml", "away_ml"]] = raw_df.apply(
-            lambda row: format_ml(row["moneyline_1"], row["moneyline_2"]),
-            axis=1,
-            result_type="expand"
-        ).astype("Int64")
-        new_df["implied_ml_1"] = new_df["home_ml"].apply(get_implied_prob)
-        new_df["implied_ml_2"] = new_df["away_ml"].apply(get_implied_prob)
-        new_df["bookmaker_profit"] = new_df.apply(lambda row: get_ml_bookmaker_profit(row["implied_ml_1"], row["implied_ml_2"]), axis=1)
-        new_df["ml_prob"] = new_df.apply(lambda row: get_ml_prob(row["implied_ml_1"], row["implied_ml_2"]), axis=1)
-    else:
-        new_df[["home_ml", "tie_ml", "away_ml"]] = raw_df.apply(
-            lambda row: format1x2(row["moneyline_1"], row["moneyline_x"], row["moneyline_2"]),
-            axis=1,
-            result_type="expand"
-        ).astype("Int64")
-        new_df["implied_ml_1"] = new_df["home_ml"].apply(get_implied_prob)
-        new_df["implied_ml_x"] = new_df["tie_ml"].apply(get_implied_prob)
-        new_df["implied_ml_2"] = new_df["away_ml"].apply(get_implied_prob)
-        new_df[["bookmaker_profit", "ml_prob"]] = new_df.apply(
-            lambda row: get_1x2_prob_and_profit(row["implied_ml_1"], row["implied_ml_x"], row["implied_ml_2"]),
-            axis=1,
-            result_type="expand"
-        )
+    # calculate moneyline probabilistic prediction based on home away moneylines
+    new_df[["home_ml", "away_ml"]] = raw_df.apply(
+        lambda row: format_ml(row["moneyline_1"], row["moneyline_2"]),
+        axis=1,
+        result_type="expand"
+    ).astype("Int64")
+    new_df["implied_ml_1"] = new_df["home_ml"].apply(get_implied_prob)
+    new_df["implied_ml_2"] = new_df["away_ml"].apply(get_implied_prob)
+    new_df["bookmaker_profit"] = new_df.apply(lambda row: get_ml_bookmaker_profit(row["implied_ml_1"], row["implied_ml_2"]), axis=1)
+    new_df["ml_prob"] = new_df.apply(lambda row: get_ml_prob(row["implied_ml_1"], row["implied_ml_2"]), axis=1)
+    
 
 
 
     # compute number of invalid games and their reasons and print out the statistics
-    total_len = len(new_df)
-    non_regular_len = len(new_df[new_df["regular"] == 0])
+    total_regular_len = len(new_df)
     neutrals_len = len(new_df[new_df["neutral"] == 1])
     ties_len = len(new_df[new_df["result"].isna()])
     na_team_len = len(new_df[(new_df["HomeTeam"].isna()) | (new_df["AwayTeam"].isna())])
     missing_ml_len = len(new_df[(new_df["ml_prob"].isna())])
-    print(f"total: {total_len}")
-    print(f"non regular season: {non_regular_len} ({non_regular_len / total_len})")
-    print(f"neutrals: {neutrals_len} ({neutrals_len / total_len})")
-    print(f"ties: {ties_len} ({ties_len / total_len})")
-    print(f"na team: {na_team_len} ({na_team_len / total_len})")
-    print(f"missing ml: {missing_ml_len} ({missing_ml_len / total_len})")
+    print(f"total regular: {total_regular_len}")
+    print(f"neutrals: {neutrals_len} ({neutrals_len / total_regular_len})")
+    print(f"ties: {ties_len} ({ties_len / total_regular_len})")
+    print(f"na team: {na_team_len} ({na_team_len / total_regular_len})")
+    print(f"missing ml: {missing_ml_len} ({missing_ml_len / total_regular_len})")
 
 
 
     # exclude invalid games from final result
     mask = (
-        (new_df["regular"] == 1) &
         (new_df["neutral"] == 0) &
         (new_df["result"].notna()) &
         (new_df["HomeTeam"].notna()) &
@@ -509,7 +435,7 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
         (new_df["ml_prob"].notna())
     )
     clean_df = new_df[mask].copy()
-    print(f"final len {len(clean_df)} ({len(clean_df) / total_len})")
+    print(f"final len {len(clean_df)} ({len(clean_df) / total_regular_len})")
 
 
 
@@ -518,98 +444,11 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
     season_counts = clean_df.groupby("Season")["Date"].transform("count")
     reverse_rank = clean_df.groupby("Season").cumcount()
     clean_df["second_half"] = (reverse_rank < (season_counts / 2)).astype(int)
-
     clean_df = clean_df.reset_index(drop=True)
 
-    # if an Elo file was specified, retrieve the probability derived from Elo
-    if elo_file is not None:
-        elo_mapping = {}
-        elo_df = pd.read_csv(elo_file)
-        for _, row in elo_df.iterrows():
-            game_id_str1 = f'{row["date"]}_{row["team1"].lower()}_{row["team2"].lower()}'
-            game_id_str2 = f'{row["date"]}_{row["team2"].lower()}_{row["team1"].lower()}'
-            elo_mapping[game_id_str1] = row["elo_prob1"]
-            elo_mapping[game_id_str2] = 1 - row["elo_prob1"]
-        
-        for index, row in clean_df.iterrows():
-            game_id_str = f'{row["Date"]}_{row["HomeTeam"]}_{row["AwayTeam"]}'
-            if game_id_str in elo_mapping:
-                clean_df.loc[index, "elo_prob"] = elo_mapping[game_id_str]
-            else:
-                clean_df.loc[index, "elo_prob"] = pd.NA
 
 
-    
-    # compute RatingsLib probabilistic predictions
-    clean_df["elopoint_prob"] = pd.NA
-    clean_df["elowin_prob"] = pd.NA
-    clean_df["keener_prob"] = pd.NA
-    clean_df["massey_prob"] = pd.NA
-    clean_df["od_prob"] = pd.NA
-
-    for index, row in clean_df.iterrows():
-        past_games = clean_df[
-            (clean_df['Season'] == row['Season']) & 
-            (pd.to_datetime(clean_df['Date'], format="%Y-%m-%d") < pd.to_datetime(row['Date'], format="%Y-%m-%d"))
-        ]
-
-        unique_teams = pd.unique(past_games[['HomeTeam', 'AwayTeam']].values.ravel())
-        unique_teams_df = pd.DataFrame(unique_teams, columns=['Item'])
-
-        home = row['HomeTeam']
-        away = row['AwayTeam']
-
-        try:
-            elopoint = Elo(version=ratings.ELOPOINT, starting_point=0).rate(past_games, unique_teams_df)
-            elopoint['rating'] = normalization_rating(elopoint, "rating")
-            elopoint['rating'] = normalization_rating(elopoint, "rating")
-            ep_home = elopoint[elopoint["Item"] == home].iloc[0]["rating"]
-            ep_away = elopoint[elopoint["Item"] == away].iloc[0]["rating"]
-            clean_df.at[index, "elopoint_prob"] = ep_home / (ep_home + ep_away)
-        except:
-            clean_df.at[index, "elopoint_prob"] = pd.NA
-
-        try:
-            elowin = Elo(version=ratings.ELOWIN, starting_point=0).rate(past_games, unique_teams_df)
-            elowin['rating'] = normalization_rating(elowin, "rating")
-            ew_home = elowin[elowin["Item"] == home].iloc[0]["rating"]
-            ew_away = elowin[elowin["Item"] == away].iloc[0]["rating"]
-            clean_df.at[index, "elowin_prob"] = ew_home / (ew_home + ew_away)
-        except:
-            clean_df.at[index, "elowin_prob"] = pd.NA
-
-        try:
-            keener = Keener(normalization=False).rate(past_games, unique_teams_df)
-            keener['rating'] = normalization_rating(keener, "rating")
-            keener_home = keener[keener["Item"] == home].iloc[0]["rating"]
-            keener_away = keener[keener["Item"] == away].iloc[0]["rating"]
-            clean_df.at[index, "keener_prob"] = keener_home / (keener_home + keener_away)
-        except:
-            clean_df.at[index, "keener_prob"] = pd.NA
-
-
-        try:
-            massey = Massey().rate(past_games, unique_teams_df)
-            massey['rating'] = normalization_rating(massey, "rating")
-            massey_home = massey[massey["Item"] == home].iloc[0]["rating"]
-            massey_away = massey[massey["Item"] == away].iloc[0]["rating"]
-            clean_df.at[index, "massey_prob"] = massey_home / (massey_home + massey_away)
-        except:
-            clean_df.at[index, "massey_prob"] = pd.NA
-
-
-        try:    
-            od = OffenseDefense(tol=0.0001).rate(past_games, unique_teams_df)
-            od['rating'] = normalization_rating(od, "rating")
-            od_home = od[od["Item"] == home].iloc[0]["rating"]
-            od_away = od[od["Item"] == away].iloc[0]["rating"]
-            clean_df.at[index, "od_prob"] = od_home / (od_home + od_away)
-        except:
-            clean_df.at[index, "od_prob"] = pd.NA
-
-
-
-    # compute Bradley Terry Predictions (https://datascience.oneoffcoder.com/btl-model.html)
+    # compute Bradley Terry Predictions (using code from https://datascience.oneoffcoder.com/btl-model.html)
     clean_df['bt_prob'] = pd.NA
     clean_df['winner'] = clean_df.apply(get_winner, axis=1)
     clean_df['loser'] = clean_df.apply(get_loser, axis=1)
@@ -617,7 +456,8 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
 
     
     for index, row in clean_df.iterrows():
-            
+        if index % 100 == 0:
+            print(f"{index} / {len(clean_df)}")
         past_games = clean_df[
             (clean_df['Season'] == row['Season']) & 
             (pd.to_datetime(clean_df['Date'], format="%Y-%m-%d") < pd.to_datetime(row['Date'], format="%Y-%m-%d"))
@@ -661,30 +501,9 @@ def preprocess_league_games(league: str, raw_data_file: Path, team_abbr_file: Pa
         "HomeTeam", "AwayTeam", "result",
         "home_ml", "away_ml",
         "bookmaker_profit", "ml_prob",
-        "elopoint_prob", "elowin_prob", "keener_prob", "massey_prob", "od_prob",
         "bt_prob",
         "game_url"
     ]
-    if league == "nfl":
-        new_order = [
-            "Date", "Season", "second_half",
-            "HomeTeam", "AwayTeam", "result",
-            "home_ml", "away_ml",
-            "bookmaker_profit", "ml_prob", "elo_prob",
-            "elopoint_prob", "elowin_prob", "keener_prob", "massey_prob", "od_prob",
-            "bt_prob",
-            "game_url"
-        ]
-    elif league == "nhl":
-        new_order = [
-            "Date", "Season", "second_half",
-            "HomeTeam", "AwayTeam", "result",
-            "home_ml", "tie_ml", "away_ml",
-            "bookmaker_profit", "ml_prob",
-            "elopoint_prob", "elowin_prob", "keener_prob", "massey_prob", "od_prob",
-            "bt_prob",
-            "game_url"
-        ]
     clean_df = clean_df[new_order]
     clean_df = clean_df.rename(columns={
         "Date": "date",
@@ -704,9 +523,7 @@ if __name__ == "__main__":
     leagues = ["mlb", "nba", "nfl", "nhl"]
     for league in leagues:
         print(f"----{league}----")
-        preprocess_league_games(league=league, 
-                            raw_data_file=Path(f"raw_data/oddsportal_{league}.csv"), 
+        preprocess_league_games(raw_data_file=Path(f"raw_data/oddsportal_{league}.csv"), 
                             team_abbr_file=Path("utility/team_abbrs.json"), 
-                            output_save_file=Path(f"processed_data/{league}.csv"), 
-                            elo_file=(Path(f"raw_data/fivethirtyeight_{league}_elo.csv") if league=="nfl" else None))
+                            output_save_file=Path(f"processed_data/{league}.csv"))
         print("-----------\n")
