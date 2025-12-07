@@ -18,6 +18,9 @@ def calculate_betting_roi(df: pd.DataFrame, method: str, output_path: Path) -> N
     """
     df = df.dropna(subset=[f"{method}_prob", "home_ml", "away_ml"])
 
+    # drop all first half of regular season games
+    df = df[df["second_half"] == 1]
+
     # calculate payout from single moneyline
     def calculate_payout(odds):
         return np.where(odds > 0, odds / 100.0, 100.0 / np.abs(odds))
@@ -73,17 +76,16 @@ if __name__ == "__main__":
     league_files = {
         "mlb": Path("processed_data/mlb.csv"),
         "nba": Path("processed_data/nba.csv"),
-        "nfl": Path("processed_data/nfl.csv")
+        "nfl": Path("processed_data/nfl.csv"),
+        "nhl": Path("processed_data/nhl.csv")
     }
 
-    methods = ["ml", "elo", "elopoint", "elowin", "keener", "massey", "od", "bt"]
+    methods = ["ml", "bt"]
     
     for league, path in league_files.items():
             
         df = pd.read_csv(path)
         for method in methods:
-            if league != "nfl" and method == "elo":
-                continue
             calculate_betting_roi(df, method, Path(f"results/roi/{method}_roi/{league}/{league}.csv"))
 
             for season in sorted(df["season"].unique()):

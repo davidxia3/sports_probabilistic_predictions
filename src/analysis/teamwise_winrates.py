@@ -16,6 +16,9 @@ def compute_teamwise_winrate(csv_path: Path) -> pd.DataFrame:
 
     df = pd.read_csv(csv_path)
 
+    # drop all first half of regular season games
+    df = df[df["second_half"] == 1]
+
     team_1_wins = df[['home_team', 'result']].copy()
     team_1_wins.columns = ['team', 'win']
     team_1_wins['win'] = team_1_wins['win']

@@ -5,13 +5,13 @@ from pathlib import Path
 
 
 
-def plot_calibration(league: str, n_bins) -> None:
+def plot_calibration(league: str, n_bins: int=10) -> None:
     """
     Plot calibration curves for multiple prediction methods.
 
     Args:
         league (str): League abbreviation (e.g. "nfl").
-        n_bins (int): Number of bins for calibration.
+        n_bins (int): Number of bins for calibration, default 10.
 
     Returns:
         None
@@ -19,17 +19,14 @@ def plot_calibration(league: str, n_bins) -> None:
 
     df = pd.read_csv(f"processed_data/{league}.csv")
 
+    # drop all first half of regular season games
+    df = df[df["second_half"] == 1]
+
     # prediction methods
     methods = {
         "ML": "ml_prob",
         "Bradley–Terry": "bt_prob",
     }
-    # only NFL has Elo
-    if league.lower() == "nfl":
-        methods["Elo"] = "elo_prob"
-
-    # RatingsLib columns to average after calibration
-    ratingslib_prob_cols = ["elopoint_prob", "elowin_prob", "keener_prob", "massey_prob", "od_prob"]
 
     # compute calibrations
     curves = {}
@@ -43,29 +40,6 @@ def plot_calibration(league: str, n_bins) -> None:
             count=("result", "size")
         )
         curves[label] = calib
-    ratingslib_bins = pd.DataFrame(index=range(n_bins), columns=["predicted", "actual", "count"])
-    ratingslib_bins["predicted"] = 0.0
-    ratingslib_bins["actual"] = 0.0
-    ratingslib_bins["count"] = 0
-
-    for col in ratingslib_prob_cols:
-        sub = df[[col, "result"]].dropna().copy()
-        sub["bin"] = np.digitize(sub[col], bins) - 1
-        calib = sub.groupby("bin").agg(
-            predicted=(col, "mean"),
-            actual=("result", "mean"),
-            count=("result", "size")
-        )
-        for b in calib.index:
-            ratingslib_bins.loc[b, "predicted"] += calib.loc[b, "predicted"]
-            ratingslib_bins.loc[b, "actual"] += calib.loc[b, "actual"]
-            ratingslib_bins.loc[b, "count"] += 1
-
-    ratingslib_bins["predicted"] /= ratingslib_bins["count"]
-    ratingslib_bins["actual"] /= ratingslib_bins["count"]
-
-    curves["RatingsLib Average"] = ratingslib_bins
-
 
 
     plt.figure(figsize=(8, 8))
@@ -73,9 +47,9 @@ def plot_calibration(league: str, n_bins) -> None:
 
     colors = {
         "ML": "green",
-        "Elo": "red",
-        "Bradley–Terry": "blue",
-        "RatingsLib Average": "orange"
+        "Bradley–Terry": "red",
+        "Coinflip": "black",
+        "Home-Bias Coinflip": "purple"
     }
 
     for label, calib in curves.items():

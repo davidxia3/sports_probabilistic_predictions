@@ -17,10 +17,6 @@ def plot_predicted_home_win_prob(method: str) -> None:
 
     leagues = ['MLB', 'NBA', 'NFL', 'NHL']
 
-    # only NFL has Elo
-    if method == "elo":
-        leagues = ["NFL"]
-
     color_map = {
         "mlb": "red",
         "nba": "orange",
@@ -30,20 +26,15 @@ def plot_predicted_home_win_prob(method: str) -> None:
 
     method_map = {
         "ml": "Moneyline",
-        "elo": "Elo",
-        "elopoint": "Elo Point",
-        "elowin": "Elo Win",
-        "keener": "Keener",
-        "massey": "Massey",
-        "od": "Offense-Defense",
         "bt": "Bradley-Terry"
     }
 
     colors = [color_map[league.lower()] for league in leagues]
 
-    column_name = f"{method}_prob"
     dfs = [pd.read_csv(f"processed_data/{league.lower()}.csv") for league in leagues]
-    data = [df[column_name].dropna() for df in dfs]
+
+    # drop all first half of regular season games
+    data = [df[df["second_half"]==1][f"{method}_prob"] for df in dfs]
 
     leagues_reversed = leagues[::-1]
     data_reversed = data[::-1]
@@ -75,7 +66,7 @@ def plot_predicted_home_win_prob(method: str) -> None:
 
 
 if __name__ == "__main__":
-    methods = ["ml", "elo", "elopoint", "elowin", "keener", "massey", "od", "bt"]
+    methods = ["ml", "bt"]
 
     for method in methods:
         plot_predicted_home_win_prob(method)

@@ -3,15 +3,13 @@ from pathlib import Path
 
 
 
-def load_filtered_data(data_file: Path, usable_methods: list[str], second_half_only: int) -> pd.DataFrame:
+def load_filtered_data(data_file: Path, usable_methods: list[str]) -> pd.DataFrame:
     """
-    Load a game-level dataset and return only the rows that satisfy the
-    filtering requirements for evaluation.
+    Load a game-level dataset and return only the rows that satisfy the filtering requirements for evaluation.
 
     Args:
         data_file (Path): Path object of CSV file containing prediction data.
         all_methods (list[str]): List of all prediction method names.
-        second_half_only (int): If 1, restrict to games in second half of seasons, otherwise, use the full dataset.
 
     Returns:
         pd.DataFrame: A filtered DataFrame containing only rows where all required probability columns exist and are non-null.
@@ -19,9 +17,8 @@ def load_filtered_data(data_file: Path, usable_methods: list[str], second_half_o
 
     df = pd.read_csv(data_file)
 
-    # optional half-season filter
-    if second_half_only == 1:
-        df = df[df["second_half"] == 1]
+    # drop all first half of regular season games
+    df = df[df["second_half"] == 1]
 
     # mask for valid method probabilities
     prob_cols = [f"{m}_prob" for m in usable_methods]
@@ -31,82 +28,59 @@ def load_filtered_data(data_file: Path, usable_methods: list[str], second_half_o
 
 
 
-def compute_binary_accuracy(data_file: Path, method: str, usable_methods: list[str], second_half_only: int) -> float:
+def compute_home_win_probability(data_file: Path) -> pd.Series:
     """
-    Compute the binary accuracy for a specified prediction method using only the rows where all prediction method probability columns are present.
+    Returns a Series mapping each season to its first-half home win rate.
 
     Args:
-        data_file (Path): Path object of CSV file containing game data.
-        method (str): Name of the prediction method to evaluate (e.g., "ml").
-        usable_methods (list[str]): List of all prediction method names.
-        second_half_only (int): If 1, restrict to games in second half of seasons, otherwise, use the full dataset.
+        data_file (Path): Path object of CSV file with game data.
 
     Returns:
-        float: The binary accuracy for the specified method.
+        pd.Series: maps season to first-half of season home team win rate.
     """
-
-    df_valid = load_filtered_data(data_file, usable_methods, second_half_only)
-
-    preds = df_valid[f"{method}_prob"].astype(float)
-    pred_class = (preds >= 0.5).astype(int)
-    y = df_valid["result"]
-
-    return (pred_class == y).mean()
-
-
-
-def compute_home_win_probability(data_file: Path) -> float:
-    """
-    Calculates the proportion of games won by the home team in the entire data set.
-
-    Args:
-        data_file (Path): Path object of CSV file containing game data.
-
-    Returns:
-        float: Proportion of games won by the home team in the entire data set.
-    """
-
+    
     df = pd.read_csv(data_file)
-    return df["result"].mean()
+
+    # group by season, take only first-half rows, compute mean of result
+    season_home_win = (
+        df[df["second_half"] == 0]
+        .groupby("season")["result"]
+        .mean()
+    )
+
+    return season_home_win
+
 
 
 
 if __name__ == "__main__":
     leagues = ["mlb", "nba", "nfl", "nhl"]
-    all_methods = ["ml", "elo", "elopoint", "elowin", "keener", "massey", "od", "bt"]
+    all_methods = ["ml", "bt"]
 
     results = []
 
     for league in leagues:
         data_file = Path(f"processed_data/{league}.csv")
 
-        # NFL is the only league with Elo
-        usable = all_methods if league == "nfl" else [m for m in all_methods if m != "elo"]
+        row = {"league": league}
 
-        for second_half_only in [0, 1]:
+        # model binary accuracies
+        df_valid = load_filtered_data(data_file, all_methods)
 
-            row = {
-                "league": league,
-                "half": second_half_only
-            }
+        for method in all_methods:
+            preds = df_valid[f"{method}_prob"].astype(float)
+            pred_class = (preds >= 0.5).astype(int)
+            y = df_valid["result"]
+            row[method] = (pred_class == y).mean()
 
-            # model binary accuracies
-            for method in all_methods:
-                row[method] = pd.NA
-                if method not in usable:
-                    continue
+        # seasonal home win baseline
+        season_home_rate = compute_home_win_probability(data_file)
+        df_valid["home_base_prob"] = df_valid["season"].map(season_home_rate)
 
-                row[method] = compute_binary_accuracy(
-                    data_file=data_file,
-                    method=method,
-                    usable_methods=usable,
-                    second_half_only=second_half_only
-                )
+        home_pred_class = (df_valid["home_base_prob"] >= 0.5).astype(int)
+        row["home_win_base"] = (home_pred_class == df_valid["result"]).mean()
 
-            # baseline Brier
-            row["home_win_base"] = compute_home_win_probability(data_file)
-
-            results.append(row)
+        results.append(row)
 
     # save results
     output_df = pd.DataFrame(results)

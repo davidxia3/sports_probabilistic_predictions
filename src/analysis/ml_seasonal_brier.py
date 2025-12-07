@@ -18,6 +18,9 @@ def compute_brier_by_season(csv_path: Path, prob_col: str = "ml_prob", result_co
 
     df = pd.read_csv(csv_path)
 
+    # drop all first half of regular season games
+    df = df[df["second_half"] == 1]
+
     df["brier"] = (df[prob_col] - df[result_col]) ** 2
 
     return df.groupby("season")["brier"].mean().reset_index()

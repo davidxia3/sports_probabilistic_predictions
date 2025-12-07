@@ -79,6 +79,6 @@ def plot_fav_underdog_roi(csv_path: Path, save_path: Path) -> None:
 
 
 if __name__ == "__main__":
-    leagues = ["mlb", "nba", "nfl"]
+    leagues = ["mlb", "nba", "nfl", "nhl"]
     for league in leagues:
         plot_fav_underdog_roi(f"results/roi/ml_roi/{league}/{league}.csv", f"figures/ml_roi/{league}.png")

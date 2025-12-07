@@ -15,6 +15,9 @@ def compute_teamwise_brier(csv_path: Path) -> pd.DataFrame:
     """
     df = pd.read_csv(csv_path)
 
+    # drop all first half of regular season games
+    df = df[df["second_half"] == 1]
+
     # expand each game into 2 rows, one for each team
     home_df = pd.DataFrame({
         "team": df["home_team"],

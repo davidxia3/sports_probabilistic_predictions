@@ -26,9 +26,10 @@ def plot_bookmaker_profit() -> None:
 
     colors = [color_map[league.lower()] for league in leagues]
 
-    column_name = "bookmaker_profit"
     dfs = [pd.read_csv(f"processed_data/{league.lower()}.csv") for league in leagues]
-    data = [df[column_name].dropna() for df in dfs]
+    
+    # drop all first half of regular season games
+    data = [df[df["second_half"]==1]["bookmaker_profit"] for df in dfs]
 
     leagues_reversed = leagues[::-1]
     data_reversed = data[::-1]
