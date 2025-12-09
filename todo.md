@@ -1,9 +1,9 @@
 # TODO
 ## December 9
-- **Seasonal ROI plots**: For each bin, plot the ROI for this bin as a function of the season (not the other way around).
+- **Seasonal ROI plots**: For each bin, plot the ROI for this bin as a function of the season (not the other way around). This is the type of visualization that would indicate whether betting on a particular bin with a positive ROI overall might be a viable betting strategy.
 - **Home win percentages histograms**: Put these histograms for the 4 leagues into separate figures (analogous to the other league-based visualizations).
-- **Readme files/documentation**
-- 
+- Continue work on Readme files/documentation.
+- Data files for figures? 
 
 ## December 8
 - Add documentation files (as .md files), move the description of the data that is currently in LaTeX to these markdown files (the formatting in LaTeX can be done at a later stage).
