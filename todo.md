@@ -4,7 +4,8 @@
 - **Home win percentages histograms**: Put these histograms for the 4 leagues into separate figures (analogous to the other league-based visualizations).
 - Continue work on Readme files/documentation.
 - **Data files for figures:** Ideally, each figure should be associated with a csv file that contains the data used to generate the figure (inside the figures directory).  If possible, use the same or a similar naming scheme as for the figures, replacing the extension .png by .csv.
-- ROI plots: Reduce y-axis to a smaller range (e.g., -30 to +30)
+- **ROI plots:** Reduce y-axis to a smaller range (e.g., -30 to +30)
+- **Next meeting:** Thursday 6 pm Central/4 pm Pacific
 
 ## December 8
 - Add documentation files (as .md files), move the description of the data that is currently in LaTeX to these markdown files (the formatting in LaTeX can be done at a later stage).
