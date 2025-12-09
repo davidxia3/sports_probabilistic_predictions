@@ -24,50 +24,65 @@ def plot_fav_underdog_roi(csv_path: Path, save_path: Path) -> None:
 
     _, ax = plt.subplots(figsize=(10, 6))
 
-    # plot horizontal reference line at y=0
+    # horizontal reference line
     ax.axhline(0, color="black", linewidth=2)
 
-    # plot lines
+    markers = {
+        "Favorite ROI": "o",
+        "Underdog ROI": "s",
+    }
+    linestyles = {
+        "Favorite ROI": "-",
+        "Underdog ROI": ":",
+    }
+
+
+
     ax.plot(
-        bins[mask],
+        bins[mask] * 10 + 5,
         df.loc[mask, "favorite_roi"],
         color="green",
-        marker="o",
-        label="Favorite ROI"
+        marker=markers["Favorite ROI"],
+        linestyle=linestyles["Favorite ROI"],
+        label="Favorite ROI",
     )
 
     ax.plot(
-        bins[mask],
+        bins[mask] * 10 + 5,
         df.loc[mask, "underdog_roi"],
         color="red",
-        marker="o",
-        label="Underdog ROI"
+        marker=markers["Underdog ROI"],
+        linestyle=linestyles["Underdog ROI"],
+        label="Underdog ROI",
     )
 
-    # label each bin with count
+
+
+    # label counts (n) for each point
     for _, row in df[mask].iterrows():
         ax.text(
-            row["bin"],
+            row["bin"] * 10 + 5,
             row["favorite_roi"],
             str(int(row["n"])),
             color="green",
             fontsize=9,
             ha="center",
-            va="bottom"
+            va="bottom",
         )
         ax.text(
-            row["bin"],
+            row["bin"] * 10 + 5,
             row["underdog_roi"],
             str(int(row["n"])),
             color="red",
             fontsize=9,
             ha="center",
-            va="bottom"
+            va="bottom",
         )
 
-    ax.set_xticks(bins)
+    ax.set_xticks(bins * 10)
+    ax.set_ylim(-100, 100)
 
-    ax.set_xlabel("Bin")
+    ax.set_xlabel("Predicted Win Probability")
     ax.set_ylabel("ROI (%)")
     ax.set_title("Favorite vs Underdog ROI by Bin")
     ax.legend()
@@ -81,4 +96,17 @@ def plot_fav_underdog_roi(csv_path: Path, save_path: Path) -> None:
 if __name__ == "__main__":
     leagues = ["mlb", "nba", "nfl", "nhl"]
     for league in leagues:
-        plot_fav_underdog_roi(f"results/roi/ml_roi/{league}/{league}.csv", f"figures/ml_roi/{league}.png")
+        plot_fav_underdog_roi(
+            f"results/roi/ml_roi/{league}/{league}.csv",
+            f"figures/ml_roi/{league}.png"
+        )
+        for season in range(2009, 2026):
+            plot_fav_underdog_roi(
+                f"results/roi/ml_roi/{league}/{league}_{season}.csv",
+                f"figures/ml_roi/{league}_{season}.png"
+            )
+        if league == "mlb":
+            plot_fav_underdog_roi(
+                f"results/roi/ml_roi/{league}/{league}_2008.csv",
+                f"figures/ml_roi/{league}_2008.png"
+            )

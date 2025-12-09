@@ -4,7 +4,7 @@ import numpy as np
 
 
 
-def plot_predicted_home_win_prob(method: str) -> None:
+def plot_predicted_home_win_prob_box(method: str) -> None:
     """
     Plots box plot of the predicted home win probability distribution for the prediction method by league.
 
@@ -61,12 +61,11 @@ def plot_predicted_home_win_prob(method: str) -> None:
     plt.yticks(fontsize=15)
     plt.tight_layout()
 
-    plt.savefig(f"figures/predicted_home_win_prob/{method}.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"figures/predicted_home_win_prob/{method}_box.png", dpi=300, bbox_inches='tight')
 
 
 
 if __name__ == "__main__":
     methods = ["ml", "bt"]
-
     for method in methods:
-        plot_predicted_home_win_prob(method)
+        plot_predicted_home_win_prob_box(method)
