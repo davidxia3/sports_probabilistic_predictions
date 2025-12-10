@@ -106,4 +106,4 @@ if __name__ == "__main__":
     for league in leagues:
         for method in ["ml", "bt"]:
             for bin in range(10):
-                plot_fav_underdog_roi(f"results/roi_binned/{method}/{league}/bin_{bin}.csv", bin, f"figures/roi_binned/{method}/{league}/bin_{bin}.png")
+                plot_fav_underdog_roi(f"results/roi/{method}_binned/{league}/bin_{bin}.csv", bin, f"results/roi/{method}_binned/{league}/bin_{bin}.png")

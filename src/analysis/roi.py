@@ -86,7 +86,4 @@ if __name__ == "__main__":
             
         df = pd.read_csv(path)
         for method in methods:
-            calculate_betting_roi(df, method, Path(f"results/roi/{method}_roi/{league}/{league}.csv"))
-
-            for season in sorted(df["season"].unique()):
-                calculate_betting_roi(df[df["season"]==season], method, Path(f"results/roi/{method}_roi/{league}/{league}_{season}.csv"))
+            calculate_betting_roi(df, method, Path(f"results/roi/{method}/{league}.csv"))

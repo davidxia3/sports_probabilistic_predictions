@@ -63,4 +63,4 @@ if __name__ == "__main__":
     leagues = ["mlb", "nba", "nfl", "nhl"]
     for league in leagues:
         df = compute_model_season_briers(Path(f"processed_data/{league}.csv"))
-        df.to_csv(f"results/model_seasonal_brier/{league}_seasonal_brier.csv", index=False)
+        df.to_csv(f"results/model_seasonal_brier/{league}.csv", index=False)

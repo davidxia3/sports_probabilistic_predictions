@@ -72,11 +72,11 @@ def plot_brier_scores(league: str, csv_path: Path) -> None:
     plt.xticks(df["season"].unique(), rotation=45)
 
     plt.tight_layout()
-    plt.savefig(f"figures/model_seasonal_brier/{league}_seasonal_brier.png")
+    plt.savefig(f"results/model_seasonal_brier/{league}.png")
 
 
 
 if __name__ == "__main__":
     leagues = ["mlb", "nba", "nfl", "nhl"]
     for league in leagues:
-        plot_brier_scores(league, f"results/model_seasonal_brier/{league}_seasonal_brier.csv")
+        plot_brier_scores(league, f"results/model_seasonal_brier/{league}.csv")

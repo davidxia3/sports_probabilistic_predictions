@@ -92,7 +92,6 @@ def plot_fav_underdog_roi(csv_path: Path, save_path: Path) -> None:
     ax.legend()
     ax.grid(True, linestyle="--", alpha=0.6)
 
-    # plt.tight_layout()
     plt.savefig(save_path)
 
 
@@ -101,4 +100,4 @@ if __name__ == "__main__":
     leagues = ["mlb", "nba", "nfl", "nhl"]
     for league in leagues:
         for method in ["ml", "bt"]:
-            plot_fav_underdog_roi(f"results/roi/{method}/{league}.csv", f"figures/roi/{method}/{league}.png")
+            plot_fav_underdog_roi(f"results/roi/{method}/{league}.csv", f"results/roi/{method}/{league}.png")

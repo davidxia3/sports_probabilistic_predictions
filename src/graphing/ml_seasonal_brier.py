@@ -62,7 +62,7 @@ def plot_brier_scores(csv_path: Path) -> None:
     plt.xticks(df["season"].unique(), rotation=45)
 
     plt.tight_layout()
-    plt.savefig("figures/ml_seasonal_brier.png")
+    plt.savefig("results/ml_seasonal_brier.png")
 
 
 

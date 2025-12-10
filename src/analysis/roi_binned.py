@@ -73,8 +73,7 @@ def compute_binned_roi(league: str, data_file: Path, method: str) -> None:
     # home is favorite boolean
     df["favorite"] = df[f"{method}_prob"] >= 0.5
 
-    # ensure directory exists
-    output_dir = Path(f"results/roi_binned/{method}/{league}")
+    output_dir = Path(f"results/roi/{method}_binned/{league}")
 
     for bin in range(10):
         bin_df = df[

@@ -1,9 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 
 
-def plot_seasonal_home_win_pct() -> None:
+def plot_seasonal_home_win() -> None:
     """
     Plots line chart of the seasonal home win percentage of first half of regular season by league.
 
@@ -13,6 +14,9 @@ def plot_seasonal_home_win_pct() -> None:
     Returns:
         None
     """
+
+    input_path = Path("results/seasonal_home_win.csv")
+    df = pd.read_csv(input_path)
 
     leagues = ["mlb", "nba", "nfl", "nhl"]
 
@@ -34,37 +38,32 @@ def plot_seasonal_home_win_pct() -> None:
         "nfl": "^",
         "nhl": "D"
     }
+
     plt.figure(figsize=(10, 6))
 
+    # plot each league
     for league in leagues:
-        df = pd.read_csv(f"processed_data/{league}.csv")
-
-        overall_win = df["result"].mean()
-
-        # consider only first half of regular season games
-        df2 = df[df["second_half"] == 0]
-        seasonal = df2.groupby("season")["result"].mean()
-
         plt.plot(
-            seasonal.index,
-            seasonal.values,
-            label=f"{league.upper()} (overall={overall_win:.3f})",
+            df["season"],
+            df[league],
+            label=league.upper(),
             color=colors[league],
             linestyle=line_styles[league],
             marker=markers[league],
-            markersize=6,
-            linewidth=2
+            linewidth=2.5,
+            markersize=7,
         )
 
-    plt.xticks(ticks=range(2008, 2026))
-    plt.xlabel("Season")
-    plt.ylabel("Home Win %")
-    plt.title("Seasonal Home Win Percentage by League")
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig("figures/seasonal_home_win.png")
+    plt.xticks(range(2008, 2026))
+    plt.xlabel("Season", fontsize=14)
+    plt.ylabel("Home Win Percentage", fontsize=14)
+    plt.title("Seasonal Home Win Percentage (First Half Only)", fontsize=16)
+    plt.grid(True, linestyle="--", alpha=0.5)
+    plt.legend(fontsize=12)
+    plt.savefig("results/seasonal_home_win.png", dpi=300, bbox_inches="tight")
+    plt.close()
 
 
 
 if __name__ == "__main__":
-    plot_seasonal_home_win_pct()
+    plot_seasonal_home_win()

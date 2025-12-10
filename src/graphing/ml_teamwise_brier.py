@@ -56,5 +56,5 @@ if __name__ == "__main__":
         plot_team_brier_bar(
             csv_path=Path(f"results/ml_teamwise_brier/{league}.csv"),
             color_map=color_map,
-            output_path=Path(f"figures/ml_teamwise_brier/{league}.png")
+            output_path=Path(f"results/ml_teamwise_brier/{league}.png")
         )
