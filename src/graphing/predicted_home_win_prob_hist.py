@@ -7,11 +7,11 @@ import numpy as np
 def plot_predicted_home_win_prob_hist(method: str) -> None:
     """
     Plots normalized (density) histograms of the predicted home win probability distribution for the prediction method by league.
-
-    Args:
+    
+    Args: 
         method (str): String object of name of method.
-
-    Returns:
+        
+    Returns:    
         None
     """
 
@@ -29,40 +29,41 @@ def plot_predicted_home_win_prob_hist(method: str) -> None:
         "bt": "Bradley-Terry"
     }
 
-    dfs = [pd.read_csv(f"processed_data/{league.lower()}.csv") for league in leagues]
+    for league in leagues:
+        df = pd.read_csv(f"processed_data/{league.lower()}.csv")
 
-    # drop all first half of regular season games
-    data = [df[df["second_half"] == 1][f"{method}_prob"] for df in dfs]
+        # drop all first half of regular season games
+        d = df[df["second_half"] == 1][f"{method}_prob"]
 
-    bin_edges = np.linspace(0, 1, 30)
-    max_density = 0
-    for d in data:
+        bin_edges = np.linspace(0, 1, 30)
+
+        # compute max density for y-axis
         counts, _ = np.histogram(d, bins=bin_edges, density=True)
-        max_density = max(max_density, counts.max())
+        max_density = counts.max()
 
-    _, axes = plt.subplots(4, 1, figsize=(10, 10), sharex=True, sharey=True)
+        plt.figure(figsize=(8, 5))
 
-    for ax, league, d in zip(axes, leagues, data):
-        color = color_map[league.lower()]
-
-        ax.hist(
+        plt.hist(
             d,
             bins=bin_edges,
             density=True,
-            color=color,
+            color=color_map[league.lower()],
             edgecolor="black",
-            alpha=0.75
+            alpha=0.75,
         )
 
-        ax.set_title(f"{league}", fontsize=16)
-        ax.set_ylim(0, max_density * 1.05)
-        ax.grid(True, linestyle="--", alpha=0.5)
+        plt.title(f"{league}", fontsize=18)
+        plt.xlabel(f"{method_map[method]} Predicted Home Team Win Probability", fontsize=14)
+        plt.ylabel("Density", fontsize=14)
+        plt.ylim(0, max_density * 1.05)
+        plt.grid(True, linestyle="--", alpha=0.5)
 
-    plt.xlabel(f"{method_map[method]} Predicted Home Team Win Probability Density", fontsize=16)
-    plt.tight_layout()
+        plt.tight_layout()
 
-    plt.savefig(f"figures/predicted_home_win_prob/{method}_hist.png", dpi=300, bbox_inches='tight')
-    plt.close()
+        # save figure
+        out_path = f"figures/predicted_home_win_prob/{method}_{league.lower()}_hist.png"
+        plt.savefig(out_path, dpi=300, bbox_inches="tight")
+        plt.close()
 
 
 
