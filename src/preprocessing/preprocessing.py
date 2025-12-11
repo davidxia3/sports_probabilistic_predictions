@@ -428,12 +428,14 @@ def preprocess_league_games(raw_data_file: Path, team_abbr_file: Path, output_sa
     )
     clean_df = new_df[mask].copy()
 
-    print(f"total regular: {total_regular_len}")
-    print(f"neutrals: {neutrals_len} ({neutrals_len / total_regular_len})")
-    print(f"ties: {ties_len} ({ties_len / total_regular_len})")
-    print(f"na team: {na_team_len} ({na_team_len / total_regular_len})")
-    print(f"missing ml: {missing_ml_len} ({missing_ml_len / total_regular_len})")
-    print(f"final len {len(clean_df)} ({len(clean_df) / total_regular_len})")
+    print(f"- {league.upper()}:")
+    print(f"    - Total regular season games: {total_regular_len}.")
+    print(f"    - Regular season games at neutral venue: {neutrals_len} ({100 * neutrals_len / total_regular_len:.2f}%).")
+    print(f"    - Regular season games ending in ties: {ties_len} ({100 * ties_len / total_regular_len:.2f}%).")
+    print(f"    - Regular season games with unrecognized teams: {na_team_len} ({100 * na_team_len / total_regular_len:.2f}%).")
+    print(f"    - Regular season games with invalid moneyline data: {missing_ml_len} ({100 * missing_ml_len / total_regular_len:.2f}%).")
+    print(f"    - Clean regular season games: {len(clean_df)} ({100 * len(clean_df) / total_regular_len:.2f}%).")
+
 
 
 
