@@ -8,7 +8,7 @@ This folder contains all Python scripts that preprocess the raw data into proces
 This Python script cleans and processes the raw data for each league. For each league, the final data is saved to `processed_data/{league}.csv`. Each league's data is first cleaned to remove games that do not meet our requirements. Our requirements are below.
 - Regular season: The game must be played during the regular season. This is to ensure all team's play the same number of games and at a consistent competitive level.
 - Non-neutral: We intend to investigate the effects of home field/court advantage in our analysis, so we restrict our dataset to games where there is a home team and an away team.
-- No ties: The game must end with a winner (e.g. no ties).
+- No ties: The game must end with a winner (no ties).
 - No unrecognized teams: The game must be between two teams within the league. This is to exclude exhibition games, friendly games, all-star games, etc. that may not be held at a competitive level.
 - Valid moneyline data: The game must have a moneylin score for the home team and a moneyline score for the away team. The moneyline scores are the primary probabilistic prediction method investigated in our analysis, so all games must have valid and non-missing moneyline data.
 
