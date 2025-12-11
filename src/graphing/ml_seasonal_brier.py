@@ -38,7 +38,6 @@ def plot_brier_scores(csv_path: Path) -> None:
 
     cols = ["mlb_brier", "nba_brier", "nfl_brier", "nhl_brier"]
 
-    df = df.dropna(subset=cols)
 
     plt.figure(figsize=(10, 6))
 

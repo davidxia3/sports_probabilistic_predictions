@@ -18,6 +18,9 @@ def plot_calibration(league: str) -> None:
 
     plt.figure(figsize=(7, 6))
 
+    # perfect calibration line
+    plt.plot([0, 1], [0, 1], linestyle="--", color="black", linewidth=2, label="Perfect Calibration")
+
     plt.plot(
         (df["bin"] / 10) + 0.05,
         df["ml_winrate"],
@@ -39,9 +42,7 @@ def plot_calibration(league: str) -> None:
         markersize=8
     )
 
-    # perfect calibration line
-    plt.plot([0, 1], [0, 1], linestyle="--", color="black", linewidth=2)
-
+    plt.xticks([x/10 for x in range(11)])
     plt.xlabel("Predicted Win Probability", fontsize=14)
     plt.ylabel("Actual Win Rate", fontsize=14)
     plt.title(f"{league.upper()} Calibration Plot", fontsize=16)
