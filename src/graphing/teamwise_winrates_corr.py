@@ -7,7 +7,7 @@ from scipy.stats import linregress
 
 def plot_winrate_vs_brier(brier_csv: Path, winrate_csv: Path, league: str, output_path: Path) -> None:
     """
-    Plots scatterplot of |winrate - 0.5| vs Brier score and regression line.
+    Plots scatterplot of |winrate - 50| vs Brier score and regression line.
 
     Args:
         brier_csv (Path): Path object of CSV file with team Brier scores.
@@ -24,10 +24,10 @@ def plot_winrate_vs_brier(brier_csv: Path, winrate_csv: Path, league: str, outpu
 
     # erge on "team"
     df = pd.merge(df_brier, df_wr, on="team", how="inner")
-    df = df.dropna(subset=["brier_score", "win_rate"])
+    df = df.dropna(subset=["brier_score", "winrate"])
 
-    # compute |winrate - 0.5|
-    df["abs_wr_diff"] = (df["win_rate"] - 0.5).abs()
+    # compute |winrate - 50|
+    df["abs_wr_diff"] = (df["winrate"] - 50).abs()
 
     x = df["abs_wr_diff"]
     y = df["brier_score"]
@@ -49,9 +49,9 @@ def plot_winrate_vs_brier(brier_csv: Path, winrate_csv: Path, league: str, outpu
     plt.plot(x, reg_line, linewidth=2, color="black",
              label=f"y = {slope:.4f}x + {intercept:.4f}\n(p={p_value:.4g})")
 
-    plt.xlabel("|Win Rate - 0.5|")
+    plt.xlabel("|Win Rate - 50%|")
     plt.ylabel("Brier Score")
-    plt.title(f"{league.upper()}: |Win Rate - 0.5| vs Moneyline Brier Score")
+    plt.title(f"{league.upper()}: |Win Rate - 50%| vs Moneyline Brier Score")
     plt.legend()
     plt.grid(True)
     plt.tight_layout()

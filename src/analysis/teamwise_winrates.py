@@ -31,7 +31,8 @@ def compute_teamwise_winrate(csv_path: Path) -> pd.DataFrame:
 
     win_rates = all_teams.groupby('team')['win'].mean()
 
-    win_rates_df = win_rates.reset_index().rename(columns={'win': 'win_rate'}).sort_values(by='win_rate', ascending=False)
+    win_rates_df = win_rates.reset_index().rename(columns={'win': 'winrate'}).sort_values(by='winrate', ascending=False)
+    win_rates_df["winrate"] = win_rates_df["winrate"] * 100
 
     return win_rates_df
 
