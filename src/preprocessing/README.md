@@ -19,6 +19,7 @@ Below are the statistics behind the cleaning process.
 | NBA | 20,311 | 10 (0.05%) | 0 (0.00%) | 0 (0.00%) | 806 (3.97%) | 19,495 (95.98%) |
 | NFL | 4,403 | 25 (0.57%) | 13 (0.30%) | 2 (0.05%) | 2 (0.05%) | 4,361 (99.05%) |
 | NHL | 20,300 | 6 (0.03%) | 1 (0.00%) | 1 (0.00%) | 746 (3.67%) | 19,554 (96.33%) |
+
 The regular season games that were discarded due to invalid moneyline were from the early seasons of each league (~ 2008-2010) where OddsPortal had less archived betting data.
 
 After cleaning, the script then formats and processes the data to be be more convenient. The columns of each processed data file are below.
