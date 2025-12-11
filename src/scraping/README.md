@@ -36,15 +36,18 @@ Example:
 - Bookmaker 2:
     - Team 1: -400.
     - Team 2: +200.
+
 - Bookmaker 1 implied probabilities:
     - Team 1: abs(-300) / (abs(-300) + 100) = 0.75.
     - Team 2: 100 / (100 + 100) = 0.50.
 - Bookmaker 2 implied probabilities:
     - Team 1: abs(-400) / (abs(-400) + 100) = 0.80.
     - Team 2: 100 / (200 + 100) = 0.33
+
 - Average implied probabilities:
     - Team 1: (0.75 + 0.80) / 2 = 0.775.
     - Team 2: (0.50 + 0.33) / 2 = 0.417.
+    
 - Convert to average moneylines:
     - Team 1: -100 * (0.775 / (1 - 0.775)) = -344.
     - Team 2: 100 ((1 - 0.417) / 0.417) = 140.
