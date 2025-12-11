@@ -4,7 +4,7 @@ This folder contains all the cleaned and processed game data for each league.
 
 
 
-### `processed_data/{league}.csv`
+### `{league}.csv`
 There are 4 leagues: MLB, NBA, NFL, and NHL. Each has a CSV file with game data. The MLB file contains games from the 2008 season to the 2025 season. The NBA, NFL, and NHL files contain games from the 2008-2009 season to the 2024-2025 season. Each league's data is first cleaned to remove games that do not meet our requirements. Our requirements are below.
 - Regular season: The game must be played during the regular season. This is to ensure all team's play the same number of games and at a consistent competitive level.
 - Non-neutral: We intend to investigate the effects of home field/court advantage in our analysis, so we restrict our dataset to games where there is a home team and an away team.

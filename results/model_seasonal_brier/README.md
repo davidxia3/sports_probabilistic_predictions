@@ -4,7 +4,7 @@ This folder contains all the CSV results and PNG figures of the Brier scores of 
 
 
 
-### `results/model_seasonal_brier/{league}.csv`
+### `{league}.csv`
 This CSV file contains the Brier score of various model based probabilistic predictions by season for the specified league. The 4 leagues are MLB, NBA, NFL, and NHL. The columns of each results file are below.
 - `season`: The season as an integer, representing the year the season ended. 
 - `ml_brier`: The Brier score of moneyline based probabilistic predictions.
@@ -13,7 +13,7 @@ This CSV file contains the Brier score of various model based probabilistic pred
 - `coinflip_brier`: The Brier score of a constant 0.5 prediction for all games. 
 
 
-### `results/model_seasonal_brier/{league}.png`
+### `{league}.png`
 This PNG file contains a line graph for the specified league. The 4 leagues are MLB, NBA, NFL, and NHL. Each league's line graph displays the Brier score of various model's probabilistic predictions by season. The models used in each line graph are below.
 - Moneyline: Brier scores of the moneyline based probabilistic predictions.
 - Bradley-Terry: Brier scores of the Bradley-Terry based probabilistic predictions.

@@ -4,17 +4,17 @@ This folder contains all CSV results and PNG figures of the moneyline based favo
 
 
 
-## `results/roi/ml_binned/mlb/`
+## `mlb/`
 This folder contains all CSV results and PNG figures of the moneyline based favorite/underdog return on investment for the MLB by bin and season. All results are derived only from games from the second half of each regular season. 
 
 
-## `results/roi/ml_binned/nba/`
+## `nba/`
 This folder contains all CSV results and PNG figures of the moneyline based favorite/underdog return on investment for the NBA by bin and season. All results are derived only from games from the second half of each regular season. 
 
 
-## `results/roi/ml_binned/nfl/`
+## `nfl/`
 This folder contains all CSV results and PNG figures of the moneyline based favorite/underdog return on investment for the NFL by bin and season. All results are derived only from games from the second half of each regular season. 
 
 
-## `results/roi/ml_binned/nhl/`
+## `nhl/`
 This folder contains all CSV results and PNG figures of the moneyline based favorite/underdog return on investment for the NHL by bin and season. All results are derived only from games from the second half of each regular season. 

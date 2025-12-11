@@ -4,7 +4,7 @@ This folder contains all Python scripts that preprocess the raw data into proces
 
 
 
-### `src/preprocessing/preprocessing.py`
+### `preprocessing.py`
 This Python script cleans and processes the raw data for each league. For each league, the final data is saved to `processed_data/{league}.csv`. Each league's data is first cleaned to remove games that do not meet our requirements. Our requirements are below.
 - Regular season: The game must be played during the regular season. This is to ensure all team's play the same number of games and at a consistent competitive level.
 - Non-neutral: We intend to investigate the effects of home field/court advantage in our analysis, so we restrict our dataset to games where there is a home team and an away team.
