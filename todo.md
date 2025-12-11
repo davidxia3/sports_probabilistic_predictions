@@ -1,6 +1,8 @@
 # TODO
-## December 9
+## December 11
 - **Meeting Schedule:**
+  -
+  -
 - **Reformatting floating point numbers in csv files:**  As it stands, the number of digits after the decimal point that is displayed varies from file to file and is generally unnecessarily large.  For data that may be used in formatted tables, it would be good to have versions of this files where all floating point numbers have the same, fixed precision. I would suggest 3 digit precision, which is the most common format in the literature.  Thus, 0.25135 would be converted to 0.251, 0.25 to 0.250, etc.   To implement this in an efficient manner, I suggest the following:
   - Keep all csv files as is (i.e., with full precision floats) since the higher precision may be useful for future work.
   - Write a script that takes a csv file   (and possibly a list of columns that are to be converted) as input and outputs a file with the data in the (specified) columns converted to 3 digit accuracy, with a similar filename. For the naming scheme, I suggest changing ".csv" to "_fmt.csv" (so that the formatted version of ml_brier.csv would become ml_brier_fmt.csv).
