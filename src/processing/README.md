@@ -1,7 +1,11 @@
-# `src/preprocessing/`
-This folder contains all Python scripts that preprocess the raw data into processed data.
+# `src/processing/`
+This folder contains all Python scripts that clean, preprocess, and format data.
 
 
+
+
+### `decimal_formatting.py`
+This Python script formats floating point data in the `results/` folder. All CSV files in the `results/` folder is duplicated. The duplicate version has all floating point values rounded/padded to have exactly 3 digits after the decimal point. All other values are kept the same. The formatted version of the file `{file_name_stem}.csv` is saved to `{file_name_stem}_fmt.csv`. If a figure is generated based on the CSV result file, then it is generated based on the original CSV file with full floating point precision. The formatted version of the CSV file is only for user inspection.
 
 
 ### `preprocessing.py`

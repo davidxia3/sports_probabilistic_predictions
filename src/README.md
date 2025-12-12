@@ -12,8 +12,8 @@ This folder contains all the Python scripts related to obtain results in the for
 This folder contains all the Python scripts that plot and graph results into PNG images. The figures are saved in `results/` under the same file name as its corresponding CSV results file.
 
 
-## `preprocessing/`
-This folder contains all the Python scripts that clean and process the raw data into processed data. The processed data is saved in `processed_data/`.
+## `processing/`
+This folder contains all Python scripts that clean, preprocess, and format data.
 
 
 ## `scraping/`

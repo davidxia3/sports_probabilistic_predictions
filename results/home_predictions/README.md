@@ -4,6 +4,10 @@ This folder contains all the CSV results and PNG figures of the home team win pr
 
 
 
+### `{file_name_stem}_fmt.csv`
+All files with the suffix `_fmt` in their file name are formatted versions of the file `{file_name_stem}.csv`. In the formatted version, all floating point values are rounded/padded to exactly 3 decimal points after the decimal. All other values are kept the same. If a figure is generated based on a CSV result file, then it is generated based on the original CSV file with full floating point precision. The formatted version of the CSV file is only for user inspection.
+
+
 ### `bt_box.csv`
 This CSV file contains the summary statistics of the Bradley-Terry based home team win probability distribution for each league. The 4 leagues are MLB, NBA, NFL, and NHL. The columns of the CSV file are below.
 - `league`: League name.

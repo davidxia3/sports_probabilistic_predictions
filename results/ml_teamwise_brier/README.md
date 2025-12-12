@@ -4,6 +4,10 @@ This folder contains all CSV results and PNG figures of teamwise Brier scores an
 
 
 
+### `{file_name_stem}_fmt.csv`
+All files with the suffix `_fmt` in their file name are formatted versions of the file `{file_name_stem}.csv`. In the formatted version, all floating point values are rounded/padded to exactly 3 decimal points after the decimal. All other values are kept the same. If a figure is generated based on a CSV result file, then it is generated based on the original CSV file with full floating point precision. The formatted version of the CSV file is only for user inspection.
+
+
 ### `{league}_winrates.csv`
 This CSV file contains the winrates for each team in the specified league. The 4 leagues are MLB, NBA, NFL, and NHL. The columns of the results file are below.
 - `team`: Team abbreviation.
