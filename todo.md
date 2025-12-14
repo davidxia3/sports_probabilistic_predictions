@@ -1,6 +1,8 @@
 # TODO
 ## December 13
 - **Figures:** Create pdf versions of all figures
+- **Data:** Create a summary table of processed/clean data used for the analysis. Columns: League, Seasons, # of games, # of second half games, home win percentage.
+  - Write a paragraph detailing any data points that were thrown out, with total numbers and percentages per league (combine the numbers thrown out for reasons other than oddsportal availability, only mention explicitly the percentages thrown out due to availability of Moneyline numbers.
 
 ## December 11
 - **Meeting Schedule:** TBD 
