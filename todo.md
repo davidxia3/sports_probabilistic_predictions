@@ -1,5 +1,6 @@
 # TODO
 ## December 13
+- **Figures:** Create pdf versions of all figures
 
 ## December 11
 - **Meeting Schedule:** TBD 
