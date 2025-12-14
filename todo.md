@@ -5,6 +5,7 @@
   - Write a paragraph detailing any data points that were thrown out, with total numbers and percentages per league (combine the numbers thrown out for reasons other than oddsportal availability, only mention explicitly the percentages thrown out due to availability of Moneyline numbers.
   - Put the histograms of moneyline implied home win probabilities in the data section
 
+
 ## December 11
 - **Meeting Schedule:** TBD 
 - **Reformatting floating point numbers in csv files:**  As it stands, the number of digits after the decimal point that is displayed varies from file to file and is generally unnecessarily large.  For data that may be used in formatted tables, it would be good to have versions of this files where all floating point numbers have the same, fixed precision. I would suggest 3 digit precision, which is the most common format in the literature.  Thus, 0.25135 would be converted to 0.251, 0.25 to 0.250, etc.   To implement this in an efficient manner, I suggest the following:
