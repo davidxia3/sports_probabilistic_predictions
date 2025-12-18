@@ -8,6 +8,10 @@ This folder contains all the scripts for graphing and plotting the results into 
 This Python script plots 4 box plots. Each box plot displays the summary statistics for the moneyline bookamker profits for a sports league. The 4 leagues are MLB, NBA, NFL, and NHL. The statistics plotted are the min, first quartile, median, third quartile, max, and all outliers are represented as individual points. The figure is saved as a PDF to `results/bookmaker_profit.pdf` and as a PNG to `results/bookmaker_profit.png`.
 
 
+### `calibration_moneyline.py`
+This Python script plots the calibration plot of the moneyline based probabilistic prediction methods across each league. The 4 leagues are MLB, NBA, NFL, and NHL. The horizontal axis shows 10 equal-width home probabilitistic prediction bins. The vertical axis is the actual home win rate of games in those bins. For each bin, the average winrate of the home team is calculated. Points close to each horizontal side may be missing, which indicate no games the home team predicted with probability in that bin. The figure is saved as a PDF to `results/calibration/moneyline.pdf` and as a PNG to `results/calibration/moneyline.png`.
+
+
 ### `calibration.py`
 This Python script plots the calibration plot displaying the adequecy of moneyline based and Bradley-Terry based probabilistic predictions. The horizontal axis shows 10 equal-width home probabilitistic prediction bins. The vertical axis is the actual home win rate of games in those bins. Points close to each horizontal side may be missing, which indicate no games the home team predicted with probability in that bin. For each league, the figure is saved as a PDF to `results/calibration/{league}.pdf` and as a PNG to `results/calibration/{league}.png`.
 

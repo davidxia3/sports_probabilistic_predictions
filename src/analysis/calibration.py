@@ -28,7 +28,7 @@ def compute_binned_winrates(csv_path: Path, output_path: Path) -> None:
         low = bin_edges[i]
         high = bin_edges[i+1]
 
-        # filter rows whose ml_prob is in this bin
+        # filter rows whose prob is in this bin
         ml_df = df[(df["ml_prob"] >= low) & (df["ml_prob"] < high)]
         bt_df = df[(df["bt_prob"] >= low) & (df["bt_prob"] < high)]
 

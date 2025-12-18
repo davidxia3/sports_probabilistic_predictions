@@ -32,6 +32,15 @@ This Python script computes the Brier scores of various model based prediction m
 - `hom_win_base`: Brier score of always predicting home team to win with proportion of first half of regular season games won by home team. 
 
 
+### `calibration_moneyline.py`
+This Python script computes the calibration statistics of the moneyline based probabilistic prediction methods across each league. The 4 leagues are MLB, NBA, NFL, and NHL. Games are grouped by prediction into 10 equally sized bins ([0, 0.1), [0,1, 0.2), etc). For each bin, the average winrate of the home team is calculated. NA values are replace average winrate if there were no games for the bin. The results are saved to `results/calibration/moneyline.csv`. The columns of each results file are below.
+- `bin`: Number between 0 and 9, representing the probability bin. 
+- `mlb`: Average home team winrate in MLB games where the moneyline based prediction was within the bin.
+- `nba`: Average home team winrate in NBA games where the moneyline based prediction was within the bin.
+- `nfl`: Average home team winrate in NFL games where the moneyline based prediction was within the bin.
+- `nhl`: Average home team winrate in NHL games where the moneyline based prediction was within the bin.
+
+
 ### `calibration.py`
 This Python script computes the calibration statistics of the moneyline based and Bradley-Terry based probabilistic prediction methods across each league. The 4 leagues are MLB, NBA, NFL, and NHL. Games are grouped by prediction into 10 equally sized bins ([0, 0.1), [0,1, 0.2), etc). For each bin, the average winrate of the home team is calculated. NA values are replace average winrate if there were no games for the bin. For each league, the results are saved to `results/calibration/{league}.csv`. The columns of each results file are below.
 - `bin`: Number between 0 and 9, representing the probability bin. 
