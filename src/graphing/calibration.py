@@ -53,6 +53,7 @@ def plot_calibration(league: str) -> None:
 
     plt.tight_layout()
     plt.savefig(f"results/calibration/{league}.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"results/calibration/{league}.pdf", dpi=300, bbox_inches='tight')
     plt.close()
 
 

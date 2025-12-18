@@ -1,5 +1,5 @@
 # `results/model_seasonal_brier/`
-This folder contains all the CSV results and PNG figures of the Brier scores of various model based probabilistic prediction methods by league and season. All results are derived only from games from the second half of each regular season. 
+This folder contains all the CSV results and PDF/PNG figures of the Brier scores of various model based probabilistic prediction methods by league and season. All results are derived only from games from the second half of each regular season. 
 
 
 
@@ -17,9 +17,13 @@ This CSV file contains the Brier score of various model based probabilistic pred
 - `coinflip_brier`: The Brier score of a constant 0.5 prediction for all games. 
 
 
-### `{league}.png`
-This PNG file contains a line graph for the specified league. The 4 leagues are MLB, NBA, NFL, and NHL. Each league's line graph displays the Brier score of various model's probabilistic predictions by season. The models used in each line graph are below.
+### `{league}.pdf`
+This PDF file contains a line graph for the specified league. The 4 leagues are MLB, NBA, NFL, and NHL. Each league's line graph displays the Brier score of various model's probabilistic predictions by season. The models used in each line graph are below.
 - Moneyline: Brier scores of the moneyline based probabilistic predictions.
 - Bradley-Terry: Brier scores of the Bradley-Terry based probabilistic predictions.
 - Home Bias Coinflip: Brier scores of the baseline model that predicts the home team to win with the proportion of first half regular season games won by the home team. 
 - Coinflip: Brier scores of the baseline model that always predicts the home team to win with 0.5 probability.
+
+
+### `{league}.png`
+This PNG file is the same as the previous PDF file, except in PNG format.

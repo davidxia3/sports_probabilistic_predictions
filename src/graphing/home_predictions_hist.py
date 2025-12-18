@@ -61,8 +61,8 @@ def plot_predicted_home_win_prob_hist(method: str) -> None:
         plt.tight_layout()
 
         # save figure
-        out_path = f"results/home_predictions/{method}_{league.lower()}_hist.png"
-        plt.savefig(out_path, dpi=300, bbox_inches="tight")
+        plt.savefig(f"results/home_predictions/{method}_{league.lower()}_hist.png", dpi=300, bbox_inches="tight")
+        plt.savefig(f"results/home_predictions/{method}_{league.lower()}_hist.pdf", dpi=300, bbox_inches="tight")
         plt.close()
 
 

@@ -4,18 +4,18 @@ from pathlib import Path
 
 
 
-def plot_brier_scores(league: str, csv_path: Path) -> None:
+def plot_brier_scores(league: str) -> None:
     """
     Plot Brier score of various models for the NFL as a line graph.
     
     Args:
         league (str): String object of league abbreviation (e.g. "nfl").
-        csv_path (Path): Path object of CSV file with Brier scores.
 
     Returns:
         None
     """
 
+    csv_path = Path(f"results/model_seasonal_brier/{league}.csv")
     df = pd.read_csv(csv_path)
 
     cols_to_labels = {
@@ -73,10 +73,11 @@ def plot_brier_scores(league: str, csv_path: Path) -> None:
 
     plt.tight_layout()
     plt.savefig(f"results/model_seasonal_brier/{league}.png")
+    plt.savefig(f"results/model_seasonal_brier/{league}.pdf")
 
 
 
 if __name__ == "__main__":
     leagues = ["mlb", "nba", "nfl", "nhl"]
     for league in leagues:
-        plot_brier_scores(league, f"results/model_seasonal_brier/{league}.csv")
+        plot_brier_scores(league)

@@ -9,7 +9,7 @@ This folder contains all the Python scripts related to obtain results in the for
 
 
 ## `graphing/`
-This folder contains all the Python scripts that plot and graph results into PNG images. The figures are saved in `results/` under the same file name as its corresponding CSV results file.
+This folder contains all the Python scripts that plot and graph results into PDF/PNG figures. The figures are saved in `results/` under the same file name as its corresponding CSV results file.
 
 
 ## `processing/`

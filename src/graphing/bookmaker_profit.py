@@ -56,6 +56,7 @@ def plot_bookmaker_profit() -> None:
 
     # save figure
     plt.savefig(f"results/bookmaker_profit.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"results/bookmaker_profit.pdf", dpi=300, bbox_inches='tight')
 
 
 

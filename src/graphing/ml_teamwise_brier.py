@@ -5,18 +5,22 @@ import json
 
 
 
-def plot_team_brier_bar(csv_path: Path, color_map: dict, output_path: Path) -> None:
+def plot_team_brier_bar(league: str) -> None:
     """
     Plot a bar chart of the teamwise moneyline Brier score.
 
     Args:
-        csv_path (Path): Path object to the CSV file.
-        color_map (dict): Dictionary mapping team to color.
-        output_path (Path): Path object of PNG file where the figure is saved.
+        league (str): String object of league abbreviation (e.g. "nfl").
 
     Returns:
         None
     """
+
+    # load team colors
+    with open(f"utility/{league}_team_colors.json") as f:
+        color_map = json.load(f)
+
+    csv_path = Path(f"results/ml_teamwise_brier/{league}.csv")
     df = pd.read_csv(csv_path)
 
     # sort ascending by brier score
@@ -41,8 +45,9 @@ def plot_team_brier_bar(csv_path: Path, color_map: dict, output_path: Path) -> N
     plt.xticks(rotation=270, ha="right")
     plt.tight_layout()
 
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    plt.savefig(output_path)
+    
+    plt.savefig(f"results/ml_teamwise_brier/{league}.png")
+    plt.savefig(f"results/ml_teamwise_brier/{league}.pdf")
     plt.close()
 
 
@@ -50,11 +55,4 @@ def plot_team_brier_bar(csv_path: Path, color_map: dict, output_path: Path) -> N
 if __name__ == "__main__":
     leagues = ["mlb", "nba", "nfl", "nhl"]
     for league in leagues:
-        with open(f"utility/{league}_team_colors.json") as f:
-            color_map = json.load(f)
-
-        plot_team_brier_bar(
-            csv_path=Path(f"results/ml_teamwise_brier/{league}.csv"),
-            color_map=color_map,
-            output_path=Path(f"results/ml_teamwise_brier/{league}.png")
-        )
+        plot_team_brier_bar(league)

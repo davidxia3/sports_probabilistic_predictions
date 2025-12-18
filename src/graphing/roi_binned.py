@@ -4,19 +4,20 @@ from pathlib import Path
 
 
 
-def plot_fav_underdog_roi(csv_path: Path, bin: int, save_path: Path) -> None:
+def plot_fav_underdog_roi(league: str, method: str, bin: int) -> None:
     """
     Plots line graph of binned favorite ROI and underdog ROI by season.
 
     Args:
-        csv_path (Path): Path object of CSV file with favorite ROI and underdog ROI by bin.
+        league (str): String object of league abbreviation (e.g. "nfl").
+        method (str): String object of method name.
         bin (int): Integer 0-9 inclusive of bin.
-        save_path (Path): Path object of PNG file where figure will be saved.
 
     Retuns:
         None
     """
 
+    csv_path = Path(f"results/roi/{method}_binned/{league}/bin_{bin}.csv")
     df = pd.read_csv(csv_path)
     # no data, skip
     if len(df) == 0:
@@ -97,7 +98,8 @@ def plot_fav_underdog_roi(csv_path: Path, bin: int, save_path: Path) -> None:
     ax.grid(True, linestyle="--", alpha=0.6)
 
     # plt.tight_layout()
-    plt.savefig(save_path)
+    plt.savefig(f"results/roi/{method}_binned/{league}/bin_{bin}.png")
+    plt.savefig(f"results/roi/{method}_binned/{league}/bin_{bin}.pdf")
 
 
 
@@ -106,4 +108,4 @@ if __name__ == "__main__":
     for league in leagues:
         for method in ["ml", "bt"]:
             for bin in range(10):
-                plot_fav_underdog_roi(f"results/roi/{method}_binned/{league}/bin_{bin}.csv", bin, f"results/roi/{method}_binned/{league}/bin_{bin}.png")
+                plot_fav_underdog_roi(league, method, bin)

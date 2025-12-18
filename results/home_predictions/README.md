@@ -1,5 +1,5 @@
 # `results/home_predictions/`
-This folder contains all the CSV results and PNG figures of the home team win prediction distributions. All results are derived only from games from the second half of each regular season. 
+This folder contains all the CSV results and PDF/PNG figures of the home team win prediction distributions. All results are derived only from games from the second half of each regular season. 
 
 
 
@@ -20,8 +20,12 @@ This CSV file contains the summary statistics of the Bradley-Terry based home te
 - `upper_whisker`: Upper Tukey cutoff (`q3` + 1.5(`q3`-`q1`)) for Bradley-Terry predicted home team win probability outliers. 
 
 
+### `bt_box.pdf`
+This PDF file contains 4 box plots for the Bradley-Terry predicted home team win probability distribution. Each box plot displays the summary statistics for the prediction method's home team win probabilities for a specific league. The 4 leagues are MLB, NBA, NFL, and NHL. The statistics plotted are the min, first quartile, median, third quartile, max, and all outliers are represented as individual points.
+
+
 ### `bt_box.png`
-This PNG file contains 4 box plots for the Bradley-Terry predicted home team win probability distribution. Each box plot displays the summary statistics for the prediction method's home team win probabilities for a specific league. The 4 leagues are MLB, NBA, NFL, and NHL. The statistics plotted are the min, first quartile, median, third quartile, max, and all outliers are represented as individual points.
+This PNG file is the same as the previous PDF file, except in PNG format.
 
 
 ### `bt_{league}_hist.csv`
@@ -32,8 +36,12 @@ This CSV file contains the density histogram statistics of the Bradley-Terry bas
 - `density`: Density of league games with probabilistic prediction between `bin_left` and `bin_right`. 
 
 
+### `bt_{league}_hist.pdf`
+This PDF file contains a histogram for the Bradley-Terry based home team win probability distribution. The 4 leagues are MLB, NBA, NFL, and NHL. There are 30 equal-width bins used for each league's histogram. The density is used instead of the raw counts because each league has a different total count of games.
+
+
 ### `bt_{league}_hist.png`
-This PNG file contains a histogram for the Bradley-Terry based home team win probability distribution. The 4 leagues are MLB, NBA, NFL, and NHL. There are 30 equal-width bins used for each league's histogram. The density is used instead of the raw counts because each league has a different total count of games.
+This PNG file is the same as the previous PDF file, except in PNG format.
 
 
 ### `ml_box.csv`
@@ -48,8 +56,12 @@ This CSV file contains the summary statistics of the moneyline based home team w
 - `upper_whisker`: Upper Tukey cutoff (`q3` + 1.5(`q3`-`q1`)) for moneyline predicted home team win probability outliers. 
 
 
+### `ml_box.pdf`
+This PDF file contains 4 box plots for the moneyline predicted home team win probability distribution. Each box plot displays the summary statistics for the prediction method's home team win probabilities for a specific league. The 4 leagues are MLB, NBA, NFL, and NHL. The statistics plotted are the min, first quartile, median, third quartile, max, and all outliers are represented as individual points.
+
+
 ### `ml_box.png`
-This PNG file contains 4 box plots for the moneyline predicted home team win probability distribution. Each box plot displays the summary statistics for the prediction method's home team win probabilities for a specific league. The 4 leagues are MLB, NBA, NFL, and NHL. The statistics plotted are the min, first quartile, median, third quartile, max, and all outliers are represented as individual points.
+This PNG file is the same as the previous PDF file, except in PNG format.
 
 
 ### `ml_{league}_hist.csv`
@@ -60,5 +72,9 @@ This CSV file contains the density histogram statistics of the moneyline based p
 - `density`: Density of league games with probabilistic prediction between `bin_left` and `bin_right`. 
 
 
+### `ml_{league}_hist.pdf`
+This PDF file contains a histogram for the moneyline based home team win probability distribution. The 4 leagues are MLB, NBA, NFL, and NHL. There are 30 equal-width bins used for each league's histogram. The density is used instead of the raw counts because each league has a different total count of games.
+
+
 ### `ml_{league}_hist.png`
-This PNG file contains a histogram for the moneyline based home team win probability distribution. The 4 leagues are MLB, NBA, NFL, and NHL. There are 30 equal-width bins used for each league's histogram. The density is used instead of the raw counts because each league has a different total count of games.
+This PNG file is the same as the previous PDF file, except in PNG format.

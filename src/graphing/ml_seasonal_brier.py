@@ -4,17 +4,18 @@ from pathlib import Path
 
 
 
-def plot_brier_scores(csv_path: Path) -> None:
+def plot_brier_scores() -> None:
     """
     Load a CSV containing the seasonal moneyline based Brier score for each league and plot it as a line graph.
     
     Args:
-        csv_path (Path): Path object of CSV file with Brier scores.
+        None
 
     Returns:
         None
     """
 
+    csv_path = Path("results/ml_seasonal_brier.csv")
     df = pd.read_csv(csv_path)
 
     colors = {
@@ -62,8 +63,9 @@ def plot_brier_scores(csv_path: Path) -> None:
 
     plt.tight_layout()
     plt.savefig("results/ml_seasonal_brier.png")
+    plt.savefig("results/ml_seasonal_brier.pdf")
 
 
 
 if __name__ == "__main__":
-    plot_brier_scores("results/ml_seasonal_brier.csv")
+    plot_brier_scores()

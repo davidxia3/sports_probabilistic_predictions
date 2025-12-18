@@ -62,6 +62,7 @@ def plot_predicted_home_win_prob_box(method: str) -> None:
     plt.tight_layout()
 
     plt.savefig(f"results/home_predictions/{method}_box.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"results/home_predictions/{method}_box.pdf", dpi=300, bbox_inches='tight')
 
 
 

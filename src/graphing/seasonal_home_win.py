@@ -61,6 +61,7 @@ def plot_seasonal_home_win() -> None:
     plt.grid(True, linestyle="--", alpha=0.5)
     plt.legend(fontsize=12)
     plt.savefig("results/seasonal_home_win.png", dpi=300, bbox_inches="tight")
+    plt.savefig("results/seasonal_home_win.pdf", dpi=300, bbox_inches="tight")
     plt.close()
 
 

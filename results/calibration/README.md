@@ -1,5 +1,5 @@
 # `results/calibration/`
-This folder contains all the CSV results and PNG figures of various prediction model calibrations. All results are derived only from games from the second half of each regular season. 
+This folder contains all the CSV results and PDF/PNG figures of various prediction model calibrations. All results are derived only from games from the second half of each regular season. 
 
 
 
@@ -15,5 +15,9 @@ The 4 leagues are MLB, NBA, NFL, and NHL. For each league, there is a correspond
 - `bt_winrate`: The actual home win rate of all games where the Bradley-Terry based probabilistic prediction had home team win probability in the bin. (e.g. `bt_winrate` for bin 4 is the actual home winrate of all games where the Bradley-Terry method predicted the home team to win with probability between 40% and 49.99%). NA value if there were no games where the Bradley-Terry prediction was within the bin.
 
 
+### `{league}.pdf`
+The 4 leagues are MLB, NBA, NFL, and NHL. For each league, there is a corresponding PDF file. Each file is a calibration plot of the moneyline based probabilistic prediction method and Bradley-Terry probabilistic prediction method against the perfect calibration reference. The horizontal axis represents the 10 equally sized probability bins of predicted home win probability. The vertical axis represents actual home win probability.
+
+
 ### `{league}.png`
-The 4 leagues are MLB, NBA, NFL, and NHL. For each league, there is a corresponding PNG file. Each file is a calibration plot of the moneyline based probabilistic prediction method and Bradley-Terry probabilistic prediction method against the perfect calibration reference. The horizontal axis represents the 10 equally sized probability bins of predicted home win probability. The vertical axis represents actual home win probability.
+This PNG file is the same as the previous PDF file, except in PNG format.

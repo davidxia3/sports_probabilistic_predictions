@@ -5,24 +5,24 @@ from scipy.stats import linregress
 
 
 
-def plot_winrate_vs_brier(brier_csv: Path, winrate_csv: Path, league: str, output_path: Path) -> None:
+def plot_winrate_vs_brier(league: str) -> None:
     """
     Plots scatterplot of |winrate - 50| vs Brier score and regression line.
 
     Args:
-        brier_csv (Path): Path object of CSV file with team Brier scores.
-        winrate_csv (Path): Path object of CSV file team winrates.
         league (str): String object of team abbreviation (e.g. "nfl").
-        output_path (Path): Path object of PNG file where figure will be saved.
 
     Returns:
         None
     """
 
+    brier_csv = Path(f"results/ml_teamwise_brier/{league}.csv")
+    winrate_csv=Path(f"results/ml_teamwise_brier/{league}_winrates.csv")
+
     df_brier = pd.read_csv(brier_csv)
     df_wr = pd.read_csv(winrate_csv)
 
-    # erge on "team"
+    # merge on "team"
     df = pd.merge(df_brier, df_wr, on="team", how="inner")
     df = df.dropna(subset=["brier_score", "winrate"])
 
@@ -56,8 +56,8 @@ def plot_winrate_vs_brier(brier_csv: Path, winrate_csv: Path, league: str, outpu
     plt.grid(True)
     plt.tight_layout()
 
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    plt.savefig(output_path)
+    plt.savefig(f"results/ml_teamwise_brier/{league}_winrates.png")
+    plt.savefig(f"results/ml_teamwise_brier/{league}_winrates.pdf")
     plt.close()
 
 
@@ -66,9 +66,4 @@ if __name__ == "__main__":
     leagues = ["mlb", "nba", "nfl", "nhl"]
 
     for league in leagues:
-        plot_winrate_vs_brier(
-            brier_csv=Path(f"results/ml_teamwise_brier/{league}.csv"),
-            winrate_csv=Path(f"results/ml_teamwise_brier/{league}_winrates.csv"),
-            league=league,
-            output_path=Path(f"results/ml_teamwise_brier/{league}_winrates.png")
-        )
+        plot_winrate_vs_brier(league)
