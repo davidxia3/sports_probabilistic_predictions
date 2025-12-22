@@ -29,7 +29,7 @@ def plot_bookmaker_profit() -> None:
     dfs = [pd.read_csv(f"processed_data/{league.lower()}.csv") for league in leagues]
     
     # drop all first half of regular season games
-    data = [df[df["second_half"]==1]["bookmaker_profit"] for df in dfs]
+    data = [100 * df[df["second_half"]==1]["bookmaker_profit"] for df in dfs]
 
     leagues_reversed = leagues[::-1]
     data_reversed = data[::-1]
@@ -47,9 +47,10 @@ def plot_bookmaker_profit() -> None:
     plt.setp(bp['medians'], linewidth=2, color='black') 
 
 
-    plt.xlabel(f"Moneyline Bookmaker Profit", fontsize=20)
+    plt.xlabel(f"Moneyline Bookmaker Profit (%)", fontsize=20)
     plt.grid(True, linestyle="--", alpha=0.6)
-    xticks = np.arange(0, 0.27, 0.02)
+    plt.xlim(0,10)
+    xticks = np.arange(0, 11, 2)
     plt.xticks(xticks, fontsize=15)
     plt.yticks(fontsize=15)
     plt.tight_layout()

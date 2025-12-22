@@ -71,14 +71,14 @@ if __name__ == "__main__":
             preds = df_valid[f"{method}_prob"].astype(float)
             pred_class = (preds >= 0.5).astype(int)
             y = df_valid["result"]
-            row[method] = (pred_class == y).mean()
+            row[method] = 100 * (pred_class == y).mean()
 
         # seasonal home win baseline
         season_home_rate = compute_home_win_probability(data_file)
         df_valid["home_base_prob"] = df_valid["season"].map(season_home_rate)
 
         home_pred_class = (df_valid["home_base_prob"] >= 0.5).astype(int)
-        row["home_win_base"] = (home_pred_class == df_valid["result"]).mean()
+        row["home_win_base"] = 100 * (home_pred_class == df_valid["result"]).mean()
 
         results.append(row)
 

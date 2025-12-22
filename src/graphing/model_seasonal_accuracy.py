@@ -65,7 +65,7 @@ def plot_binary_accuracy(league: str) -> None:
         )
 
     plt.xlabel("Season")
-    plt.ylabel("Binary Accuracy")
+    plt.ylabel("Binary Accuracy (%)")
     plt.title(f"{league.upper()} – Binary Accuracy by Season")
     plt.legend()
     plt.grid(True)

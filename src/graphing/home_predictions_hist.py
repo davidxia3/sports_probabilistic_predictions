@@ -33,9 +33,9 @@ def plot_predicted_home_win_prob_hist(method: str) -> None:
         df = pd.read_csv(f"processed_data/{league.lower()}.csv")
 
         # drop all first half of regular season games
-        d = df[df["second_half"] == 1][f"{method}_prob"]
+        d = 100 * df[df["second_half"] == 1][f"{method}_prob"]
 
-        bin_edges = np.linspace(0, 1, 30)
+        bin_edges = np.linspace(0, 100, 30)
 
         # compute max density for y-axis
         counts, _ = np.histogram(d, bins=bin_edges, density=True)
@@ -53,7 +53,7 @@ def plot_predicted_home_win_prob_hist(method: str) -> None:
         )
 
         plt.title(f"{league}", fontsize=18)
-        plt.xlabel(f"{method_map[method]} Predicted Home Team Win Probability", fontsize=14)
+        plt.xlabel(f"{method_map[method]} Predicted Home Team Win Probability (%)", fontsize=14)
         plt.ylabel("Density", fontsize=14)
         plt.ylim(0, max_density * 1.05)
         plt.grid(True, linestyle="--", alpha=0.5)

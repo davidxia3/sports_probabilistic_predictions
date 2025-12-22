@@ -18,14 +18,14 @@ def save_predicted_home_win_prob_hist_data(method: str) -> None:
 
 
 
-    bin_edges = np.linspace(0, 1, 30)
+    bin_edges = np.linspace(0, 100, 30)
 
 
     for league in leagues:
         df = pd.read_csv(f"processed_data/{league.lower()}.csv")
 
         # drop all first half of regular season games
-        d = df[df["second_half"] == 1][f"{method}_prob"].dropna()
+        d = 100 * df[df["second_half"] == 1][f"{method}_prob"].dropna()
 
         # compute histogram density
         counts, edges = np.histogram(d, bins=bin_edges, density=True)
