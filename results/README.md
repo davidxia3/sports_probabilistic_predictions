@@ -16,6 +16,10 @@ This folder contains all the CSV results and PDF/PNG figures of the home team wi
 This folder contains all CSV results and PDF/PNG figures of teamwise Brier scores and team winrates for each league. All results are derived only from games from the second half of each regular season.
 
 
+## `model_seasonal_accuracy/`
+This folder contains all the CSV results and PDF/PNG figures of the binary accuracies of various model based probabilistic prediction methods by league and season. All results are derived only from games from the second half of each regular season. 
+
+
 ## `model_seasonal_brier/`
 This folder contains all the CSV results and PDF/PNG figures of the Brier scores of various model based probabilistic prediction methods by league and season. All results are derived only from games from the second half of each regular season. 
 

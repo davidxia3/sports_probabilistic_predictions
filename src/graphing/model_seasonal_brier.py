@@ -6,7 +6,7 @@ from pathlib import Path
 
 def plot_brier_scores(league: str) -> None:
     """
-    Plot Brier score of various models for the NFL as a line graph.
+    Plot Brier score of various models as a line graph.
     
     Args:
         league (str): String object of league abbreviation (e.g. "nfl").

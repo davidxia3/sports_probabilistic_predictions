@@ -91,6 +91,15 @@ This Python script computes the Brier score of the moneyline based probabilistic
 - `brier_score`: The moneyline based Brier score of all games involving the team.
 
 
+### `model_seasonal_accuracy.py`
+This Python script computes the binary accurcy of various model based probabilistic predictions by season for each league. The 4 leagues are MLB, NBA, NFL, and NHL. For each league, the results are saved to `results/model_seasonal_accuracy/{league}.csv`. The columns of each results file are below.
+- `season`: The season as an integer, representing the year the season ended. 
+- `ml_accuracy`: The binary accuracy of moneyline based probabilistic predictions.
+- `bt_accuracy`: The binary accuracy of Bradley-Terry based probabilistic predictions.
+- `home_bias_accuracy`: The binary accuracy of predictions using the home team win probability from the first half of each regular season.
+- `coinflip_accuracy`: The binary accuracy of a constant 0.5 prediction for all games. 
+
+
 ### `model_seasonal_brier.py`
 This Python script computes the Brier score of various model based probabilistic predictions by season for each league. The 4 leagues are MLB, NBA, NFL, and NHL. For each league, the results are saved to `results/model_seasonal_brier/{league}.csv`. The columns of each results file are below.
 - `season`: The season as an integer, representing the year the season ended. 

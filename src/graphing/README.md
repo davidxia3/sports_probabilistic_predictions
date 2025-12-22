@@ -32,6 +32,14 @@ This Python script plots a line graph displaying the Brier score of the moneylin
 This Python script plots a bar chart for each league. Each league's bar chart displays the Brier score of the moneyline based probabilistic predictions for each team in the league. The Brier score of a team is the Brier score of all games involving the team. The bars are sorted in ascending order. For each league, the figure is saved as a PDF to `results/ml_teamwise_brier/{league}.pdf` and as a PNG to `results/ml_teamwise_brier/{league}.png`.
 
 
+### `model_seasonal_accuracy.py`
+This Python script plots a line graph for each league. Each league's line graph displays the binary accuracy of various model's probabilistic predictions by season. For each league, the figure is saved as a PDF to `results/model_seasonal_accuracy/{league}.pdf` and as a PNG to `results/model_seasonal_accuracy/{league}.png`. The models used in each line graph are below.
+- Moneyline: Binary accuracy of the moneyline based probabilistic predictions.
+- Bradley-Terry: Binary accuracy of the Bradley-Terry based probabilistic predictions.
+- Home Bias Coinflip: Binary accuracy of the baseline model that predicts the home team to win with the proportion of first half regular season games won by the home team. 
+- Coinflip: Binary accuracy of the baseline model that always predicts the home team to win with 0.5 probability. 
+
+
 ### `model_seasonal_brier.py`
 This Python script plots a line graph for each league. Each league's line graph displays the Brier score of various model's probabilistic predictions by season. For each league, the figure is saved as a PDF to `results/model_seasonal_brier/{league}.pdf` and as a PNG to `results/model_seasonal_brier/{league}.png`. The models used in each line graph are below.
 - Moneyline: Brier scores of the moneyline based probabilistic predictions.
