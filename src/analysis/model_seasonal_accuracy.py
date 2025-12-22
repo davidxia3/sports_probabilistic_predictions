@@ -31,18 +31,18 @@ def compute_model_season_binary_accuracy(csv_path: Path) -> pd.DataFrame:
     df = df[df["second_half"] == 1].copy()
 
     # moneyline binary accuracy
-    df["ml_accuracy"] = 1 - abs(df["ml_prob"] - df["result"])
+    df["ml_accuracy"] = 100 * ((df["ml_prob"] >= 0.5) == df["result"]).astype(int)
 
     # Bradley-Terry binary accuracy
-    df["bt_accuracy"] = 1 - abs(df["bt_prob"] - df["result"])
+    df["bt_accuracy"] = 100 * ((df["bt_prob"] >= 0.5) == df["result"]).astype(int)
 
     # coinflip binary accuracy (always predicts 0.5)
-    df["coinflip_accuracy"] = 1 - abs(0.5 - df["result"])
+    df["coinflip_accuracy"] = 50
 
     # home bias coinflip binary accuracy
     # home win rate is average of "result" column in first half of each regular season
     df["home_bias_prob"] = df["season"].map(season_home_winrate)
-    df["home_bias_accuracy"] = 1 - abs(df["home_bias_prob"] - df["result"])
+    df["home_bias_accuracy"] = 100 * ((df["home_bias_prob"] >= 0.5) == df["result"]).astype(int)
 
     out = (
         df.groupby("season")
