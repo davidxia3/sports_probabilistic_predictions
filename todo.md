@@ -1,4 +1,7 @@
 # TODO
+## January 3
+- **ML Data:** There might be a few cases where both moneylines are positive.   Compile statistics (raw numbers and percentages) for each league of such cases. (This is for a possible footnote, or addition,  to the explanations of moneyline scores.)
+
 ## December 13
 - **Figures:** Create pdf versions of all figures
 - **Data:** Create a summary table of processed/clean data used for the analysis. Columns: League, Seasons, total # of games, # of second half games, home win percentage.
