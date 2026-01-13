@@ -2,7 +2,7 @@
 ## January 12
 - **Additional tables/charts:**
   - ("Description of Data" section) Table of bookmaker profits (average profit by league, accompanied with basic bar char (4 bars, one bar per league)  
-  - ("Description of Data" section) Basic bar chart for home win percentage per league to accompany the home won percentage table (4 bars, one bar per league)
+  - ("Description of Data" section) Basic bar chart for home win percentage per league to accompany the home won percentage table (4 bars, one bar per league) make range 40%-60% or something
   - (Results section) Grouped bar chart to accompany binary accuracy table (either 3 groups of 4 bars, corresponding to the three methods (ML, BT, Coin Flip), or 4 groups of 3 bars, corresponding to the 4 leagues)
   - Bradley-Terry: Find appropriate reference (ideally scholarly paper, e.g., Bradley-Terry article), use Wikipedia to find sources/references
 
