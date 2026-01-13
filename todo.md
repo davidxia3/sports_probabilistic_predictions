@@ -2,7 +2,8 @@
 ## January 12
 - **Additional tables/charts:**
   - ("Description of Data" section) Table of bookmaker profits (average profit by league, accompanied with basic bar char (4 bars, one bar per league)  
-  - ("Description of Data" section) Basic bar chart for home win percentage per league to accompany the home won percentage table (4 bars, one bar per league) 
+  - ("Description of Data" section) Basic bar chart for home win percentage per league to accompany the home won percentage table (4 bars, one bar per league)
+  - (Results section) Grouped bar chart to accompany binary accuracy table (either 3 groups of 4 bars, corresponding to the three methods (ML, BT, Coin Flip), or 4 groups of 3 bars, corresponding to the 4 leagues)
 
 ## January 3
 - **ML Data:** There might be a few cases where both moneylines are positive.   Compile statistics (raw numbers and percentages) for each league of such cases. (This is for a possible footnote, or addition,  to the explanations of moneyline scores.)
