@@ -1,7 +1,7 @@
 # TODO
 ## January 12
 - **Additional tables/charts:**
-  -("Description of Data" section) Table of bookmaker profits (average profit by league, accompanied with basic bar chart, one bar per league)  
+  - ("Description of Data" section) Table of bookmaker profits (average profit by league, accompanied with basic bar chart, one bar per league)  
   - ("Description of Data" section) Basic bar chart for home win percentage per league to accompany the home won percentage table (one bar per league) 
 
 ## January 3
