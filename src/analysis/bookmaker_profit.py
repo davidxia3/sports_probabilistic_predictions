@@ -24,6 +24,9 @@ def compute_bookmaker_profit_stats() -> None:
 
         profits = df["bookmaker_profit"] * 100
 
+
+        avg = profits.mean()
+
     
         q1 = profits.quantile(0.25)
         median = profits.quantile(0.50)
@@ -44,6 +47,7 @@ def compute_bookmaker_profit_stats() -> None:
             "iqr": iqr,
             "lower_whisker": lower_whisker,
             "upper_whisker": upper_whisker,
+            "average": avg
         }
 
         results.append(stats)

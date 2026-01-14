@@ -4,8 +4,12 @@ This folder contains all the scripts for graphing and plotting the results into 
 
 
 
-### `bookmaker_profit.py`
-This Python script plots 4 box plots. Each box plot displays the summary statistics for the moneyline bookamker profits for a sports league. The 4 leagues are MLB, NBA, NFL, and NHL. The statistics plotted are the min, first quartile, median, third quartile, max, and all outliers are represented as individual points. The figure is saved as a PDF to `results/bookmaker_profit.pdf` and as a PNG to `results/bookmaker_profit.png`.
+### `bookmaker_profit_avg.py`
+This Python script plots a bar chart with 4 bars. Each bar displays the average moneyline bookmaker profit for a sports league. The 4 leagues are MLB, NBA, NFL, and NHL. The figure is saved as a PDF to `results/bookmaker_profit_avg.pdf` and as a PNG to `results/bookmaker_profit_avg.png`.
+
+
+### `bookmaker_profit_dist.py`
+This Python script plots 4 box plots. Each box plot displays the summary statistics for the moneyline bookmaker profits for a sports league. The 4 leagues are MLB, NBA, NFL, and NHL. The statistics plotted are the min, first quartile, median, third quartile, max, and all outliers are represented as individual points. The figure is saved as a PDF to `results/bookmaker_profit_dist.pdf` and as a PNG to `results/bookmaker_profit_dist.png`.
 
 
 ### `calibration_moneyline.py`

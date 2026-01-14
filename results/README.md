@@ -50,13 +50,22 @@ This CSV file contains the summary statistics of the bookmaker profit percentage
 - `max`: Maximum bookmaker profit percentage. 
 - `lower_whisker`: Lower Tukey cutoff (`q1` - 1.5(`q3`-`q1`)) for bookmaker profit percentage outliers.
 - `upper_whisker`: Upper Tukey cutoff (`q3` + 1.5(`q3`-`q1`)) for bookmaker profit percentage outliers. 
+- `average`: Mean of bookmaker profit percentages.
 
 
-### `bookmaker_profit.pdf`
+### `bookmaker_profit_avg.pdf`
+This PDF file contains a bar chart with 4 bars. Each bar displays the average moneyline bookamker profit for a sports league. The 4 leagues are MLB, NBA, NFL, and NHL.
+
+
+### `bookmaker_profit_avg.png`
+This PNG file is the same as the previous PDF file, except in PNG format.
+
+
+### `bookmaker_profit_dist.pdf`
 This PDF file contains 4 box plots. Each box plot displays the summary statistics for the moneyline bookamker profits for a sports league. The 4 leagues are MLB, NBA, NFL, and NHL. The statistics plotted are the min, first quartile, median, third quartile, max, and all outliers are represented as individual points.
 
 
-### `bookmaker_profit.png`
+### `bookmaker_profit_dist.png`
 This PNG file is the same as the previous PDF file, except in PNG format.
 
 

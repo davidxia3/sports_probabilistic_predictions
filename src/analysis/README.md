@@ -22,6 +22,7 @@ This Python script computes the summary statistics of the bookmaker profit perce
 - `max`: Maximum bookmaker profit percentage. 
 - `lower_whisker`: Lower Tukey cutoff (`q1` - 1.5(`q3`-`q1`)) for bookmaker profit percentage outliers.
 - `upper_whisker`: Upper Tukey cutoff (`q3` + 1.5(`q3`-`q1`)) for bookmaker profit percentage outliers. 
+- `average`: Mean of bookmaker profit percentages.
 
 
 ### `brier_score.py`

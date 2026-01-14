@@ -4,9 +4,9 @@ import numpy as np
 
 
 
-def plot_bookmaker_profit() -> None:
+def plot_bookmaker_profit_dist() -> None:
     """
-    Plots box plot of moneyline bookmaker profit for each league.
+    Plots box plot of moneyline bookmaker profit distribution for each league.
 
     Args:
         None
@@ -56,10 +56,10 @@ def plot_bookmaker_profit() -> None:
     plt.tight_layout()
 
     # save figure
-    plt.savefig(f"results/bookmaker_profit.png", dpi=300, bbox_inches='tight')
-    plt.savefig(f"results/bookmaker_profit.pdf", dpi=300, bbox_inches='tight')
+    plt.savefig(f"results/bookmaker_profit_dist.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"results/bookmaker_profit_dist.pdf", dpi=300, bbox_inches='tight')
 
 
 
 if __name__ == "__main__":
-    plot_bookmaker_profit()
+    plot_bookmaker_profit_dist()
