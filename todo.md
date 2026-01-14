@@ -6,6 +6,10 @@
   - (Results section) Grouped bar chart to accompany binary accuracy table (either 3 groups of 4 bars, corresponding to the three methods (ML, BT, Coin Flip), or 4 groups of 3 bars, corresponding to the 4 leagues)
   - Bradley-Terry: Find appropriate reference (ideally scholarly paper, e.g., Bradley-Terry article), use Wikipedia to find sources/references
 
+Cite both of the following. The first is the original paper about the statistical model. The second is the webpage that has the code for the model implementation.
+  Bradley, Ralph Allan; Terry, Milton E. (1952). "Rank Analysis of Incomplete Block Designs: I. The Method of Paired Comparisons". Biometrika. 39 (3/4): 324–345.
+  https://datascience.oneoffcoder.com/btl-model.html
+
 ## January 3
 - **ML Data:** There might be a few cases where both moneylines are positive.   Compile statistics (raw numbers and percentages) for each league of such cases. (This is for a possible footnote, or addition,  to the explanations of moneyline scores.)
 
