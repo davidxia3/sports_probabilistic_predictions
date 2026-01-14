@@ -40,6 +40,14 @@ This CSV file contains the binary accuracy of various model based prediction met
 - `hom_win_base`: Binary accuracy of predictions based on if home or away teams won more from first half of each respective regular season.
 
 
+### `binary_accuracy.pdf`
+This PDF file contains a grouped bar chart with 4 groups of 3 bars. The groups are the 4 leagues: MLB, NBA, NFL, and NHL. Each league has 3 bars: one for each of the prediction models. The bars display the binary accuracy of the prediction model for by league.
+
+
+### `binary_accuracy.png`
+This PNG file is the same as the previous PDF file, except in PNG format.
+
+
 ### `bookmaker_profit.csv`
 This CSV file contains the summary statistics of the bookmaker profit percentages for each league. The 4 leagues are MLB, NBA, NFL, and NHL. The columns of the results file are below.
 - `league`: League name.

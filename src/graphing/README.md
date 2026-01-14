@@ -4,6 +4,10 @@ This folder contains all the scripts for graphing and plotting the results into 
 
 
 
+### `binary_accuracy.py`
+This Python script plots a grouped bar chart with 4 groups of 3 bars. The groups are the 4 leagues: MLB, NBA, NFL, and NHL. Each league has 3 bars: one for each of the prediction models. The bars display the binary accuracy of the prediction model for by league.
+
+
 ### `bookmaker_profit_avg.py`
 This Python script plots a bar chart with 4 bars. Each bar displays the average moneyline bookmaker profit for a sports league. The 4 leagues are MLB, NBA, NFL, and NHL. The figure is saved as a PDF to `results/bookmaker_profit_avg.pdf` and as a PNG to `results/bookmaker_profit_avg.png`.
 
