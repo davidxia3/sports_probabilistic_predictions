@@ -1,6 +1,6 @@
 # TODO
 ## January 15
-- **Home team coin flip prediction:** Is this defined as a probabilistic prediction with constant prediction probability equal to the home team win proportion for the league?
+- **Coin flip model with home bias:** Is this defined as a probabilistic prediction with constant prediction probability equal to the home team win proportion for the league, i.e, with P(Home team wins)=p, P(Away team wins) = 1-p, where p is the home team win proportion? Or as "home team ALWAYS wins", i.e., P(Home team wins) = 1, P(Away team wins) = 0? 
 
 ## January 12
 - **Additional tables/charts:**
