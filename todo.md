@@ -1,6 +1,6 @@
 # TODO
 ## January 15
-- **Coin flip model with home bias:** Is this defined as a probabilistic prediction with constant prediction probability equal to the home team win proportion for the league, i.e, with P(Home team wins)=p, P(Away team wins) = 1-p, where p is the home team win proportion? **YES*** Or as "home team ALWAYS wins", i.e., P(Home team wins) = 1, P(Away team wins) = 0? **NO**
+- **Coin flip model with home bias:** Is this defined as a probabilistic prediction with constant prediction probability equal to the home team win proportion for the league, i.e, with P(Home team wins)=p, P(Away team wins) = 1-p, where p is the home team win proportion? **YES**   Or as "home team ALWAYS wins", i.e., P(Home team wins) = 1, P(Away team wins) = 0? **NO**
 - **New bar charts:** Color-code the bars, increase the spacing between the bars (or make the bars skinnier).
 - **Binary accuracy chart:** Change y-axis range to full range 0 to 100 percent, and create similar chart grouped 3 by 4 (three sets of 4 bars, corresponding to the different models)
 
