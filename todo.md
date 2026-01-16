@@ -1,4 +1,7 @@
 # TODO
+## January 15
+- **Home team coin flip prediction:** Is this defined as a probabilistic prediction with constant prediction probability equal to the home team win proportion for the league?
+
 ## January 12
 - **Additional tables/charts:**
   - ("Description of Data" section) Table of bookmaker profits (average profit by league, accompanied with basic bar char (4 bars, one bar per league)  
