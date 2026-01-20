@@ -48,6 +48,14 @@ This PDF file contains a grouped bar chart with 4 groups of 3 bars. The groups a
 This PNG file is the same as the previous PDF file, except in PNG format.
 
 
+### `binary_accuracy_T.pdf`
+This PDF file contains a grouped bar chart with 3 groups of 4 bars. The groups are the 3 prediction methods. Each method has 4 bars: one for each of the leagues. The bars display the binary accuracy of the prediction model for by league.
+
+
+### `binary_accuracy_T.png`
+This PNG file is the same as the previous PDF file, except in PNG format.
+
+
 ### `bookmaker_profit.csv`
 This CSV file contains the summary statistics of the bookmaker profit percentages for each league. The 4 leagues are MLB, NBA, NFL, and NHL. The columns of the results file are below.
 - `league`: League name.

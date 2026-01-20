@@ -17,17 +17,38 @@ def plot_binary_accuracy() -> None:
 
     df = pd.read_csv("results/binary_accuracy.csv")
 
+    df["league"] = df["league"].str.upper()
+
     leagues = df["league"]
     models = ["ml", "bt", "home_win_base"]
+
+    model_names = {
+        "ml": "Moneyline",
+        "bt": "Bradley–Terry",
+        "home_win_base": "Home Win Baseline",
+    }
+
+    model_colors = {
+        "ml": "green",
+        "bt": "red",
+        "home_win_base": "blue",
+    }
 
     x = np.arange(len(leagues))
     width = 0.25
 
     plt.figure()
-
+    
     for i, model in enumerate(models):
-        plt.bar(x + i * width, df[model], width, label=model)
+        plt.bar(
+            x + i * width,
+            df[model],
+            width,
+            label=model_names[model],
+            color=model_colors[model],
+        )
 
+    plt.ylim(0,100)
     plt.xlabel("League")
     plt.ylabel("Binary Accuracy (%)")
     plt.title("Binary Accuracy by League and Model")

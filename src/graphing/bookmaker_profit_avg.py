@@ -16,8 +16,19 @@ def plot_avg_bookmaker_profit() -> None:
 
     df = pd.read_csv("results/bookmaker_profit.csv")
 
+    df["league"] = df["league"].str.upper()
+
+    color_map = {
+        "MLB": "red",
+        "NBA": "orange",
+        "NFL": "green",
+        "NHL": "blue",
+    }
+
+    colors = df["league"].map(color_map)
+
     plt.figure()
-    plt.bar(df["league"], df["average"])
+    plt.bar(df["league"], df["average"], color=colors, width=0.5)
 
 
 
