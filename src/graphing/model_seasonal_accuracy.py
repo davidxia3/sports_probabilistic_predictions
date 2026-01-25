@@ -15,6 +15,12 @@ def plot_binary_accuracy(league: str) -> None:
         None
     """
 
+    plt.rcParams.update({
+        "font.family": "serif",
+        "mathtext.fontset": "cm",
+        "axes.unicode_minus": False
+    })
+
     csv_path = Path(f"results/model_seasonal_accuracy/{league}.csv")
     df = pd.read_csv(csv_path)
 
@@ -28,9 +34,9 @@ def plot_binary_accuracy(league: str) -> None:
 
 
     colors = {
-        "ml_accuracy": "green",
-        "bt_accuracy": "red",
-        "home_bias_accuracy": "purple",
+        "ml_accuracy": "#0aa344",
+        "bt_accuracy": "#f05654",
+        "home_bias_accuracy": "#4a4266",
         "coinflip_accuracy": "black",
     }
     line_styles = {
@@ -51,7 +57,7 @@ def plot_binary_accuracy(league: str) -> None:
     df = df.dropna(subset=cols)
 
     plt.figure(figsize=(10, 6))
-
+    plt.grid(True, linestyle="--", alpha=0.5)
     for col in cols:
         plt.plot(
             df["season"],
@@ -60,20 +66,20 @@ def plot_binary_accuracy(league: str) -> None:
             color=colors[col],
             linestyle=line_styles[col],
             marker=markers[col],
-            linewidth=2,
-            markersize=6,
+            linewidth=4,
+            markersize=8,
         )
 
-    plt.xlabel("Season")
-    plt.ylabel("Binary Accuracy (%)")
-    plt.title(f"{league.upper()} – Binary Accuracy by Season")
-    plt.legend()
-    plt.grid(True)
-    plt.xticks(df["season"].unique(), rotation=45)
-
+    plt.ylabel("Binary Accuracy (%)",fontsize=16)
+    plt.legend(loc="upper left",fontsize=12)
+    plt.grid(True, linestyle="--", alpha=0.5)
+    plt.xticks(df["season"].unique(), rotation=45,fontsize=12)
+    plt.ylim(50,77)
+    plt.yticks([i for i in range(50,80, 5)],fontsize=12)
     plt.tight_layout()
     plt.savefig(f"results/model_seasonal_accuracy/{league}.png")
     plt.savefig(f"results/model_seasonal_accuracy/{league}.pdf")
+    plt.show()
 
 
 

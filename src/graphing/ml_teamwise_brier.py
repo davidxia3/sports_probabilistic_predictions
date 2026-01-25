@@ -39,15 +39,14 @@ def plot_team_brier_bar(league: str) -> None:
     ymax = df["brier_score"].max()
     padding = (ymax - ymin) * 0.1
     plt.ylim(ymin - padding, ymax + padding)
-    plt.xlabel("Team")
     plt.ylabel("Brier Score")
-    plt.title(f"{league.upper()} Moneyline Brier Scores by Team")
     plt.xticks(rotation=270, ha="right")
     plt.tight_layout()
 
     
     plt.savefig(f"results/ml_teamwise_brier/{league}.png")
     plt.savefig(f"results/ml_teamwise_brier/{league}.pdf")
+    plt.show()
     plt.close()
 
 

@@ -15,6 +15,12 @@ def plot_brier_scores(league: str) -> None:
         None
     """
 
+    plt.rcParams.update({
+        "font.family": "serif",
+        "mathtext.fontset": "cm",
+        "axes.unicode_minus": False
+    })
+
     csv_path = Path(f"results/model_seasonal_brier/{league}.csv")
     df = pd.read_csv(csv_path)
 
@@ -28,9 +34,9 @@ def plot_brier_scores(league: str) -> None:
 
 
     colors = {
-        "ml_brier": "green",
-        "bt_brier": "red",
-        "home_bias_brier": "purple",
+        "ml_brier": "#0aa344",
+        "bt_brier": "#f05654",
+        "home_bias_brier": "#4a4266",
         "coinflip_brier": "black",
     }
     line_styles = {
@@ -60,20 +66,20 @@ def plot_brier_scores(league: str) -> None:
             color=colors[col],
             linestyle=line_styles[col],
             marker=markers[col],
-            linewidth=2,
-            markersize=6,
+            linewidth=4,
+            markersize=8,
         )
 
-    plt.xlabel("Season")
-    plt.ylabel("Brier Score")
-    plt.title(f"{league.upper()} – Brier Scores by Season")
-    plt.legend()
-    plt.grid(True)
-    plt.xticks(df["season"].unique(), rotation=45)
-
+    plt.ylabel("Brier Score", fontsize=16)
+    plt.legend(fontsize=12,loc="upper right")
+    plt.grid(True, linestyle="--", alpha=0.5)
+    plt.xticks(df["season"].unique(), rotation=45,fontsize=12)
+    plt.ylim(0.17,0.29)
+    plt.yticks(fontsize=12)
     plt.tight_layout()
     plt.savefig(f"results/model_seasonal_brier/{league}.png")
     plt.savefig(f"results/model_seasonal_brier/{league}.pdf")
+    plt.show()
 
 
 

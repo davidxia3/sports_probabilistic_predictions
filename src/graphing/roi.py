@@ -16,51 +16,57 @@ def plot_fav_underdog_roi(league: str, method: str) -> None:
         None
     """
 
+    plt.rcParams.update({
+        "font.family": "serif",
+        "mathtext.fontset": "cm",
+        "axes.unicode_minus": False
+    })
+
     csv_path = Path(f"results/roi/{method}/{league}.csv")
     df = pd.read_csv(csv_path)
 
     bins = df["bin"]
     mask = df["n"] > 0
 
-    _, ax = plt.subplots(figsize=(10, 6))
+    plt.figure(figsize=(10, 6))
 
     # horizontal reference line
-    ax.axhline(0, color="black", linewidth=2)
+    plt.axhline(0, color="black", linewidth=2, linestyle="-")
 
     markers = {
-        "Favorite ROI": "o",
-        "Underdog ROI": "s",
+        "Bet on favorite": "o",
+        "Bet on underdog": "s",
     }
     linestyles = {
-        "Favorite ROI": "-",
-        "Underdog ROI": ":",
+        "Bet on favorite": "-",
+        "Bet on underdog": ":",
     }
 
-
-
-    ax.plot(
+    plt.plot(
         bins[mask] * 10 + 5,
         df.loc[mask, "favorite_roi"],
-        color="green",
-        marker=markers["Favorite ROI"],
-        linestyle=linestyles["Favorite ROI"],
-        label="Favorite ROI",
+        color="#0aa344",
+        marker=markers["Bet on favorite"],
+        linestyle=linestyles["Bet on favorite"],
+        label="Bet on favorite",
+        markersize=8,
+        linewidth=4
     )
 
-    ax.plot(
+    plt.plot(
         bins[mask] * 10 + 5,
         df.loc[mask, "underdog_roi"],
-        color="red",
-        marker=markers["Underdog ROI"],
-        linestyle=linestyles["Underdog ROI"],
-        label="Underdog ROI",
+        color="#f05654",
+        marker=markers["Bet on underdog"],
+        linestyle=linestyles["Bet on underdog"],
+        label="Bet on underdog",
+        markersize=8,
+        linewidth=4
     )
-
-
 
     # label counts (n) for each point
     for _, row in df[mask].iterrows():
-        ax.text(
+        plt.text(
             row["bin"] * 10 + 5,
             row["favorite_roi"],
             str(int(row["n"])),
@@ -69,7 +75,7 @@ def plot_fav_underdog_roi(league: str, method: str) -> None:
             ha="center",
             va="bottom",
         )
-        ax.text(
+        plt.text(
             row["bin"] * 10 + 5,
             row["underdog_roi"],
             str(int(row["n"])),
@@ -79,22 +85,19 @@ def plot_fav_underdog_roi(league: str, method: str) -> None:
             va="bottom",
         )
 
-    ax.set_xticks(bins * 10)
-    ax.set_ylim(-25, 25)
+    plt.xticks(bins * 10,fontsize=12)
+    plt.ylim(-25, 25)
+    plt.yticks(range(-25, 30,5),fontsize=12)
+    plt.xlabel("Predicted Win Probability (%)",fontsize=16)
+    plt.ylabel("ROI (%)",fontsize=16)
+    plt.legend(fontsize=16,loc="upper left")
+    plt.grid(True, linestyle="--", alpha=0.5)
 
-    methods_dict = {
-        "ml": "Moneyline",
-        "bt": "Bradley-Terry"
-    }
-
-    ax.set_xlabel("Predicted Win Probability Bin")
-    ax.set_ylabel("ROI (%)")    
-    ax.set_title(f"{methods_dict[method]} Favorite vs Underdog ROI by Bin")
-    ax.legend()
-    ax.grid(True, linestyle="--", alpha=0.6)
+    # plt.tight_layout()
 
     plt.savefig(f"results/roi/{method}/{league}.png")
     plt.savefig(f"results/roi/{method}/{league}.pdf")
+    plt.show()
 
 
 

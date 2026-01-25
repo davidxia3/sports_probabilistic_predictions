@@ -15,17 +15,23 @@ def plot_binary_accuracy_by_model() -> None:
         None
     """
 
+    plt.rcParams.update({
+        "font.family": "serif",
+        "mathtext.fontset": "cm",
+        "axes.unicode_minus": False
+    })
+
     league_colors = {
-        "MLB": "red",
-        "NBA": "orange",
-        "NFL": "green",
-        "NHL": "blue",
+        "MLB": "#c91f37",
+        "NBA": "#ff8936",
+        "NFL": "#057748",
+        "NHL": "#2e4e7e",
     }
 
     model_names = {
         "ml": "Moneyline",
         "bt": "Bradley–Terry",
-        "home_win_base": "Home Win Baseline",
+        "home_win_base": "Home Bias Coinflip",
     }
 
 
@@ -39,32 +45,37 @@ def plot_binary_accuracy_by_model() -> None:
     x = np.arange(len(models))
     width = 0.18
 
-    plt.figure()
-
+    plt.figure(figsize=(10,6))
+    plt.grid(True, linestyle="--", alpha=0.5)
+    plt.axhline(
+        y=50,
+        color="black",
+        linewidth=2,
+        linestyle="-"
+    )
     for i, league in enumerate(leagues):
         plt.bar(
             x + i * width,
             df.loc[df["league"] == league, models].values.flatten(),
             width,
             label=league,
-            color=league_colors[league],
-        )
+            color=league_colors[league]        )
 
-    plt.xlabel("Model")
-    plt.ylabel("Binary Accuracy (%)")
-    plt.title("Binary Accuracy by Model and League")
+    plt.ylabel("Binary Accuracy (%)", fontsize=16)
+
+    plt.yticks([10*i for i in range(11)],fontsize=12)
 
     plt.xticks(
         x + (len(leagues) - 1) * width / 2,
-        [model_names[m] for m in models],
+        [model_names[m] for m in models],fontsize=12
     )
 
     plt.ylim(0,100)
-
-    plt.legend(title="League")
+    plt.legend(fontsize=16)
     plt.tight_layout()
     plt.savefig("results/binary_accuracy_T.pdf")
     plt.savefig("results/binary_accuracy_T.png")
+    plt.show()
 
 
 

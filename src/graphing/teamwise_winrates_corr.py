@@ -51,7 +51,6 @@ def plot_winrate_vs_brier(league: str) -> None:
 
     plt.xlabel("|Win Rate - 50%|")
     plt.ylabel("Brier Score")
-    plt.title(f"{league.upper()}: |Win Rate - 50%| vs Moneyline Brier Score")
     plt.legend()
     plt.grid(True)
     plt.tight_layout()

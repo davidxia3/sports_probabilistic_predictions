@@ -1,4 +1,15 @@
 # TODO
+## January 22
+- Redo bar charts (forgot to commit the notes made during meeting)
+  - Changed colors
+  - Changed font size
+  - Changed figure size
+  - Changed font
+  - Added baselines for binary accuracy and predicted home team winrate graph
+  - Removed titles and X axis labels
+  - Standardized y axis scale for matching graphs
+  
+
 ## January 15
 - **Coin flip model with home bias:** Is this defined as a probabilistic prediction with constant prediction probability equal to the home team win proportion for the league, i.e, with P(Home team wins)=p, P(Away team wins) = 1-p, where p is the home team win proportion? **YES**   Or as "home team ALWAYS wins", i.e., P(Home team wins) = 1, P(Away team wins) = 0? **NO**
 - **New bar charts:** Color-code the bars, increase the spacing between the bars (or make the bars skinnier).

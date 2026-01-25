@@ -86,14 +86,9 @@ def plot_fav_underdog_roi(league: str, method: str, bin: int) -> None:
     ax.set_xticks(range(min(seasons), max(seasons) + 1))
     ax.set_ylim(-50, 50)
 
-    methods_dict = {
-        "ml": "Moneyline",
-        "bt": "Bradley-Terry"
-    }
 
     ax.set_xlabel("Season")
     ax.set_ylabel("ROI (%)")
-    ax.set_title(f"{methods_dict[method]} {bin * 10}-{bin * 10 + 10}% Bin Favorite vs Underdog ROI by Season")
     ax.legend()
     ax.grid(True, linestyle="--", alpha=0.6)
 

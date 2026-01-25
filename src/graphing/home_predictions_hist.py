@@ -15,18 +15,19 @@ def plot_predicted_home_win_prob_hist(method: str) -> None:
         None
     """
 
+    plt.rcParams.update({
+        "font.family": "serif",
+        "mathtext.fontset": "cm",
+        "axes.unicode_minus": False
+    })
+
     leagues = ['MLB', 'NBA', 'NFL', 'NHL']
 
     color_map = {
-        "mlb": "red",
-        "nba": "orange",
-        "nfl": "green",
-        "nhl": "blue"
-    }
-
-    method_map = {
-        "ml": "Moneyline",
-        "bt": "Bradley-Terry"
+        "mlb": "#c91f37",
+        "nba": "#ff8936",
+        "nfl": "#057748",
+        "nhl": "#2e4e7e"
     }
 
     for league in leagues:
@@ -37,33 +38,28 @@ def plot_predicted_home_win_prob_hist(method: str) -> None:
 
         bin_edges = np.linspace(0, 100, 30)
 
-        # compute max density for y-axis
-        counts, _ = np.histogram(d, bins=bin_edges, density=True)
-        max_density = counts.max()
 
-        plt.figure(figsize=(8, 5))
+        plt.figure(figsize=(10, 6))
 
         plt.hist(
             d,
             bins=bin_edges,
             density=True,
             color=color_map[league.lower()],
-            edgecolor="black",
-            alpha=0.75,
-        )
+            edgecolor="black"        )
 
-        plt.title(f"{league}", fontsize=18)
-        plt.xlabel(f"{method_map[method]} Predicted Home Team Win Probability (%)", fontsize=14)
-        plt.ylabel("Density", fontsize=14)
-        plt.ylim(0, max_density * 1.05)
+        plt.ylabel("Density", fontsize=16)
+        plt.ylim(0, 0.042)
         plt.grid(True, linestyle="--", alpha=0.5)
-
+        plt.xticks(fontsize=12)
+        plt.yticks(fontsize=12)
         plt.tight_layout()
-
         # save figure
         plt.savefig(f"results/home_predictions/{method}_{league.lower()}_hist.png", dpi=300, bbox_inches="tight")
         plt.savefig(f"results/home_predictions/{method}_{league.lower()}_hist.pdf", dpi=300, bbox_inches="tight")
+        plt.show()
         plt.close()
+
 
 
 

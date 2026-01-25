@@ -65,7 +65,6 @@ def plot_moneyline_calibration() -> None:
     plt.xticks([x/10 for x in range(11)])
     plt.xlabel("Predicted Win Probability", fontsize=14)
     plt.ylabel("Actual Win Rate", fontsize=14)
-    plt.title(f"Moneyline Calibration Plot", fontsize=16)
     plt.xlim(0,1)
     plt.ylim(0,1)
     plt.legend()

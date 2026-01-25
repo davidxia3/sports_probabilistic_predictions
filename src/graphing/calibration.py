@@ -14,6 +14,12 @@ def plot_calibration(league: str) -> None:
         None
     """
 
+    plt.rcParams.update({
+        "font.family": "serif",
+        "mathtext.fontset": "cm",
+        "axes.unicode_minus": False
+    })
+
     df = pd.read_csv(f"results/calibration/{league}.csv")
 
     plt.figure(figsize=(7, 6))
@@ -26,8 +32,8 @@ def plot_calibration(league: str) -> None:
         df["ml_winrate"],
         marker="o",
         linestyle="-",
-        color="green",
-        label="ML",
+        color="#0aa344",
+        label="Moneyline",
         linewidth=4,
         markersize=8
     )
@@ -36,24 +42,25 @@ def plot_calibration(league: str) -> None:
         df["bt_winrate"],
         marker="s",
         linestyle=":",
-        color="red",
+        color="#f05654",
         label="Bradley–Terry",
         linewidth=4,
         markersize=8
     )
 
-    plt.xticks([x/10 for x in range(11)])
-    plt.xlabel("Predicted Win Probability", fontsize=14)
-    plt.ylabel("Actual Win Rate", fontsize=14)
-    plt.title(f"{league.upper()} Calibration Plot", fontsize=16)
+    plt.xticks([x/10 for x in range(11)],fontsize=12)
+    plt.xlabel("Predicted Win Probability", fontsize=16)
+    plt.ylabel("Actual Win Rate", fontsize=16)
+    plt.yticks([x/10 for x in range(11)],fontsize=12)
     plt.xlim(0,1)
     plt.ylim(0,1)
     plt.legend()
-    plt.grid(True, linestyle="--", alpha=0.4)
+    plt.grid(True, linestyle="--", alpha=0.5)
 
     plt.tight_layout()
     plt.savefig(f"results/calibration/{league}.png", dpi=300, bbox_inches='tight')
     plt.savefig(f"results/calibration/{league}.pdf", dpi=300, bbox_inches='tight')
+    plt.show()
     plt.close()
 
 

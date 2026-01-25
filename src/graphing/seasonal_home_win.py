@@ -57,7 +57,6 @@ def plot_seasonal_home_win() -> None:
     plt.xticks(range(2008, 2026))
     plt.xlabel("Season", fontsize=14)
     plt.ylabel("Home Win Percentage (%)", fontsize=14)
-    plt.title("Seasonal Home Win Percentage (First Half Only)", fontsize=16)
     plt.grid(True, linestyle="--", alpha=0.5)
     plt.legend(fontsize=12)
     plt.savefig("results/seasonal_home_win.png", dpi=300, bbox_inches="tight")
