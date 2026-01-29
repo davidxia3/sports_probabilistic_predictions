@@ -2,8 +2,8 @@
 
 ## January 29
 - **Ties in moneylines and BT probabilities:**  Check how many (if any) cases there are in which the two moneylines were equal or the BT probabilities were equal.  (In these cases the "winner" of the game is not defined, so one needs to decide on how to handle those cases in computing the binary accuracy rates.)
-- **Binary accuracy rate bar chart:**  Replace the horizontal line (at 50%) by an additional (4th) bar of height 50%, labeled "Coinflip"
-- (so that there are 4 groups of 4 bars), in analogy to the 4 line graphs shown in the seasonal accuracy figures.
+- **Binary accuracy rate bar chart:**  Replace the horizontal line (at 50%) by an additional (4th) bar of height 50%, labeled "Coinflip"  (so that there are 4 groups of 4 bars), in analogy to the 4 line graphs shown in the seasonal accuracy figures.
+- **Terminology:** Replace "binary accuracy" by "Accuracy rate (%)" throughout.
   
 ## January 22
 - Redo bar charts (forgot to commit the notes made during meeting)
