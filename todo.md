@@ -1,7 +1,7 @@
 # TODO
 
 ## January 29
-- **Ties in moneylines and BT probabilities:**  Check how many (if any) cases there are in which the two moneylines were equal or the BT probabilities were equal.  (In these cases the "winner" of the game is not defined, so one needs to decide on how to handle those cases in computing the binary accuracy rates.)
+- **Ties in moneylines and BT probabilities:**  Check how many (if any) cases there are in which the two moneylines were equal or the BT probabilities were equal.  (In these cases the "winner" of the game is not defined, so one needs to decide on how to handle those cases in computing the binary accuracy rates. Suggest to ignore cases with ties in calculation of binary accuracies.)
 - **Binary accuracy rate bar chart:**  Replace the horizontal line (at 50%) by an additional (4th) bar of height 50%, labeled "Coinflip"  (so that there are 4 groups of 4 bars), in analogy to the 4 line graphs shown in the seasonal accuracy figures.
 - **Terminology:** Replace "binary accuracy" by "Accuracy rate (%)" throughout.
 - **Table and Bar Chart for overall Brier scores:** Create a table and a bar chart,formatted in the same way as the binary accuracy table/chart, showing the  *overall* Brier score for each of the four leagues and the four models (ML, BT, Home Bias Coinflip, Coinflip).  In the table, put the models in the following order: Home Bias Coin Flip, Bradley-Terry, Moneyline (i.e., an order analogous to that in Stern's table).
