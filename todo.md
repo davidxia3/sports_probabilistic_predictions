@@ -1,4 +1,8 @@
 # TODO
+
+## January 29
+- **Ties in moneylines and BT probabilities:**  Check how many (if any) cases there are in which the two moneylines were equal or the BT probabilities were equal.  (In these cases the "winner" of the game is not defined, so one needs to decide on how to handle those cases in computing the binary accuracy rates.)
+  
 ## January 22
 - Redo bar charts (forgot to commit the notes made during meeting)
   - Changed colors
