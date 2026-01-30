@@ -73,6 +73,7 @@ def plot_moneyline_calibration() -> None:
     plt.tight_layout()
     plt.savefig("results/calibration/moneyline.png", dpi=300, bbox_inches='tight')
     plt.savefig("results/calibration/moneyline.pdf", dpi=300, bbox_inches='tight')
+    plt.show()
     plt.close()
 
 

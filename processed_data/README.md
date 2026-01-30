@@ -5,7 +5,7 @@ This folder contains all the cleaned and processed game data for each league.
 
 
 ### `{league}.csv`
-There are 4 leagues: MLB, NBA, NFL, and NHL. Each has a CSV file with game data. The MLB file contains games from the 2008 season to the 2025 season. The NBA, NFL, and NHL files contain games from the 2008-2009 season to the 2024-2025 season. Each league's data is first cleaned to remove games that do not meet our requirements. Our requirements are below.
+There are 4 leagues: MLB, NBA, NFL, and NHL. Each has a CSV file with game data. The MLB file contains games from the 2009 season to the 2025 season. The NBA, NFL, and NHL files contain games from the 2008-2009 season to the 2024-2025 season. Each league's data is first cleaned to remove games that do not meet our requirements. Our requirements are below.
 - Regular season: The game must be played during the regular season. This is to ensure all team's play the same number of games and at a consistent competitive level.
 - Non-neutral: We intend to investigate the effects of home field/court advantage in our analysis, so we restrict our dataset to games where there is a home team and an away team.
 - No ties: The game must end with a winner (no ties).
@@ -20,7 +20,7 @@ Below are the statistics behind the cleaning process.
 | NFL | 4,403 | 25 (0.57%) | 13 (0.30%) | 2 (0.05%) | 2 (0.05%) | 4,361 (99.05%) |
 | NHL | 20,300 | 6 (0.03%) | 1 (0.00%) | 1 (0.00%) | 746 (3.67%) | 19,554 (96.33%) |
 
-The regular season games that were discarded due to invalid moneyline were from the early seasons of each league (~ 2008-2010) where OddsPortal had less archived betting data.
+The regular season games that were discarded due to invalid moneyline were from the early seasons of each league (~ 2009-2010) where OddsPortal had less archived betting data.
 
 After cleaning, the script then formats and processes the data to be be more convenient. The columns of each processed data file are below.
 - `date`: Date of the game into `yyyy-mm-dd` format.

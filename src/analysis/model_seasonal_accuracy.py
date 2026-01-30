@@ -28,7 +28,13 @@ def compute_model_season_binary_accuracy(csv_path: Path) -> pd.DataFrame:
     season_home_winrate = df_first.groupby("season")["result"].mean()
 
     # drop all first half of regular season games for second half Brier calculations
-    df = df[df["second_half"] == 1].copy()
+    df = df[df["second_half"] == 1]
+
+    # drop all games with even moneyline prediction
+    df = df[df["ml_prob"] != 0.5]
+
+    # drop all games with even Bradley-Terry prediction
+    df = df[df["bt_prob"] != 0.5]
 
     # moneyline binary accuracy
     df["ml_accuracy"] = 100 * ((df["ml_prob"] >= 0.5) == df["result"]).astype(int)

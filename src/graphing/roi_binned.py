@@ -95,6 +95,7 @@ def plot_fav_underdog_roi(league: str, method: str, bin: int) -> None:
     # plt.tight_layout()
     plt.savefig(f"results/roi/{method}_binned/{league}/bin_{bin}.png")
     plt.savefig(f"results/roi/{method}_binned/{league}/bin_{bin}.pdf")
+    plt.close()
 
 
 

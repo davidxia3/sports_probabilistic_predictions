@@ -5,7 +5,7 @@ This folder contains all the Python scripts for scraping raw data from OddsPorta
 
 
 ### `oddsportal_scraper.py`
-This Python script scrapes game data from OddsPortal. All MLB games from the 2008 season to the 2025 season are scraped. All NBA, NFL, and NHL games from the 2008-2009 season to the 2024-2025 season are scraped. For each league, the scraped raw data is saved to `raw_data/oddsportal_{league}.csv`. For each game, the script scrapes the following features.
+This Python script scrapes game data from OddsPortal. All MLB games from the 2009 season to the 2025 season are scraped. All NBA, NFL, and NHL games from the 2008-2009 season to the 2024-2025 season are scraped. For each league, the scraped raw data is saved to `raw_data/oddsportal_{league}.csv`. For each game, the script scrapes the following features.
 - `date`: The date of the game. OddsPortal formats dates as `dd mmm yyyy`. 
 - `season_type`: The season type/stage of the game (e.g. Play Offs, Regular). 
 - `neutral`: A 1/0 boolean that represents if the game was played a neutral venue. 

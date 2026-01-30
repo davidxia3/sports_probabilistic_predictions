@@ -57,6 +57,7 @@ def plot_winrate_vs_brier(league: str) -> None:
 
     plt.savefig(f"results/ml_teamwise_brier/{league}_winrates.png")
     plt.savefig(f"results/ml_teamwise_brier/{league}_winrates.pdf")
+    plt.show()
     plt.close()
 
 

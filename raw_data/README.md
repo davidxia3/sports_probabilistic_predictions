@@ -5,7 +5,7 @@ This folder contains all the raw data scraped from OddsPortal.
 
 
 ### `oddsportal_{league}.csv`
-There are 4 leagues: MLB, NBA, NFL, and NHL. Each has a CSV file with game data. All MLB games from the 2008 season to the 2025 season are scraped. All NBA, NFL, and NHL games from the 2008-2009 season to the 2024-2025 season are scraped. The columns of each file are below.
+There are 4 leagues: MLB, NBA, NFL, and NHL. Each has a CSV file with game data. All MLB games from the 2009 season to the 2025 season are scraped. All NBA, NFL, and NHL games from the 2008-2009 season to the 2024-2025 season are scraped. The columns of each file are below.
 - `date`: The date of the game. OddsPortal formats dates as `dd mmm yyyy`. 
 - `season_type`: The season type/stage of the game (e.g. Play Offs, Regular). 
 - `neutral`: A 1/0 boolean that represents if the game was played a neutral venue. 

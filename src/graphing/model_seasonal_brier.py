@@ -75,6 +75,7 @@ def plot_brier_scores(league: str) -> None:
     plt.grid(True, linestyle="--", alpha=0.5)
     plt.xticks(df["season"].unique(), rotation=45,fontsize=12)
     plt.ylim(0.17,0.29)
+    plt.xlim(2009,2025)
     plt.yticks(fontsize=12)
     plt.tight_layout()
     plt.savefig(f"results/model_seasonal_brier/{league}.png")

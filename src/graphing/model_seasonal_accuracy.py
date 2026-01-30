@@ -70,16 +70,18 @@ def plot_binary_accuracy(league: str) -> None:
             markersize=8,
         )
 
-    plt.ylabel("Binary Accuracy (%)",fontsize=16)
+    plt.ylabel("Accuracy Rate (%)",fontsize=16)
     plt.legend(loc="upper left",fontsize=12)
     plt.grid(True, linestyle="--", alpha=0.5)
     plt.xticks(df["season"].unique(), rotation=45,fontsize=12)
-    plt.ylim(50,77)
+    plt.ylim(50,80)
+    plt.xlim(2009,2025)
     plt.yticks([i for i in range(50,80, 5)],fontsize=12)
     plt.tight_layout()
     plt.savefig(f"results/model_seasonal_accuracy/{league}.png")
     plt.savefig(f"results/model_seasonal_accuracy/{league}.pdf")
     plt.show()
+    plt.close()
 
 
 
