@@ -29,16 +29,6 @@ def plot_calibration(league: str) -> None:
 
     plt.plot(
         (df["bin"] / 10) + 0.05,
-        df["ml_winrate"],
-        marker="o",
-        linestyle="-",
-        color="#0aa344",
-        label="Moneyline",
-        linewidth=4,
-        markersize=8
-    )
-    plt.plot(
-        (df["bin"] / 10) + 0.05,
         df["bt_winrate"],
         marker="s",
         linestyle=":",
@@ -47,6 +37,18 @@ def plot_calibration(league: str) -> None:
         linewidth=4,
         markersize=8
     )
+    
+    plt.plot(
+        (df["bin"] / 10) + 0.05,
+        df["ml_winrate"],
+        marker="o",
+        linestyle="-",
+        color="#0aa344",
+        label="Moneyline",
+        linewidth=4,
+        markersize=8
+    )
+
 
     plt.xticks([x/10 for x in range(11)],fontsize=12)
     plt.xlabel("Predicted Win Probability", fontsize=16)

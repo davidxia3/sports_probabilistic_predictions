@@ -52,7 +52,7 @@ def plot_binary_accuracy(league: str) -> None:
         "coinflip_accuracy": "D",
     }
 
-    cols = ["ml_accuracy", "bt_accuracy", "home_bias_accuracy", "coinflip_accuracy"]
+    cols = ["coinflip_accuracy", "home_bias_accuracy", "bt_accuracy", "ml_accuracy"]
 
     df = df.dropna(subset=cols)
 

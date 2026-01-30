@@ -52,7 +52,8 @@ def plot_brier_scores(league: str) -> None:
         "coinflip_brier": "D",
     }
 
-    cols = ["ml_brier", "bt_brier", "home_bias_brier", "coinflip_brier"]
+    cols = ["coinflip_brier", "home_bias_brier", "bt_brier", "ml_brier"]
+
 
     df = df.dropna(subset=cols)
 

@@ -4,9 +4,9 @@ import numpy as np
 
 
 
-def plot_binary_accuracy() -> None:
+def plot_brier_score() -> None:
     """
-    Plots grouped bar chart of binary accuracy of various models by league.
+    Plots grouped bar chart of Brier scores of various models by league.
 
     Args:
         None
@@ -21,7 +21,7 @@ def plot_binary_accuracy() -> None:
         "axes.unicode_minus": False
     })
 
-    df = pd.read_csv("results/binary_accuracy.csv")
+    df = pd.read_csv("results/brier_score.csv")
 
     df["league"] = df["league"].str.upper()
 
@@ -51,7 +51,7 @@ def plot_binary_accuracy() -> None:
 
     plt.bar(
         x,
-        50,
+        0.25,
         width,
         label=model_names["coinflip"],
         color=model_colors["coinflip"]
@@ -66,18 +66,18 @@ def plot_binary_accuracy() -> None:
             color=model_colors[model],
         )
 
-    plt.ylim(0,100)
-    plt.ylabel("Accuracy Rate (%)",fontsize=16)
+    plt.ylim(0.15,0.30)
+    plt.ylabel("Brier Score",fontsize=16)
     plt.xticks(x + width, leagues,fontsize=12)
-    plt.legend(fontsize=16)
-    plt.yticks([10*i for i in range(11)],fontsize=12)
+    plt.legend(fontsize=16,loc="upper right")
+    plt.yticks([i/100 for i in range(15,31)],fontsize=12)
 
     plt.tight_layout()
-    plt.savefig("results/binary_accuracy.pdf")
-    plt.savefig("results/binary_accuracy.png")
+    plt.savefig("results/brier_score.pdf")
+    plt.savefig("results/brier_score.png")
     plt.show()
 
 
 
 if __name__ == "__main__":
-    plot_binary_accuracy()
+    plot_brier_score()
