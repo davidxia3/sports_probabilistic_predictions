@@ -31,27 +31,23 @@ def plot_binary_accuracy() -> None:
     model_names = {
         "ml": "Moneyline",
         "bt": "Bradley–Terry",
-        "home_win_base": "Home Bias Coinflip"
+        "home_win_base": "Home Bias Coinflip",
+        "coinflip": "Coinflip"
     }
 
     model_colors = {
         "ml": "#0aa344",
         "bt": "#f05654",
-        "home_win_base": "#4a4266"
+        "home_win_base": "#4a4266",
+        "coinflip": "black"
     }
 
     x = np.arange(len(leagues))
-    width = 0.25
+    width = 0.18
 
     plt.figure(figsize=(10,6))
     plt.grid(True, alpha=0.5)
     
-    plt.axhline(
-        y=50,
-        color="black",
-        linewidth=2,
-        linestyle="-"
-    )
 
     for i, model in enumerate(models):
         plt.bar(
@@ -62,8 +58,16 @@ def plot_binary_accuracy() -> None:
             color=model_colors[model],
         )
 
+    plt.bar(
+        x + 3 * width,
+        50,
+        width,
+        label=model_names["coinflip"],
+        color=model_colors["coinflip"]
+    )
+
     plt.ylim(0,100)
-    plt.ylabel("Binary Accuracy (%)",fontsize=16)
+    plt.ylabel("Accuracy Rate (%)",fontsize=16)
     plt.xticks(x + width, leagues,fontsize=12)
     plt.legend(fontsize=16)
     plt.yticks([10*i for i in range(11)],fontsize=12)

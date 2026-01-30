@@ -61,7 +61,7 @@ def plot_binary_accuracy_by_model() -> None:
             label=league,
             color=league_colors[league]        )
 
-    plt.ylabel("Binary Accuracy (%)", fontsize=16)
+    plt.ylabel("Accuracy Rate (%)", fontsize=16)
 
     plt.yticks([10*i for i in range(11)],fontsize=12)
 

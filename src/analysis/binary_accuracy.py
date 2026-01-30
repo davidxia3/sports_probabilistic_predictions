@@ -20,6 +20,12 @@ def load_filtered_data(data_file: Path, usable_methods: list[str]) -> pd.DataFra
     # drop all first half of regular season games
     df = df[df["second_half"] == 1]
 
+    # drop all games with even moneyline prediction
+    df = df[df["ml_prob"] != 0.5]
+
+    # drop all games with even Bradley-Terry prediction
+    df = df[df["bt_prob"] != 0.5]
+
     # mask for valid method probabilities
     prob_cols = [f"{m}_prob" for m in usable_methods]
     mask = df[prob_cols].notna().all(axis=1)
