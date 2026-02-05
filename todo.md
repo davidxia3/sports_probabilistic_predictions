@@ -1,9 +1,9 @@
 # TODO
 
 ## February 5
--** Calculation of moneyline averages: **
-  - **NFL, MLB, NBA:**
-  - **NHL:**
+- **Calculation of moneyline averages:** Try to figure out how the avg moneylines at OddsPortal were computed. 
+  - **NFL, MLB, NBA:** 
+  - **NHL:** 
 
 
 ## January 29
