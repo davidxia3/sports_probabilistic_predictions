@@ -5,6 +5,7 @@
 - **Data summary table:** Remove column with home winrates (it fits better into the Descriptive Statistics subsection), and add a column showing the # of First Half Games. (Also, the # of second half games shown is **greater** than half the total number of games, which conflicts with what you said under "Potential new version".)
 - **Computation of ML averages:** Check calculations, e.g., check if the averages you computed are contained in the intervals between highest and lowest ML offered by bookmakers.
 - **Raw data:** Add files containing individual bookmaker moneylines that have been used to calculate averages.
+- **Average ML computations:** Use ordinary averages (arithmetic means) of moneylines instead of averaging implied probabilities.
 
 ## February 5
 - **Calculation of moneyline averages:** Try to figure out how the avg moneylines at OddsPortal were computed. 
