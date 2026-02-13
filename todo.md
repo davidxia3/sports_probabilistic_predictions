@@ -3,6 +3,7 @@
 ## February 13
 - **Binary accuracies for MLB in 2025:** All models are nearly tied. Worth looking into.
 - **Data summary table:** Remove column with home winrates (it fits better into the Descriptive Statistics subsection), and add a column showing the # of First Half Games. (Also, the # of second half games shown is **greater** than half the total number of games, which conflicts with what you said under "Potential new version".)
+- **Computation of ML averages:** Check calculations, e.g., check if the averages you computed are contained in the intervals between highest and lowest ML offered by bookmakers.
 
 ## February 5
 - **Calculation of moneyline averages:** Try to figure out how the avg moneylines at OddsPortal were computed. 
