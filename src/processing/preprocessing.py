@@ -440,79 +440,79 @@ def preprocess_league_games(raw_data_file: Path, team_abbr_file: Path, output_sa
 
 
 
-    # determine which games occur in second half of regular season for each season
-    clean_df = clean_df.sort_values(by=["Season", "Date"], ascending=[False, False])
-    season_counts = clean_df.groupby("Season")["Date"].transform("count")
-    reverse_rank = clean_df.groupby("Season").cumcount()
-    clean_df["second_half"] = (reverse_rank < (season_counts / 2)).astype(int)
-    clean_df = clean_df.reset_index(drop=True)
+    # # determine which games occur in second half of regular season for each season
+    # clean_df = clean_df.sort_values(by=["Season", "Date"], ascending=[False, False])
+    # season_counts = clean_df.groupby("Season")["Date"].transform("count")
+    # reverse_rank = clean_df.groupby("Season").cumcount()
+    # clean_df["second_half"] = (reverse_rank <= (season_counts / 2)).astype(int)
+    # clean_df = clean_df.reset_index(drop=True)
 
 
 
-    # compute Bradley Terry Predictions (using code from https://datascience.oneoffcoder.com/btl-model.html)
-    clean_df['bt_prob'] = pd.NA
-    clean_df['winner'] = clean_df.apply(get_winner, axis=1)
-    clean_df['loser'] = clean_df.apply(get_loser, axis=1)
-    clean_df = clean_df.reset_index(drop=True)
+    # # compute Bradley Terry Predictions (using code from https://datascience.oneoffcoder.com/btl-model.html)
+    # clean_df['bt_prob'] = pd.NA
+    # clean_df['winner'] = clean_df.apply(get_winner, axis=1)
+    # clean_df['loser'] = clean_df.apply(get_loser, axis=1)
+    # clean_df = clean_df.reset_index(drop=True)
 
     
-    for index, row in clean_df.iterrows():
-        if index % 100 == 0:
-            print(f"{index} / {len(clean_df)}")
-        past_games = clean_df[
-            (clean_df['Season'] == row['Season']) & 
-            (pd.to_datetime(clean_df['Date'], format="%Y-%m-%d") < pd.to_datetime(row['Date'], format="%Y-%m-%d"))
-        ]
+    # for index, row in clean_df.iterrows():
+    #     if index % 100 == 0:
+    #         print(f"{index} / {len(clean_df)}")
+    #     past_games = clean_df[
+    #         (clean_df['Season'] == row['Season']) & 
+    #         (pd.to_datetime(clean_df['Date'], format="%Y-%m-%d") < pd.to_datetime(row['Date'], format="%Y-%m-%d"))
+    #     ]
 
-        teams = sorted(list(set(past_games.HomeTeam) | set(past_games.AwayTeam)))
-        t2i = {t: i for i, t in enumerate(teams)}
+    #     teams = sorted(list(set(past_games.HomeTeam) | set(past_games.AwayTeam)))
+    #     t2i = {t: i for i, t in enumerate(teams)}
 
-        df = past_games\
-            .groupby(['winner', 'loser'])\
-            .agg('count')\
-            .drop(columns=['AwayTeam', 'FTHG', 'FTAG'])\
-            .rename(columns={'HomeTeam': 'n'})\
-            .reset_index()
-        df['r'] = df['winner'].apply(lambda t: t2i[t])
-        df['c'] = df['loser'].apply(lambda t: t2i[t])
+    #     df = past_games\
+    #         .groupby(['winner', 'loser'])\
+    #         .agg('count')\
+    #         .drop(columns=['AwayTeam', 'FTHG', 'FTAG'])\
+    #         .rename(columns={'HomeTeam': 'n'})\
+    #         .reset_index()
+    #     df['r'] = df['winner'].apply(lambda t: t2i[t])
+    #     df['c'] = df['loser'].apply(lambda t: t2i[t])
 
-        n_teams = len(teams)
-        mat = np.zeros([n_teams, n_teams])
+    #     n_teams = len(teams)
+    #     mat = np.zeros([n_teams, n_teams])
 
-        for _, r in df.iterrows():
-            mat[r.r, r.c] = r.n
+    #     for _, r in df.iterrows():
+    #         mat[r.r, r.c] = r.n
 
-        iterate_df = pd.DataFrame(mat, columns=teams, index=teams)
+    #     iterate_df = pd.DataFrame(mat, columns=teams, index=teams)
 
-        # max 100 iterations
-        p, _ = bt_iterate(iterate_df, n=100)
-        home_team, away_team = row['HomeTeam'], row['AwayTeam']
+    #     # max 100 iterations
+    #     p, _ = bt_iterate(iterate_df, n=100)
+    #     home_team, away_team = row['HomeTeam'], row['AwayTeam']
 
-        if home_team in p and away_team in p:
-            if (p[home_team] + p[away_team]) != 0:
-                clean_df.at[index, 'bt_prob'] = p[home_team] / (p[home_team] + p[away_team])
-            else:
-                clean_df.at[index, 'bt_prob'] = pd.NA
+    #     if home_team in p and away_team in p:
+    #         if (p[home_team] + p[away_team]) != 0:
+    #             clean_df.at[index, 'bt_prob'] = p[home_team] / (p[home_team] + p[away_team])
+    #         else:
+    #             clean_df.at[index, 'bt_prob'] = pd.NA
 
 
 
-    # save the result
-    new_order = [
-        "Date", "Season", "second_half",
-        "HomeTeam", "AwayTeam", "result",
-        "home_ml", "away_ml",
-        "bookmaker_profit", "ml_prob",
-        "bt_prob",
-        "game_url"
-    ]
-    clean_df = clean_df[new_order]
-    clean_df = clean_df.rename(columns={
-        "Date": "date",
-        "Season": "season",
-        "HomeTeam": "home_team",
-        "AwayTeam": "away_team"
-    })
-    clean_df.to_csv(output_save_file, index=False)
+    # # save the result
+    # new_order = [
+    #     "Date", "Season", "second_half",
+    #     "HomeTeam", "AwayTeam", "result",
+    #     "home_ml", "away_ml",
+    #     "bookmaker_profit", "ml_prob",
+    #     "bt_prob",
+    #     "game_url"
+    # ]
+    # clean_df = clean_df[new_order]
+    # clean_df = clean_df.rename(columns={
+    #     "Date": "date",
+    #     "Season": "season",
+    #     "HomeTeam": "home_team",
+    #     "AwayTeam": "away_team"
+    # })
+    # clean_df.to_csv(output_save_file, index=False)
 
 
 

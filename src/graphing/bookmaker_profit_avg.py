@@ -43,7 +43,7 @@ def plot_avg_bookmaker_profit() -> None:
 
     plt.ylabel("Average Bookmaker Profit (%)", fontsize=16)
 
-    plt.ylim(3, 5)
+    plt.ylim(3, 6)
     plt.tight_layout()
     plt.savefig("results/bookmaker_profit_avg.pdf")
     plt.savefig("results/bookmaker_profit_avg.png")

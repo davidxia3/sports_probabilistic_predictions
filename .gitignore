@@ -1,7 +1,5 @@
 *.DS_Store
 tempy.py
 deprecated/
-t2.py
 overleaf_folder_maker.py
 Graphics/
-league_winrate_graph.py

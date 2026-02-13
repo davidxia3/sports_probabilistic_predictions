@@ -1,10 +1,10 @@
 import pandas as pd
-from pathlib import Path
+
 
 
 def compute_seasonal_home_win() -> None:
     """
-    Computes the seasonal home win percentage (first half only) for MLB, NBA, NFL, and NHL, and outputs a single CSV with:
+    Computes the seasonal home win percentage (first half only) for MLB, NBA, NFL, and NHL, and outputs a single CSV
 
     Args:
         None
@@ -34,7 +34,7 @@ def compute_seasonal_home_win() -> None:
 
     final_df = pd.concat(league_tables.values(), axis=1).reset_index()
     final_df = final_df[["season", "mlb", "nba", "nfl", "nhl"]]
-    final_df.to_csv("results/seasonal_home_win.csv", index=False)
+    final_df.to_csv("results/home_win_seasonal.csv", index=False)
 
 
 

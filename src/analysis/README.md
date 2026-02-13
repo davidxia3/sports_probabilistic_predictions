@@ -5,7 +5,7 @@ This folder contains all the Python scripts for extracting CSV results from the 
 
 
 ### `binary_accuracy.py`
-This Python script computes the binary accuracy of various model based prediction methods for each league and saves the results to `results/binary_accuracy.csv`. The 4 leagues are MLB, NBA, NFL, and NHL. Probabilistic predictions are converted to binary predictions using a 0.5 threshold. The columns of the results file are below.
+This Python script computes the binary accuracy of various model based prediction methods for each league and saves the results to `results/binary_accuracy.csv`. The 4 leagues are MLB, NBA, NFL, and NHL. Probabilistic predictions are converted to binary predictions using a 0.5 threshold. Probabilistic predictions that are exactly 0.5 are dropped to prevent bias. The columns of the results file are below.
 - `league`: League name. 
 - `ml`: Binary accuracy of predictions derived from moneyline scores.
 - `bt`: Binary accuracy of predictions derived from Bradley-Terry rating algorithm.
@@ -93,7 +93,7 @@ This Python script computes the Brier score of the moneyline based probabilistic
 
 
 ### `model_seasonal_accuracy.py`
-This Python script computes the binary accurcy of various model based probabilistic predictions by season for each league. The 4 leagues are MLB, NBA, NFL, and NHL. For each league, the results are saved to `results/model_seasonal_accuracy/{league}.csv`. The columns of each results file are below.
+This Python script computes the binary accurcy of various model based probabilistic predictions by season for each league. The 4 leagues are MLB, NBA, NFL, and NHL. For each league, the results are saved to `results/model_seasonal_accuracy/{league}.csv`. Probabilistic predictions are converted to binary predictions using a 0.5 threshold. Probabilistic predictions that are exactly 0.5 are dropped to prevent bias. The columns of each results file are below.
 - `season`: The season as an integer, representing the year the season ended. 
 - `ml_accuracy`: The binary accuracy of moneyline based probabilistic predictions.
 - `bt_accuracy`: The binary accuracy of Bradley-Terry based probabilistic predictions.
@@ -149,9 +149,3 @@ This Python script computes the proportion of games won by the home team in the 
 - `nba`: The proportion of games won by the home team in the first half of the regular season for a specified season in the NBA.
 - `nfl`: The proportion of games won by the home team in the first half of the regular season for a specified season in the NFL.
 - `nhl`: The proportion of games won by the home team in the first half of the regular season for a specified season in the NHL.
-
-
-### `teamwise_winrates.py`
-This Python script computes the winrates for each team. For every league, the results are saved to `results/ml_teamwise_brier/{league}_winrates.csv`. The 4 leagues are MLB, NBA, NFL, and NHL. The columns of the results file are below.
-- `team`: Team abbreviation.
-- `winrate`: Team's winrate as a percentage.  

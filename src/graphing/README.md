@@ -86,7 +86,3 @@ For each prediction method and league, the figure is saved as a PDF to `results/
 
 ### `seasonal_home_win.py`
 This Python script plots a line graph with a line for each league. Each league's line shows the proportion of games won by the home team in the first half of each leagues' regular season. The horizontal axis is the season as an integer representing the year the season ended. The vertical axis is the porbability. The figure is saved as a PDF to `results/seasonal_home_win.pdf` and as a PNG to `results/seasonal_home_win.png`.
-
-
-### `teamwise_winrates_corr.py`
-This Python script plots the scatter plot of teams for each league. For the teams in each league, the horizontal axis represents the absolute difference between the team's winrate and 50%. Team's on the left had winrates close to 50% and teams on the right had winrates much lower than 50% or winrates much higher than 50%. The vertical axis represents the Brier score of all games involving the team. The script also plots the least squares line with its equation, as well as the p-value of the linear relationship between the absolute difference between a team's winrate and 50% with the Brier score. For each league, the figure is saved as a PDF to `results/ml_teamwise_brier/{league}_winrates.pdf` and as a PNG to `results/ml_teamwise_brier/{league}_winrates.png`.

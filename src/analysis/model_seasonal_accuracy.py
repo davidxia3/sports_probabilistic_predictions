@@ -27,38 +27,73 @@ def compute_model_season_binary_accuracy(csv_path: Path) -> pd.DataFrame:
     df_first = df[df["second_half"] == 0]
     season_home_winrate = df_first.groupby("season")["result"].mean()
 
-    # drop all first half of regular season games for second half Brier calculations
+    # drop all first half of regular season games for second half evaluation
     df = df[df["second_half"] == 1]
 
-    # drop all games with even moneyline prediction
-    df = df[df["ml_prob"] != 0.5]
 
-    # drop all games with even Bradley-Terry prediction
-    df = df[df["bt_prob"] != 0.5]
 
-    # moneyline binary accuracy
-    df["ml_accuracy"] = 100 * ((df["ml_prob"] >= 0.5) == df["result"]).astype(int)
 
-    # Bradley-Terry binary accuracy
-    df["bt_accuracy"] = 100 * ((df["bt_prob"] >= 0.5) == df["result"]).astype(int)
+    # moneyline
+    df_ml = df[df["ml_prob"] != 0.5].copy()
+    df_ml["ml_accuracy"] = 100 * (
+        (df_ml["ml_prob"] >= 0.5) == df_ml["result"]
+    ).astype(int)
 
-    # coinflip binary accuracy (always predicts 0.5)
-    df["coinflip_accuracy"] = 50
+    ml_season = (
+        df_ml.groupby("season")["ml_accuracy"]
+        .mean()
+        .reset_index()
+    )
 
-    # home bias coinflip binary accuracy
+
+
+
+
+    # Bradley-Terry
+    df_bt = df[df["bt_prob"] != 0.5].copy()
+    df_bt["bt_accuracy"] = 100 * (
+        (df_bt["bt_prob"] >= 0.5) == df_bt["result"]
+    ).astype(int)
+
+    bt_season = (
+        df_bt.groupby("season")["bt_accuracy"]
+        .mean()
+        .reset_index()
+    )
+
+
+    # regular coinflip
+    df_coin = df.copy()
+    df_coin["coinflip_accuracy"] = 50
+
+    coin_season = (
+        df_coin.groupby("season")["coinflip_accuracy"]
+        .mean()
+        .reset_index()
+    )
+
+
+
+
     # home win rate is average of "result" column in first half of each regular season
-    df["home_bias_prob"] = df["season"].map(season_home_winrate)
-    df["home_bias_accuracy"] = 100 * ((df["home_bias_prob"] >= 0.5) == df["result"]).astype(int)
+    df_home = df.copy()
+    df_home["home_bias_prob"] = df_home["season"].map(season_home_winrate)
+    df_home["home_bias_accuracy"] = 100 * (
+        (df_home["home_bias_prob"] >= 0.5) == df_home["result"]
+    ).astype(int)
 
+    home_season = (
+        df_home.groupby("season")["home_bias_accuracy"]
+        .mean()
+        .reset_index()
+    )
+
+    # merge all seasonal results
     out = (
-        df.groupby("season")
-          .agg(
-              ml_accuracy=("ml_accuracy", "mean"),
-              bt_accuracy=("bt_accuracy", "mean"),
-              home_bias_accuracy=("home_bias_accuracy", "mean"),
-              coinflip_accuracy=("coinflip_accuracy", "mean"),
-          )
-          .reset_index()
+        ml_season
+        .merge(bt_season, on="season", how="outer")
+        .merge(home_season, on="season", how="outer")
+        .merge(coin_season, on="season", how="outer")
     )
 
     return out

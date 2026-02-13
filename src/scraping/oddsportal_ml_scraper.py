@@ -9,12 +9,12 @@ import pandas as pd
 
 
 
-def scrape_nhl_ml(input_csv: Path, start_index: int=0) -> None:
+def scrape_ml(input_csv: Path, start_index: int=0) -> None:
     """
-    Retrieves average of all bookmaker Home/Away moneylines from OddsPortal for NHL regular season games. 
+    Retrieves average of all bookmaker Home/Away moneylines from OddsPortal for regular season games. 
 
     Args:
-        input_csv (Path): Path object of CSV containing NHL games.
+        input_csv (Path): Path object of CSV containing league games.
         start_index (int): Optional int object of index in CSV to start scraping at.
     
     Returns:
@@ -34,16 +34,15 @@ def scrape_nhl_ml(input_csv: Path, start_index: int=0) -> None:
     # initialize columns
     if "moneyline_1" not in df.columns:
         df["moneyline_1"] = pd.NA
-        df["moneyline_1"] = df["moneyline_1"].astype("Int64")
     if "moneyline_2" not in df.columns:
         df["moneyline_2"] = pd.NA
-        df["moneyline_2"] = df["moneyline_2"].astype("Int64")
-    df = df["date", "season_type", "neutral",
+    df["moneyline_1"] = df["moneyline_1"].astype("Int64")
+    df["moneyline_2"] = df["moneyline_2"].astype("Int64")
+    df = df[["date", "season_type", "neutral",
             "team_1", "team_2",
             "points_1", "points_2",
             "moneyline_1", "moneyline_2",
-            "game_url"]
-
+            "game_url"]]
 
     # iterate through each game
     for index, row in df.iterrows():
@@ -78,9 +77,9 @@ def scrape_nhl_ml(input_csv: Path, start_index: int=0) -> None:
             if len(ml_rows) > 0 and "Home/Away" in driver.page_source:
                 has_home_away_line = True
                 break
-            if i % 20 == 0:
+            if i % 4 == 0:
                 driver.refresh()
-            if i > 60:
+            if i > 10:
                 print(f"invalid: {index}")
                 break
             i = i + 1
@@ -131,21 +130,20 @@ def scrape_nhl_ml(input_csv: Path, start_index: int=0) -> None:
             else:
                 avg_away_ml = 100 * ((1 - avg_away_prob) / avg_away_prob)
 
-            
+
             df.loc[index, "moneyline_1"] = round(avg_home_ml)
             df.loc[index, "moneyline_2"] = round(avg_away_ml)
         except Exception as e:
             print(e)
             print(f"error at index {index}")
             # save results from before fail
-            df
             df.to_csv(input_csv,index=False)
             print(f"next start index: {index}")
             exit(1)
 
     
         # optional intermediary save
-        if index % 100 == 0:
+        if index % 50 == 0:
             print(f"next start index: {index}")
             df.to_csv(input_csv, index=False)
 
@@ -158,4 +156,4 @@ def scrape_nhl_ml(input_csv: Path, start_index: int=0) -> None:
 
 
 if __name__ == "__main__":
-    scrape_nhl_ml("raw_data/oddsportal_nhl.csv", 0)
+    scrape_ml("file_path", 0)

@@ -654,7 +654,7 @@ date,season,second_half,home_team,away_team,result,home_ml,away_ml,bookmaker_pro
 2025-01-09,2025,1,stl,ana,1,-193,159,0.0448034577727409,0.6304564430486713,0.5102737955741626,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/st-louis-blues-anaheim-ducks-IsdF1aF5/
 2025-01-09,2025,1,car,tor,1,-178,146,0.046791834824823,0.6116667597921439,0.4431953378430027,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/carolina-hurricanes-toronto-maple-leafs-I71luzv8/
 2025-01-09,2025,1,cbj,sea,1,103,-124,0.0461822660098523,0.4708652148322542,0.5532764552635673,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/columbus-blue-jackets-seattle-kraken-AHh73Lpg/
-2025-01-09,2025,0,nyr,nj,1,128,-153,0.0433395742320226,0.4203775089724844,0.3568357508734909,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/new-york-rangers-new-jersey-devils-bwPlovVO/
+2025-01-09,2025,1,nyr,nj,1,128,-153,0.0433395742320226,0.4203775089724844,0.3568357508734909,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/new-york-rangers-new-jersey-devils-bwPlovVO/
 2025-01-09,2025,0,ott,buf,0,-150,126,0.0424778761061945,0.5755517826825127,0.6243182924127254,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/ottawa-senators-buffalo-sabres-EF4XrIvq/
 2025-01-09,2025,0,phi,dal,0,132,-158,0.0434375835338145,0.4130908159344177,0.2947199587472695,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/philadelphia-flyers-dallas-stars-l24b5sGt/
 2025-01-09,2025,0,pit,edm,1,186,-225,0.0419580419580418,0.3355704697986577,0.2851571792662521,https://www.oddsportal.com/hockey/usa/nhl-2024-2025/pittsburgh-penguins-edmonton-oilers-Asbtsd9e/
@@ -1965,7 +1965,7 @@ date,season,second_half,home_team,away_team,result,home_ml,away_ml,bookmaker_pro
 2024-01-13,2024,1,tb,ana,1,-274,225,0.0403126285479227,0.7042309213127719,0.6363120929176354,https://www.oddsportal.com/hockey/usa/nhl-2023-2024/tampa-bay-lightning-anaheim-ducks-2RV0NO42/
 2024-01-13,2024,1,tor,col,0,-122,105,0.0373544275983301,0.5297606439313705,0.3721131063186729,https://www.oddsportal.com/hockey/usa/nhl-2023-2024/toronto-maple-leafs-colorado-avalanche-dKsP6gRi/
 2024-01-13,2024,1,wpg,phi,0,-215,182,0.0371496116176968,0.6580918267665256,0.6724939416560819,https://www.oddsportal.com/hockey/usa/nhl-2023-2024/winnipeg-jets-philadelphia-flyers-jssT5Dtb/
-2024-01-13,2024,0,fla,nj,0,-221,186,0.0381238698995707,0.663190145426311,0.6451341347573659,https://www.oddsportal.com/hockey/usa/nhl-2023-2024/florida-panthers-new-jersey-devils-02k61srq/
+2024-01-13,2024,1,fla,nj,0,-221,186,0.0381238698995707,0.663190145426311,0.6451341347573659,https://www.oddsportal.com/hockey/usa/nhl-2023-2024/florida-panthers-new-jersey-devils-02k61srq/
 2024-01-13,2024,0,buf,van,0,131,-153,0.0376435159043855,0.417195719209142,0.2676087671282252,https://www.oddsportal.com/hockey/usa/nhl-2023-2024/buffalo-sabres-vancouver-canucks-GSjImWQT/
 2024-01-13,2024,0,ott,sj,1,-245,205,0.0380137799952482,0.6841382467383841,0.6257606356216654,https://www.oddsportal.com/hockey/usa/nhl-2023-2024/ottawa-senators-san-jose-sharks-IywpqjZp/
 2024-01-13,2024,0,wsh,nyr,1,137,-159,0.0358405421696561,0.4073415850148624,0.3197837173212123,https://www.oddsportal.com/hockey/usa/nhl-2023-2024/washington-capitals-new-york-rangers-rN2v6NZR/
@@ -3275,7 +3275,7 @@ date,season,second_half,home_team,away_team,result,home_ml,away_ml,bookmaker_pro
 2023-01-12,2023,1,det,tor,1,118,-135,0.0331836814366584,0.4439826185528055,0.3149668491758056,https://www.oddsportal.com/hockey/usa/nhl-2022-2023/detroit-red-wings-toronto-maple-leafs-fDOxFofs/
 2023-01-12,2023,1,mtl,nsh,1,151,-173,0.0321060082016257,0.386013036777286,0.4270945287724759,https://www.oddsportal.com/hockey/usa/nhl-2022-2023/montreal-canadiens-nashville-predators-8GStE59m/
 2023-01-12,2023,1,nyr,dal,1,-130,113,0.0347009593794651,0.5462615900572104,0.4465019488926187,https://www.oddsportal.com/hockey/usa/nhl-2022-2023/new-york-rangers-dallas-stars-08EZSr5I/
-2023-01-12,2023,0,tb,van,1,-263,220,0.037017906336088,0.6986551552382534,0.7015073725083697,https://www.oddsportal.com/hockey/usa/nhl-2022-2023/tampa-bay-lightning-vancouver-canucks-juIoDPOg/
+2023-01-12,2023,1,tb,van,1,-263,220,0.037017906336088,0.6986551552382534,0.7015073725083697,https://www.oddsportal.com/hockey/usa/nhl-2022-2023/tampa-bay-lightning-vancouver-canucks-juIoDPOg/
 2023-01-11,2023,0,ana,edm,0,214,-253,0.0351852185994479,0.3076467204685293,0.2905658084869055,https://www.oddsportal.com/hockey/usa/nhl-2022-2023/anaheim-ducks-edmonton-oilers-bsw7K7WJ/
 2023-01-11,2023,0,la,sj,1,-210,180,0.0345622119815667,0.6547884187082406,0.7431074339572242,https://www.oddsportal.com/hockey/usa/nhl-2022-2023/los-angeles-kings-san-jose-sharks-AJLMVpLa/
 2023-01-11,2023,0,tor,nsh,1,-177,153,0.0342460866711376,0.6178308798167796,0.6611751699296888,https://www.oddsportal.com/hockey/usa/nhl-2022-2023/toronto-maple-leafs-nashville-predators-MPgOeOgJ/
@@ -7822,7 +7822,7 @@ date,season,second_half,home_team,away_team,result,home_ml,away_ml,bookmaker_pro
 2019-01-05,2019,1,fla,cbj,0,-120,105,0.0332594235033258,0.5278969957081545,0.3792185690752611,https://www.oddsportal.com/hockey/usa/nhl-2018-2019/florida-panthers-columbus-blue-jackets-WUX9GHGG/
 2019-01-05,2019,1,mtl,nsh,0,-125,107,0.038647342995169,0.5348837209302326,0.4801807380243603,https://www.oddsportal.com/hockey/usa/nhl-2018-2019/montreal-canadiens-nashville-predators-dxJ9HCJ0/
 2019-01-05,2019,1,tor,van,1,-270,228,0.0346077785102174,0.7053201656578528,0.6804564434937297,https://www.oddsportal.com/hockey/usa/nhl-2018-2019/toronto-maple-leafs-vancouver-canucks-IoK5Ih4f/
-2019-01-05,2019,0,ott,min,0,154,-177,0.032689957076665,0.3812381293181756,0.3973781014719235,https://www.oddsportal.com/hockey/usa/nhl-2018-2019/ottawa-senators-minnesota-wild-OOK1JYll/
+2019-01-05,2019,1,ott,min,0,154,-177,0.032689957076665,0.3812381293181756,0.3973781014719235,https://www.oddsportal.com/hockey/usa/nhl-2018-2019/ottawa-senators-minnesota-wild-OOK1JYll/
 2019-01-05,2019,0,phi,cgy,0,122,-140,0.0337837837837837,0.4357298474945534,0.2830146924989683,https://www.oddsportal.com/hockey/usa/nhl-2018-2019/philadelphia-flyers-calgary-flames-ALGcKEZs/
 2019-01-04,2019,0,ana,vgk,0,117,-133,0.0316449437313344,0.4466938900711259,0.4195608160066952,https://www.oddsportal.com/hockey/usa/nhl-2018-2019/anaheim-ducks-vegas-golden-knights-O4U1Iwn4/
 2019-01-04,2019,0,ari,nj,0,-119,103,0.0359898328722136,0.524502247215407,0.4944635406944093,https://www.oddsportal.com/hockey/usa/nhl-2018-2019/arizona-coyotes-new-jersey-devils-pEVcJJWc/
@@ -11565,7 +11565,7 @@ date,season,second_half,home_team,away_team,result,home_ml,away_ml,bookmaker_pro
 2016-01-09,2016,1,mtl,pit,0,-114,-100,0.0327102803738317,0.5158371040723981,0.5710090426859068,https://www.oddsportal.com/hockey/usa/nhl-2015-2016/montreal-canadiens-pittsburgh-penguins-hrsgBSBG/
 2016-01-09,2016,1,ott,bos,1,-102,-114,0.0376607754233366,0.4866238630283574,0.4248610719126683,https://www.oddsportal.com/hockey/usa/nhl-2015-2016/ottawa-senators-boston-bruins-fcOkC8dA/
 2016-01-09,2016,1,sj,tor,1,-144,125,0.0346083788706739,0.5704225352112676,0.553043784165165,https://www.oddsportal.com/hockey/usa/nhl-2015-2016/san-jose-sharks-toronto-maple-leafs-CYYpDls4/
-2016-01-09,2016,0,nyr,wsh,0,-110,-105,0.0360046457607432,0.5056053811659194,0.2955032075458189,https://www.oddsportal.com/hockey/usa/nhl-2015-2016/new-york-rangers-washington-capitals-zFx8uzno/
+2016-01-09,2016,1,nyr,wsh,0,-110,-105,0.0360046457607432,0.5056053811659194,0.2955032075458189,https://www.oddsportal.com/hockey/usa/nhl-2015-2016/new-york-rangers-washington-capitals-zFx8uzno/
 2016-01-09,2016,0,phi,nyi,1,-106,-107,0.0314713193565028,0.4988632229901783,0.400764625619762,https://www.oddsportal.com/hockey/usa/nhl-2015-2016/philadelphia-flyers-new-york-islanders-0MotpGwU/
 2016-01-08,2016,0,ana,stl,1,-123,106,0.0370063999303409,0.531886309248919,0.3645569443356216,https://www.oddsportal.com/hockey/usa/nhl-2015-2016/anaheim-ducks-st-louis-blues-6anxodON/
 2016-01-08,2016,0,col,nsh,1,111,-128,0.0353371580610293,0.457757789913267,0.5302186438592095,https://www.oddsportal.com/hockey/usa/nhl-2015-2016/colorado-avalanche-nashville-predators-S8mYox9H/
@@ -12753,7 +12753,7 @@ date,season,second_half,home_team,away_team,result,home_ml,away_ml,bookmaker_pro
 2015-01-16,2015,1,ana,nj,1,-206,175,0.0368389780154485,0.6492836676217766,0.7386707606197246,https://www.oddsportal.com/hockey/usa/nhl-2014-2015/anaheim-ducks-new-jersey-devils-KpNbqoao/
 2015-01-16,2015,1,chi,wpg,0,-250,210,0.0368663594470046,0.6888888888888889,0.670365926808287,https://www.oddsportal.com/hockey/usa/nhl-2014-2015/chicago-blackhawks-winnipeg-jets-EuYQTEIs/
 2015-01-16,2015,1,nsh,wsh,1,-116,-100,0.0370370370370372,0.5178571428571428,0.6779758218623443,https://www.oddsportal.com/hockey/usa/nhl-2014-2015/nashville-predators-washington-capitals-t0iIzgeo/
-2015-01-16,2015,0,car,van,0,-106,-109,0.0360942072745853,0.4966373744619799,0.246592268138268,https://www.oddsportal.com/hockey/usa/nhl-2014-2015/carolina-hurricanes-vancouver-canucks-235coslF/
+2015-01-16,2015,1,car,van,0,-106,-109,0.0360942072745853,0.4966373744619799,0.246592268138268,https://www.oddsportal.com/hockey/usa/nhl-2014-2015/carolina-hurricanes-vancouver-canucks-235coslF/
 2015-01-16,2015,0,cbj,nyr,0,120,-139,0.0361354127044504,0.4386930983847283,0.3886173104323677,https://www.oddsportal.com/hockey/usa/nhl-2014-2015/columbus-blue-jackets-new-york-rangers-vi5juZnU/
 2015-01-16,2015,0,nyi,pit,1,-123,107,0.0346612941660708,0.5330918531856537,0.5671407080311446,https://www.oddsportal.com/hockey/usa/nhl-2014-2015/new-york-islanders-pittsburgh-penguins-pU5ntFXN/
 2015-01-15,2015,0,sj,tor,1,-208,179,0.0337476143927757,0.6532780979827089,0.6040186835828881,https://www.oddsportal.com/hockey/usa/nhl-2014-2015/san-jose-sharks-toronto-maple-leafs-KvGhnNY8/
@@ -13940,7 +13940,7 @@ date,season,second_half,home_team,away_team,result,home_ml,away_ml,bookmaker_pro
 2014-01-02,2014,1,dal,mtl,0,-135,118,0.0331836814366584,0.5560173814471944,0.509070606050361,https://www.oddsportal.com/hockey/usa/nhl-2013-2014/dallas-stars-montreal-canadiens-jTop760q/
 2014-01-02,2014,1,min,buf,1,-187,162,0.0332473335638481,0.6306021056967076,0.7147709087354271,https://www.oddsportal.com/hockey/usa/nhl-2013-2014/minnesota-wild-buffalo-sabres-YmaIBnhS/
 2014-01-02,2014,1,stl,la,1,-134,116,0.0356125356125356,0.5529573590096286,0.6131788511758492,https://www.oddsportal.com/hockey/usa/nhl-2013-2014/st-louis-blues-los-angeles-kings-KpeECSxM/
-2014-01-02,2014,0,ott,wpg,1,-135,117,0.0352975781939406,0.5548820911071124,0.4345901780094089,https://www.oddsportal.com/hockey/usa/nhl-2013-2014/ottawa-senators-winnipeg-jets-xM59D8NF/
+2014-01-02,2014,1,ott,wpg,1,-135,117,0.0352975781939406,0.5548820911071124,0.4345901780094089,https://www.oddsportal.com/hockey/usa/nhl-2013-2014/ottawa-senators-winnipeg-jets-xM59D8NF/
 2014-01-02,2014,0,bos,nsh,1,-202,175,0.032510535821794,0.6478134110787171,0.6558911205062403,https://www.oddsportal.com/hockey/usa/nhl-2013-2014/boston-bruins-nashville-predators-j53cGAwc/
 2014-01-02,2014,0,nyi,chi,1,159,-184,0.0339877100440482,0.3734090670032607,0.1817770694870833,https://www.oddsportal.com/hockey/usa/nhl-2013-2014/new-york-islanders-chicago-blackhawks-Ue21FUh3/
 2014-01-02,2014,0,wsh,car,0,-151,131,0.0344940583984407,0.5815341524816192,0.5786700056543133,https://www.oddsportal.com/hockey/usa/nhl-2013-2014/washington-capitals-carolina-hurricanes-bV65El89/
@@ -17105,7 +17105,7 @@ date,season,second_half,home_team,away_team,result,home_ml,away_ml,bookmaker_pro
 2011-01-08,2011,1,ari,buf,0,-131,107,0.0501913545391805,0.5399964155564849,0.5860479497317809,https://www.oddsportal.com/hockey/usa/nhl-2010-2011/arizona-coyotes-buffalo-sabres-ChM8HGoC/
 2011-01-08,2011,1,sj,nsh,0,-176,144,0.0475172249940603,0.6087548196870038,0.4873259937617696,https://www.oddsportal.com/hockey/usa/nhl-2010-2011/san-jose-sharks-nashville-predators-fHBDGz1I/
 2011-01-08,2011,1,stl,nyr,0,-161,131,0.0497586704483254,0.5876190927620041,0.513834803093615,https://www.oddsportal.com/hockey/usa/nhl-2010-2011/st-louis-blues-new-york-rangers-bkI4IdW5/
-2011-01-08,2011,0,mtl,bos,1,-117,-105,0.0513656288636619,0.5128287363694676,0.4775028373536845,https://www.oddsportal.com/hockey/usa/nhl-2010-2011/montreal-canadiens-boston-bruins-Qi2uMvXt/
+2011-01-08,2011,1,mtl,bos,1,-117,-105,0.0513656288636619,0.5128287363694676,0.4775028373536845,https://www.oddsportal.com/hockey/usa/nhl-2010-2011/montreal-canadiens-boston-bruins-Qi2uMvXt/
 2011-01-08,2011,0,ott,tb,0,105,-128,0.0492083868207102,0.464926590538336,0.3000019650854875,https://www.oddsportal.com/hockey/usa/nhl-2010-2011/ottawa-senators-tampa-bay-lightning-4r1qLbnm/
 2011-01-08,2011,0,pit,min,0,-194,161,0.0430057080303385,0.6326561211485119,0.609245578454674,https://www.oddsportal.com/hockey/usa/nhl-2010-2011/pittsburgh-penguins-minnesota-wild-MJelKI1g/
 2011-01-08,2011,0,wsh,fla,1,-244,195,0.0482853764288528,0.6766309456664787,0.5863104246997296,https://www.oddsportal.com/hockey/usa/nhl-2010-2011/washington-capitals-florida-panthers-4SI0JxHa/
@@ -18326,7 +18326,7 @@ date,season,second_half,home_team,away_team,result,home_ml,away_ml,bookmaker_pro
 2010-01-02,2010,1,sj,edm,1,-274,220,0.045120320855615,0.7009913655260633,0.7180231283053613,https://www.oddsportal.com/hockey/usa/nhl-2009-2010/san-jose-sharks-edmonton-oilers-W4TIMsXf/
 2010-01-02,2010,1,min,nj,0,105,-127,0.0472762436875471,0.4657843439006873,0.2560436066743224,https://www.oddsportal.com/hockey/usa/nhl-2009-2010/minnesota-wild-new-jersey-devils-zkQVTPvL/
 2010-01-02,2010,1,stl,chi,0,124,-151,0.0480221969265795,0.4259724390740614,0.2453844984292624,https://www.oddsportal.com/hockey/usa/nhl-2009-2010/st-louis-blues-chicago-blackhawks-EuPZSqfR/
-2010-01-02,2010,0,ari,det,0,-130,107,0.0483091787439613,0.5391705069124424,0.5859136299003513,https://www.oddsportal.com/hockey/usa/nhl-2009-2010/arizona-coyotes-detroit-red-wings-fZ62O32r/
+2010-01-02,2010,1,ari,det,0,-130,107,0.0483091787439613,0.5391705069124424,0.5859136299003513,https://www.oddsportal.com/hockey/usa/nhl-2009-2010/arizona-coyotes-detroit-red-wings-fZ62O32r/
 2010-01-02,2010,0,nsh,ana,1,-145,131,0.0247371675943104,0.5775497887748944,0.6906203469585038,https://www.oddsportal.com/hockey/usa/nhl-2009-2010/nashville-predators-anaheim-ducks-xrUENNHl/
 2010-01-02,2010,0,cgy,tor,1,-163,132,0.0508063458764913,0.5898059766672905,0.7428615087935159,https://www.oddsportal.com/hockey/usa/nhl-2009-2010/calgary-flames-toronto-maple-leafs-UiNNVoA8/
 2010-01-02,2010,0,cbj,col,0,-140,116,0.0462962962962962,0.5575221238938054,0.315717650891977,https://www.oddsportal.com/hockey/usa/nhl-2009-2010/columbus-blue-jackets-colorado-avalanche-tSQRU5PE/

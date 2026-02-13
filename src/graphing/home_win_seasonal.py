@@ -15,7 +15,7 @@ def plot_seasonal_home_win() -> None:
         None
     """
 
-    input_path = Path("results/seasonal_home_win.csv")
+    input_path = Path("results/home_win_seasonal.csv")
     df = pd.read_csv(input_path)
 
     leagues = ["mlb", "nba", "nfl", "nhl"]
@@ -59,8 +59,8 @@ def plot_seasonal_home_win() -> None:
     plt.ylabel("Home Win Percentage (%)", fontsize=14)
     plt.grid(True, linestyle="--", alpha=0.5)
     plt.legend(fontsize=12)
-    plt.savefig("results/seasonal_home_win.png", dpi=300, bbox_inches="tight")
-    plt.savefig("results/seasonal_home_win.pdf", dpi=300, bbox_inches="tight")
+    plt.savefig("results/home_win_seasonal.png", dpi=300, bbox_inches="tight")
+    plt.savefig("results/home_win_seasonal.pdf", dpi=300, bbox_inches="tight")
     plt.show()
     plt.close()
 

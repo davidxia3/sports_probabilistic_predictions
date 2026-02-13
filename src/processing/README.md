@@ -18,11 +18,11 @@ This Python script cleans and processes the raw data for each league. For each l
 
 Below are the statistics behind the cleaning process.
 | League | Total Regular Games | Neutral Regular Games | Regular Games w/ Ties | Regular Games w/ Unrecognized Teams | Regular Games w/ Invalid Moneyline | Clean Regular Games |
-|--------|-------------|----------------|------|----------------------|--------------------|--------------|
-| MLB | 41,967 | 59 (0.14%) | 1 (0.00%) | 0 (0.00%) | 183 (0.44%) | 41,725 (99.42%) |
-| NBA | 20,311 | 10 (0.05%) | 0 (0.00%) | 0 (0.00%) | 806 (3.97%) | 19,495 (95.98%) |
-| NFL | 4,403 | 25 (0.57%) | 13 (0.30%) | 2 (0.05%) | 2 (0.05%) | 4,361 (99.05%) |
-| NHL | 20,300 | 6 (0.03%) | 1 (0.00%) | 1 (0.00%) | 746 (3.67%) | 19,554 (96.33%) |
+|--------|--------------------|----------------------|----------------------|-------------------------------------|------------------------------------|--------------------|
+| MLB | 39,714 | 59 (0.149%) | 1 (0.003%) | 0 (0.000%) | 460 (1.158%) | 39,194 (98.691%) |
+| NBA | 20,311 | 10 (0.049%) | 0 (0.000%) | 0 (0.000%) | 805 (3.963%) | 19,496 (95.987%) |
+| NFL | 4,403 | 25 (0.568%) | 13 (0.295%) | 2 (0.045%) | 3 (0.068%) | 4,360 (99.023%) |
+| NHL | 20,300 | 6 (0.030%) | 1 (0.005%) | 1 (0.005%) | 746 (3.675%) | 19,554 (96.325%) |
 
 The regular season games that were discarded due to invalid moneyline were from the early seasons of each league (~ 2009-2010) where OddsPortal had less archived betting data.
 
