@@ -8,7 +8,8 @@
       - **David: Leave this file alone. Add changed tables to temporary.tex file.**)
   - *data.tex:* No changes (as of today)? (**David: Leave this file alone. Add changed tables to temporary.tex file.**)
   - *Graphics:* updated graphics files, names unchanged?
-- **Moneylines:** Recompute moneylines using averages instead of maxima/minima, and recreate graphics files. 
+- **Moneylines:** Recompute moneylines using averages instead of maxima/minima, and recreate graphics files.
+- **Next meeting:** Wednesday, Feb. 25, 4:15 pm, English Building Computer Lab
 
 ## February 13
 - **Binary accuracies for MLB in 2025:** All models are nearly tied. Worth looking into. In particular, the ML accuracy is by far the lowest among all years (53% versus >= 57% for other years). Some ways to check: (1) Calculate accuracy based on oddsportal averages. (2) Calculate accurcy based on a specific bookmaker's quotes (e.g., DraftKings, Bet365). 
