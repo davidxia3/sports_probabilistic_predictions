@@ -1,7 +1,10 @@
 # TODO
 
 ## February 19
-- 
+- **Updated files at Overleaf:**
+  - *results.tex:*   Changes in table of excluded scores.
+  - *data.tex:* No changes?
+  - *Graphics:* updated graphics files, names unchanged? 
 
 ## February 13
 - **Binary accuracies for MLB in 2025:** All models are nearly tied. Worth looking into. In particular, the ML accuracy is by far the lowest among all years (53% versus >= 57% for other years). Some ways to check: (1) Calculate accuracy based on oddsportal averages. (2) Calculate accurcy based on a specific bookmaker's quotes (e.g., DraftKings, Bet365). 
