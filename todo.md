@@ -3,10 +3,12 @@
 ## February 19
 - **Updated files at Overleaf:**
   - *results.tex:*   (today, 3:11 pm) Changes in table of excluded scores. (earlier today I uploaded new version of results.tex.)
-    - Tables currently at Overleaf are up to date. **AJH: Update local versions of these tables.**
-  - *data.tex:* No changes (as of today)?
+    - Tables currently at Overleaf are up to date.
+      - **AJH: Update local versions of these tables.**
+      - **David: Leave this file alone. Add changed tables to temporary.tex file.**)
+  - *data.tex:* No changes (as of today)? (**David: Leave this file alone. Add changed tables to temporary.tex file.**)
   - *Graphics:* updated graphics files, names unchanged?
-- **Moneylines:** Recompute moneylines using averages instead of maxima/minima. 
+- **Moneylines:** Recompute moneylines using averages instead of maxima/minima, and recreate graphics files. 
 
 ## February 13
 - **Binary accuracies for MLB in 2025:** All models are nearly tied. Worth looking into. In particular, the ML accuracy is by far the lowest among all years (53% versus >= 57% for other years). Some ways to check: (1) Calculate accuracy based on oddsportal averages. (2) Calculate accurcy based on a specific bookmaker's quotes (e.g., DraftKings, Bet365). 
