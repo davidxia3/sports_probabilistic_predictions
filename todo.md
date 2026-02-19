@@ -3,6 +3,7 @@
 ## February 19
 - **Updated files at Overleaf:**
   - *results.tex:*   (today, 3:11 pm) Changes in table of excluded scores. (earlier today I uploaded new version of results.tex.)
+    - Tables currently at Overleaf are up to date. **AJH: Update local versions of these tables.**
   - *data.tex:* No changes (as of today)?
   - *Graphics:* updated graphics files, names unchanged? 
 
