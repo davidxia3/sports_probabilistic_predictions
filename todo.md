@@ -1,5 +1,8 @@
 # TODO
 
+## February 19
+- 
+
 ## February 13
 - **Binary accuracies for MLB in 2025:** All models are nearly tied. Worth looking into. In particular, the ML accuracy is by far the lowest among all years (53% versus >= 57% for other years). Some ways to check: (1) Calculate accuracy based on oddsportal averages. (2) Calculate accurcy based on a specific bookmaker's quotes (e.g., DraftKings, Bet365). 
 - **Data summary table:** Remove column with home winrates (it fits better into the Descriptive Statistics subsection), and add a column showing the # of First Half Games. (Also, the # of second half games shown is **greater** than half the total number of games, which conflicts with what you said under "Potential new version".)
