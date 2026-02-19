@@ -49,8 +49,8 @@ def plot_bookmaker_profit_dist() -> None:
 
     plt.xlabel(f"Moneyline Bookmaker Profit (%)", fontsize=20)
     plt.grid(True, linestyle="--", alpha=0.6)
-    plt.xlim(0,10)
-    xticks = np.arange(0, 11, 2)
+    plt.xlim(-4,12)
+    xticks = np.arange(-4, 13, 2)
     plt.xticks(xticks, fontsize=15)
     plt.yticks(fontsize=15)
     plt.tight_layout()

@@ -32,17 +32,15 @@ def scrape_ml(input_csv: Path, start_index: int=0) -> None:
     df = pd.read_csv(input_csv)
 
     # initialize columns
-    if "moneyline_1" not in df.columns:
-        df["moneyline_1"] = pd.NA
-    if "moneyline_2" not in df.columns:
-        df["moneyline_2"] = pd.NA
-    df["moneyline_1"] = df["moneyline_1"].astype("Int64")
-    df["moneyline_2"] = df["moneyline_2"].astype("Int64")
+    if "moneylines" not in df.columns:
+        df["moneylines"] = [[] for _ in range(len(df))]
+        df["moneylines"] = df["moneylines"].astype("object")
     df = df[["date", "season_type", "neutral",
             "team_1", "team_2",
             "points_1", "points_2",
-            "moneyline_1", "moneyline_2",
+            "moneylines",
             "game_url"]]
+
 
     # iterate through each game
     for index, row in df.iterrows():
@@ -50,6 +48,13 @@ def scrape_ml(input_csv: Path, start_index: int=0) -> None:
             # start at start index, skipping all before
             continue
 
+
+        # optional intermediary save
+        if index % 50 == 0:
+            print(f"next start index: {index}")
+            df.to_csv(input_csv, index=False)
+            
+            
         # ignore non regular season games for efficiency
         if row["season_type"] != "Regular":
             continue
@@ -58,14 +63,11 @@ def scrape_ml(input_csv: Path, start_index: int=0) -> None:
         driver.get(f"{row['game_url']}#home-away;1")
 
 
-        total_home_prob = 0
-        total_away_prob = 0
-        count = 0
 
-        i = 1
 
         # if the game does not have a Home/Away moneyline, OddsPortal will automatically redirect to main 1x2 moneyline tab
         # need to check if we are scraping Home/Away moneyline
+        i = 1
         has_home_away_line = False
         while True:
             time.sleep(1)
@@ -89,12 +91,10 @@ def scrape_ml(input_csv: Path, start_index: int=0) -> None:
         if not has_home_away_line:
             continue
 
-
-        try:
-            count = len(ml_rows)
-            # OddsPortal lists multiple bookmakers and their respective lines
-            # need to calculate average
-            for ml_row in ml_rows:
+        moneylines = []
+        # OddsPortal lists multiple bookmakers and their respective lines
+        for ml_row in ml_rows:
+            try:
                 odds_cells = ml_row.find_elements(By.CLASS_NAME, "odds-cell")
                 # ensure exactly 2 moneyline values, indicating Home/Away moneyline
                 assert len(odds_cells) == 2
@@ -103,49 +103,15 @@ def scrape_ml(input_csv: Path, start_index: int=0) -> None:
                 ml_2 = int(odds_cells[1].text)
 
         
-                if ml_1 < 0:
-                    prob_1 = abs(ml_1) / (abs(ml_1) + 100)
-                else:
-                    prob_1 = 100 / (abs(ml_1) + 100)
-
-                if ml_2 < 0:
-                    prob_2 = abs(ml_2) / (abs(ml_2) + 100)
-                else:
-                    prob_2 = 100 / (abs(ml_2) + 100)
-            
-                total_home_prob += prob_1
-                total_away_prob += prob_2
+                moneylines.append((ml_1,ml_2))
+            except Exception as e:
+                print(e)
+                print(f"error at index {index}")
 
 
-            avg_home_prob = total_home_prob / count
-            avg_away_prob = total_away_prob / count
-
-            if avg_home_prob >= 0.5:
-                avg_home_ml = -100 * (avg_home_prob / (1 - avg_home_prob))
-            else:
-                avg_home_ml = 100 * ((1 - avg_home_prob) / avg_home_prob)
-            
-            if avg_away_prob >= 0.5:
-                avg_away_ml = -100 * (avg_away_prob / (1 - avg_away_prob))
-            else:
-                avg_away_ml = 100 * ((1 - avg_away_prob) / avg_away_prob)
-
-
-            df.loc[index, "moneyline_1"] = round(avg_home_ml)
-            df.loc[index, "moneyline_2"] = round(avg_away_ml)
-        except Exception as e:
-            print(e)
-            print(f"error at index {index}")
-            # save results from before fail
-            df.to_csv(input_csv,index=False)
-            print(f"next start index: {index}")
-            exit(1)
+        df.at[index, "moneylines"] = moneylines
 
     
-        # optional intermediary save
-        if index % 50 == 0:
-            print(f"next start index: {index}")
-            df.to_csv(input_csv, index=False)
 
 
 
@@ -156,4 +122,4 @@ def scrape_ml(input_csv: Path, start_index: int=0) -> None:
 
 
 if __name__ == "__main__":
-    scrape_ml("file_path", 0)
+    scrape_ml("", 0)

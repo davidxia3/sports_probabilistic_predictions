@@ -2,16 +2,17 @@ from pathlib import Path
 import pandas as pd
 import json
 import numpy as np
+import ast
 
 
 
 # formatting helper functions
 def format_date(raw_date_str: str) -> str:
     """
-    Converts date from "dd mon yyyy" format to "yyyy-mm-dd".
+    Converts date from "dd mmm yyyy" format to "yyyy-mm-dd".
 
     Args: 
-        raw_date_str (str) : String object of date in "dd mon yyyy" format.
+        raw_date_str (str) : String object of date in "dd mmm yyyy" format.
 
     Returns:
         str: String object of date in "yyyy-mm-dd" format.
@@ -122,100 +123,34 @@ def get_season(game_url: str) -> int:
 
 
 
-def format_ml(ml_1_str: str, ml_2_str: str) -> tuple[int, int]:
-    """
-    Returns integer objects of two-way moneylines.
+def parse_moneylines(x):
+    if pd.isna(x):
+        return []
+    return ast.literal_eval(x)
 
-    Args:
-        ml_1_str (str): String object of moneyline of team 1.
-        ml_2_str (str): String object of moneyline of team 2.
-    
-    Returns:
-        int: Integer object of moneyline number of team 1. Returns NA if either of the two moneylines are not integers.
-        int: Integer object of moneyline number of team 2. Returns NA if either of the two moneylines are not integers.
-    """
 
-    # ensure they are integers
-    try:
-        ml_1 = int(ml_1_str)
-        ml_2 = int(ml_2_str)
-    except:
+
+def extract_max_ml(ml_list):
+    if not ml_list:
         return pd.NA, pd.NA
-
-    # if both are negative, this is the dual market favorite case
-    if ml_1 < 0 and ml_2 < 0:
-        return ml_1, ml_2
-
-    # otherwise, ensure that the moneyline with greater absolute value is the negative one
-    if abs(ml_1) > abs(ml_2):
-        ml_1 = -1 * abs(ml_1)
-        ml_2 = abs(ml_2)
-    else:
-        ml_1 = abs(ml_1)
-        ml_2 = -1 * abs(ml_2)
-
-    return ml_1, ml_2
+    
+    home_vals = [t[0] for t in ml_list if t[0] is not None]
+    away_vals = [t[1] for t in ml_list if t[1] is not None]
+    
+    home_max = max(home_vals) if home_vals else pd.NA
+    away_max = max(away_vals) if away_vals else pd.NA
+    
+    return home_max, away_max
 
 
 
-def get_implied_prob(ml: int) -> float:
-    """
-    Convert moneyline to implied probability.
-
-    Args: 
-        ml (int): Integer object of moneyline number for event.
-
-    Returns:
-        float: Float object of implied probability of event.
-    """
-
+def american_to_prob(ml):
     if pd.isna(ml):
-        return pd.NA
-    if ml < 0:
-        return abs(ml) / (abs(ml) + 100)
-    else:
+        return np.nan
+    if ml > 0:
         return 100 / (ml + 100)
-
-
-
-def get_ml_prob(p_1: float, p_2: float) -> float:
-    """
-    Returns probability of team 1 winning given implied probabilities from two-way moneylines.
-
-    Args:
-        p_1 (float): Float object of implied probability that team 1 wins.
-        p_2 (float): Float object of implied probability that team 2 wins.
-
-    Returns:
-        float: Float object of normalized probability that team 1 wins.
-    """
-
-    # ensure both probabilities are valid
-    if pd.isna(p_1) or pd.isna(p_2):
-        return pd.NA
-    
-    # return normalized probability
-    return p_1 / (p_1 + p_2)
-
-
-
-def get_ml_bookmaker_profit(p_1: float, p_2: float) -> float:
-    """
-    Gets the bookmaker profit from the implied probabilities of two-way moneyline.
-
-    Args:
-        p_1 (float): Float object of implied probability that team 1 wins.
-        p_2 (float): Float object of implied probability that team 2 wins.
-
-    Returns:
-        float: Float object of bookmaker profit.
-    """
-
-    # ensure both probabilities are valid
-    if pd.isna(p_1) or pd.isna(p_2):
-        return pd.NA
-    
-    return p_1 + p_2 - 1
+    else:
+        return -ml / (-ml + 100)
 
 
 
@@ -399,16 +334,20 @@ def preprocess_league_games(raw_data_file: Path, team_abbr_file: Path, output_sa
     ).astype("Int64")
 
     # calculate moneyline probabilistic prediction based on home away moneylines
-    new_df[["home_ml", "away_ml"]] = raw_df.apply(
-        lambda row: format_ml(row["moneyline_1"], row["moneyline_2"]),
-        axis=1,
-        result_type="expand"
-    ).astype("Int64")
-    new_df["implied_ml_1"] = new_df["home_ml"].apply(get_implied_prob)
-    new_df["implied_ml_2"] = new_df["away_ml"].apply(get_implied_prob)
-    new_df["bookmaker_profit"] = new_df.apply(lambda row: get_ml_bookmaker_profit(row["implied_ml_1"], row["implied_ml_2"]), axis=1)
-    new_df["ml_prob"] = new_df.apply(lambda row: get_ml_prob(row["implied_ml_1"], row["implied_ml_2"]), axis=1)
-    
+    parsed = raw_df["moneylines"].apply(parse_moneylines)
+    ml_df = parsed.apply(lambda x: pd.Series(extract_max_ml(x)))
+    ml_df.columns = ["home_ml", "away_ml"]
+
+    new_df["home_ml"] = ml_df["home_ml"].astype("Int64")
+    new_df["away_ml"] = ml_df["away_ml"].astype("Int64")
+
+    home_prob = new_df["home_ml"].apply(american_to_prob)
+    away_prob = new_df["away_ml"].apply(american_to_prob)
+    new_df["bookmaker_profit"] = home_prob + away_prob - 1
+
+    prob_sum = home_prob + away_prob
+    normalized_home_prob = home_prob / prob_sum
+    new_df["ml_prob"] = normalized_home_prob
 
 
 
@@ -417,8 +356,7 @@ def preprocess_league_games(raw_data_file: Path, team_abbr_file: Path, output_sa
     neutrals_len = len(new_df[new_df["neutral"] == 1])
     ties_len = len(new_df[new_df["result"].isna()])
     na_team_len = len(new_df[(new_df["HomeTeam"].isna()) | (new_df["AwayTeam"].isna())])
-    missing_ml_len = len(new_df[(new_df["ml_prob"].isna())])
-    # exclude invalid games from final result
+    missing_ml_len = len(new_df[new_df["ml_prob"].isna()])
     mask = (
         (new_df["neutral"] == 0) &
         (new_df["result"].notna()) &
@@ -441,78 +379,79 @@ def preprocess_league_games(raw_data_file: Path, team_abbr_file: Path, output_sa
 
 
     # # determine which games occur in second half of regular season for each season
-    # clean_df = clean_df.sort_values(by=["Season", "Date"], ascending=[False, False])
-    # season_counts = clean_df.groupby("Season")["Date"].transform("count")
-    # reverse_rank = clean_df.groupby("Season").cumcount()
-    # clean_df["second_half"] = (reverse_rank <= (season_counts / 2)).astype(int)
-    # clean_df = clean_df.reset_index(drop=True)
+    clean_df = clean_df.sort_values(by=["Season", "Date"])
+    season_counts = clean_df.groupby("Season")["Date"].transform("count")
+    before_count = clean_df.groupby("Season")["Date"].rank(method="min") - 1
+    clean_df["second_half"] = (before_count >= (season_counts + 1) // 2).astype(int)
+    clean_df = clean_df.sort_values(by=["Season", "Date"], ascending=[False, False])
+    clean_df = clean_df.reset_index(drop=True)
 
 
 
-    # # compute Bradley Terry Predictions (using code from https://datascience.oneoffcoder.com/btl-model.html)
-    # clean_df['bt_prob'] = pd.NA
-    # clean_df['winner'] = clean_df.apply(get_winner, axis=1)
-    # clean_df['loser'] = clean_df.apply(get_loser, axis=1)
-    # clean_df = clean_df.reset_index(drop=True)
+    # compute Bradley Terry Predictions (using code from https://datascience.oneoffcoder.com/btl-model.html)
+    clean_df['bt_prob'] = pd.NA
+    clean_df['winner'] = clean_df.apply(get_winner, axis=1)
+    clean_df['loser'] = clean_df.apply(get_loser, axis=1)
+    clean_df = clean_df.reset_index(drop=True)
 
     
-    # for index, row in clean_df.iterrows():
-    #     if index % 100 == 0:
-    #         print(f"{index} / {len(clean_df)}")
-    #     past_games = clean_df[
-    #         (clean_df['Season'] == row['Season']) & 
-    #         (pd.to_datetime(clean_df['Date'], format="%Y-%m-%d") < pd.to_datetime(row['Date'], format="%Y-%m-%d"))
-    #     ]
+    for index, row in clean_df.iterrows():
+        if index % 100 == 0:
+            print(f"{index} / {len(clean_df)}")
+        past_games = clean_df[
+            (clean_df['Season'] == row['Season']) & 
+            (pd.to_datetime(clean_df['Date'], format="%Y-%m-%d") < pd.to_datetime(row['Date'], format="%Y-%m-%d"))
+        ]
 
-    #     teams = sorted(list(set(past_games.HomeTeam) | set(past_games.AwayTeam)))
-    #     t2i = {t: i for i, t in enumerate(teams)}
+        teams = sorted(list(set(past_games.HomeTeam) | set(past_games.AwayTeam)))
+        t2i = {t: i for i, t in enumerate(teams)}
 
-    #     df = past_games\
-    #         .groupby(['winner', 'loser'])\
-    #         .agg('count')\
-    #         .drop(columns=['AwayTeam', 'FTHG', 'FTAG'])\
-    #         .rename(columns={'HomeTeam': 'n'})\
-    #         .reset_index()
-    #     df['r'] = df['winner'].apply(lambda t: t2i[t])
-    #     df['c'] = df['loser'].apply(lambda t: t2i[t])
+        df = past_games\
+            .groupby(['winner', 'loser'])\
+            .agg('count')\
+            .drop(columns=['AwayTeam', 'FTHG', 'FTAG'])\
+            .rename(columns={'HomeTeam': 'n'})\
+            .reset_index()
+        df['r'] = df['winner'].apply(lambda t: t2i[t])
+        df['c'] = df['loser'].apply(lambda t: t2i[t])
 
-    #     n_teams = len(teams)
-    #     mat = np.zeros([n_teams, n_teams])
+        n_teams = len(teams)
+        mat = np.zeros([n_teams, n_teams])
 
-    #     for _, r in df.iterrows():
-    #         mat[r.r, r.c] = r.n
+        for _, r in df.iterrows():
+            mat[r.r, r.c] = r.n
 
-    #     iterate_df = pd.DataFrame(mat, columns=teams, index=teams)
+        iterate_df = pd.DataFrame(mat, columns=teams, index=teams)
 
-    #     # max 100 iterations
-    #     p, _ = bt_iterate(iterate_df, n=100)
-    #     home_team, away_team = row['HomeTeam'], row['AwayTeam']
+        # max 100 iterations
+        p, _ = bt_iterate(iterate_df, n=100)
+        home_team, away_team = row['HomeTeam'], row['AwayTeam']
 
-    #     if home_team in p and away_team in p:
-    #         if (p[home_team] + p[away_team]) != 0:
-    #             clean_df.at[index, 'bt_prob'] = p[home_team] / (p[home_team] + p[away_team])
-    #         else:
-    #             clean_df.at[index, 'bt_prob'] = pd.NA
+        if home_team in p and away_team in p:
+            if (p[home_team] + p[away_team]) != 0:
+                clean_df.at[index, 'bt_prob'] = p[home_team] / (p[home_team] + p[away_team])
+            else:
+                clean_df.at[index, 'bt_prob'] = pd.NA
 
 
 
-    # # save the result
-    # new_order = [
-    #     "Date", "Season", "second_half",
-    #     "HomeTeam", "AwayTeam", "result",
-    #     "home_ml", "away_ml",
-    #     "bookmaker_profit", "ml_prob",
-    #     "bt_prob",
-    #     "game_url"
-    # ]
-    # clean_df = clean_df[new_order]
-    # clean_df = clean_df.rename(columns={
-    #     "Date": "date",
-    #     "Season": "season",
-    #     "HomeTeam": "home_team",
-    #     "AwayTeam": "away_team"
-    # })
-    # clean_df.to_csv(output_save_file, index=False)
+    # save the result
+    new_order = [
+        "Date", "Season", "second_half",
+        "HomeTeam", "AwayTeam", "result",
+        "home_ml", "away_ml",
+        "bookmaker_profit", "ml_prob",
+        "bt_prob",
+        "game_url"
+    ]
+    clean_df = clean_df[new_order]
+    clean_df = clean_df.rename(columns={
+        "Date": "date",
+        "Season": "season",
+        "HomeTeam": "home_team",
+        "AwayTeam": "away_team"
+    })
+    clean_df.to_csv(output_save_file, index=False)
 
 
 

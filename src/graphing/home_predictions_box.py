@@ -34,7 +34,7 @@ def plot_predicted_home_win_prob_box(method: str) -> None:
     dfs = [pd.read_csv(f"processed_data/{league.lower()}.csv") for league in leagues]
 
     # drop all first half of regular season games
-    data = [100 * df[df["second_half"]==1][f"{method}_prob"] for df in dfs]
+    data = [100 * df[(df["second_half"]==1) & (df[f"{method}_prob"].notna())][f"{method}_prob"] for df in dfs]
 
     leagues_reversed = leagues[::-1]
     data_reversed = data[::-1]
