@@ -19,10 +19,10 @@ This Python script cleans and processes the raw data for each league. For each l
 Below are the statistics behind the cleaning process.
 | League | Total Regular Games | Neutral Regular Games | Regular Games w/ Ties | Regular Games w/ Unrecognized Teams | Regular Games w/ Invalid Moneyline | Clean Regular Games |
 |--------|--------------------|----------------------|----------------------|-------------------------------------|------------------------------------|--------------------|
-| MLB | 39,714 | 59 (0.149%) | 1 (0.003%) | 0 (0.000%) | 460 (1.158%) | 39,194 (98.691%) |
-| NBA | 20,311 | 10 (0.049%) | 0 (0.000%) | 0 (0.000%) | 805 (3.963%) | 19,496 (95.987%) |
+| MLB | 39,714 | 59 (0.149%) | 1 (0.003%) | 0 (0.000%) | 850 (2.140%) | 38,805 (97.711%) |
+| NBA | 20,311 | 10 (0.049%) | 0 (0.000%) | 0 (0.000%) | 789 (3.885%) | 19,512 (96.066%) |
 | NFL | 4,403 | 25 (0.568%) | 13 (0.295%) | 2 (0.045%) | 3 (0.068%) | 4,360 (99.023%) |
-| NHL | 20,300 | 6 (0.030%) | 1 (0.005%) | 1 (0.005%) | 746 (3.675%) | 19,554 (96.325%) |
+| NHL | 20,300 | 6 (0.030%) | 1 (0.005%) | 1 (0.005%) | 1,129 (5.562%) | 19,164 (94.404%) |
 
 The regular season games that were discarded due to invalid moneyline were from the early seasons of each league (~ 2009-2010) where OddsPortal had less archived betting data.
 
@@ -33,15 +33,13 @@ After cleaning, the script then formats and processes the data to be be more con
 - `home_team`: The home team's abbreviation.
 - `away_team`: The away team's abbreviation.
 - `result`: A 1/0 boolean representing who won the game. 1 if the home team won and 0 if the away team won. Determined by comparing the number of points the two teams scored.
-- `home_ml`: An integer representing the average moneyline score of `home_team`.
-- `away_ml`: An integer representing the average moneyline score of `away_team`.
-- `bookmaker_profit`: The profit the bookmaker makes on the game's `home_ml` and `away_ml`.
-    - The bookmaker profit is calculated by summing the implied home probability and implied away probability and subtracting 1. 
-    - For a positive moneyline score, the implied probability is 100 / (ML + 100). For a negative moneyline score, the implied probability is abs(ML) / (abs(ML) + 100).
-- `ml_prob`: The moneyline based probabilistic prediction that `home_team` wins over `away_team`. 
-    - The probability is calculated by dividing the implied home probability by the sum of the implied home probability and implied away probability. 
-    - For a positive moneyline score, the implied probability is 100 / (ML + 100). For a negative moneyline score, the implied probability is abs(ML) / (abs(ML) + 100).
+- `home_ml`: An integer moneyline for the `home_team`, derived by converting the average implied win probability across bookmakers back to American odds.
+- `away_ml`: An integer moneyline for the `away_team`, derived by converting the average implied win probability across bookmakers back to American odds.
+- `bookmaker_profit`: The bookmaker's built-in margin (vig), calculated by summing the average implied home and away probabilities and subtracting 1.
+    - Each bookmaker's moneylines are first converted to implied probabilities, then averaged across bookmakers. For a positive moneyline, the implied probability is 100 / (ML + 100). For a negative moneyline, the implied probability is |ML| / (|ML| + 100).
+- `ml_prob`: The normalized probability that `home_team` wins over `away_team`, calculated by dividing the average implied home probability by the sum of the average implied home and away probabilities.
 - `bt_prob`: The Bradley-Terry based probabilistic prediction that `home_team` wins over `away_team`. 
     - The probability is calculated by using all previous games in the season to obtain Bradley-Terry ratings for each team. The probability that `home_team` wins over `away_team` is the `home_team`'s rating divided by the sum of the two ratings. 
     - The Bradley-Terry rating estimation process is from this [website](https://datascience.oneoffcoder.com/btl-model.html). A maximum of 100 iterations are used for each game.
+    - BRadley-Terry based probabilistic predictions are only computed for second half of season games.
 - `game_url`: The URL leading to the game's webpage.

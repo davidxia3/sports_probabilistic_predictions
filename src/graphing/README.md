@@ -5,7 +5,7 @@ This folder contains all the scripts for graphing and plotting the results into 
 
 
 ### `binary_accuracy.py`
-This Python script plots a grouped bar chart with 4 groups of 3 bars. The groups are the 4 leagues: MLB, NBA, NFL, and NHL. Each league has 3 bars: one for each of the prediction models. The bars display the binary accuracy of the prediction model for by league.
+This Python script plots a grouped bar chart with 4 groups of 4 bars. The groups are the 4 leagues: MLB, NBA, NFL, and NHL. Each league has 4 bars: one for each of the prediction models. The bars display the binary accuracy of the prediction model for by league.
 
 
 ### `binary_accuracy_T.py`
@@ -18,6 +18,10 @@ This Python script plots a bar chart with 4 bars. Each bar displays the average 
 
 ### `bookmaker_profit_dist.py`
 This Python script plots 4 box plots. Each box plot displays the summary statistics for the moneyline bookmaker profits for a sports league. The 4 leagues are MLB, NBA, NFL, and NHL. The statistics plotted are the min, first quartile, median, third quartile, max, and all outliers are represented as individual points. The figure is saved as a PDF to `results/bookmaker_profit_dist.pdf` and as a PNG to `results/bookmaker_profit_dist.png`.
+
+
+### `brier_score.py`
+This Python script plots a grouped bar chart with 4 groups of 4 bars. The groups are the 4 leagues: MLB, NBA, NFL, and NHL. Each league has 4 bars: one for each of the prediction models. The bars display the Brier score of the prediction model for by league.
 
 
 ### `calibration_moneyline.py`
@@ -36,6 +40,14 @@ This Python script plots 4 box plots for each specified prediction method. The t
 This Python script plots 4 histograms for each specified prediction method. The two prediction methods are moneyline based and Bradley-Terry based. Each histogram displays the distribution of the prediction method's home team win probabilities for a specific league. The 4 leagues are MLB, NBA, NFL, and NHL. There are 30 equal-width bins used for each league's histogram. The density is used instead of the raw counts because each league has a different total count of games. For each prediction method and league, the figure is saved as a PDF to `results/home_predictions/{method}_{league}_hist.pdf` and as a PNG to `results/home_predictions/{method}_{league}_hist.png`.
 
 
+### `home_win_seasonal.py`
+This Python script plots a line graph with a line for each league. Each league's line shows the proportion of games won by the home team in each leagues' regular season. The horizontal axis is the season as an integer representing the year the season ended. The vertical axis is the probability. The figure is saved as a PDF to `results/home_win_seasonal.pdf` and as a PNG to `results/home_win_seasonal.png`.
+
+
+### `home_win.py`
+This Python script plots a bar graph with a bar for each league. Each league's bar shows the proportion of games won by the home team in each leagues' regular season. The figure is saved as a PDF to `results/home_win.pdf` and as a PNG to `results/home_win.png`.
+
+
 ### `ml_seasonal_brier.py`
 This Python script plots a line graph displaying the Brier score of the moneyline based probabilistic prediction for each league by season. The horizontal axis displays the season as an integer representing the year the season ended. The vertical axis is the Brier score. The figure is saved as a PDF to `results/ml_seasonal_brier.pdf` and as a PNG to `results/ml_seasonal_brier.png`.
 
@@ -48,7 +60,7 @@ This Python script plots a bar chart for each league. Each league's bar chart di
 This Python script plots a line graph for each league. Each league's line graph displays the binary accuracy of various model's probabilistic predictions by season. For each league, the figure is saved as a PDF to `results/model_seasonal_accuracy/{league}.pdf` and as a PNG to `results/model_seasonal_accuracy/{league}.png`. The models used in each line graph are below.
 - Moneyline: Binary accuracy of the moneyline based probabilistic predictions.
 - Bradley-Terry: Binary accuracy of the Bradley-Terry based probabilistic predictions.
-- Home Bias Coinflip: Binary accuracy of the baseline model that predicts the home team to win with the proportion of first half regular season games won by the home team. 
+- Home Bias Coinflip: Binary accuracy of using the expanding home win rate (the proportion of home wins across all same-season games played prior to the current game) as the predicted probability.
 - Coinflip: Binary accuracy of the baseline model that always predicts the home team to win with 0.5 probability. 
 
 
@@ -56,7 +68,7 @@ This Python script plots a line graph for each league. Each league's line graph 
 This Python script plots a line graph for each league. Each league's line graph displays the Brier score of various model's probabilistic predictions by season. For each league, the figure is saved as a PDF to `results/model_seasonal_brier/{league}.pdf` and as a PNG to `results/model_seasonal_brier/{league}.png`. The models used in each line graph are below.
 - Moneyline: Brier scores of the moneyline based probabilistic predictions.
 - Bradley-Terry: Brier scores of the Bradley-Terry based probabilistic predictions.
-- Home Bias Coinflip: Brier scores of the baseline model that predicts the home team to win with the proportion of first half regular season games won by the home team. 
+- Home Bias Coinflip: Brier score of using the expanding home win rate (the proportion of home wins across all same-season games played prior to the current game) as the predicted probability.
 - Coinflip: Brier scores of the baseline model that always predicts the home team to win with 0.5 probability. 
 
 
@@ -82,7 +94,3 @@ Example:
 The moneyline scores states that the home team is the favorite. However, because the Bradley-Terry based prediction is less than 0.5, the favorite according to Bradley-Terry is the away team. If the game resulted in the home team winning, the ROI of betting on the favorite would be -100% (all investment lost). If the game resulted in the away team winning, the ROI of betting on the favorite would be 200%.
 
 For each prediction method and league, the figure is saved as a PDF to `results/roi/{method}/{league}.pdf` and as a PNG to `results/roi/{method}/{league}.png`.
-
-
-### `seasonal_home_win.py`
-This Python script plots a line graph with a line for each league. Each league's line shows the proportion of games won by the home team in the first half of each leagues' regular season. The horizontal axis is the season as an integer representing the year the season ended. The vertical axis is the porbability. The figure is saved as a PDF to `results/seasonal_home_win.pdf` and as a PNG to `results/seasonal_home_win.png`.

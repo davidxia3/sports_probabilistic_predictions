@@ -13,6 +13,5 @@ There are 4 leagues: MLB, NBA, NFL, and NHL. Each has a CSV file with game data.
 - `team_2`: This value is the away team name if `neutral` is 1. Otherwise, this value is just the name of one of the teams (never the same as `team_1`). 
 - `points_1`: The number of points scored by `team_1`. 
 - `points_2`: The number of points scored by `team_2`. 
-- `moneyline_1`: The average moneyline score for `team_1`.
-- `moneyline_2`: The average moneyline score for `team_2`. 
+- `moneylines`: A string of a formatted list containing pairs of bookmaker moneylines.
 - `game_url`: The URL leading to the game's webpage.

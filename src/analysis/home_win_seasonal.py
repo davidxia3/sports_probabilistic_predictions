@@ -4,7 +4,7 @@ import pandas as pd
 
 def compute_seasonal_home_win() -> None:
     """
-    Computes the seasonal home win percentage (first half only) for MLB, NBA, NFL, and NHL, and outputs a single CSV
+    Computes the seasonal home win percentage (entire regular season) for MLB, NBA, NFL, and NHL, and outputs a single CSV.
 
     Args:
         None
@@ -18,9 +18,6 @@ def compute_seasonal_home_win() -> None:
 
     for league in leagues:
         df = pd.read_csv(f"processed_data/{league}.csv")
-
-        # only consider first half of regular season games
-        df = df[df["second_half"] == 0]
 
         # season-level home win percentage
         season_home = (

@@ -49,7 +49,7 @@ def plot_predicted_home_win_prob_hist(method: str) -> None:
             edgecolor="black"        )
 
         plt.ylabel("Density", fontsize=16)
-        plt.ylim(0, 0.042)
+        plt.ylim(0, 0.044)
         plt.grid(True, linestyle="--", alpha=0.5)
         plt.xticks(fontsize=12)
         plt.yticks(fontsize=12)

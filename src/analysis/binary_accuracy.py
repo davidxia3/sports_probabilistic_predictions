@@ -3,28 +3,33 @@ from pathlib import Path
 
 
 
-def compute_home_win_probability(data_file: Path) -> pd.Series:
+def compute_dynamic_home_win_probability(df: pd.DataFrame) -> pd.Series:
     """
-    Returns a Series mapping each season to its first-half home win rate.
+    For each second-half game, compute home win rate from all prior games in the same season (first half + earlier second-half games).
 
     Args:
-        data_file (Path): Path object of CSV file with game data.
+        df: DataFrame with columns: season, date, second_half, result
 
     Returns:
-        pd.Series: maps season to first-half of season home team win rate.
+        pd.Series: home win probability aligned to second-half game indices.
     """
-    
-    df = pd.read_csv(data_file)
 
-    # group by season, take only first-half rows, compute mean of result
-    season_home_win = (
-        df[df["second_half"] == 0]
-        .groupby("season")["result"]
-        .mean()
-    )
+    df = df.copy()
+    df["date"] = pd.to_datetime(df["date"])
 
-    return season_home_win
+    second_half = df[df["second_half"] == 1].copy()
+    probs = pd.Series(index=second_half.index, dtype=float)
 
+    for season, season_df in df.groupby("season"):
+        season_df = season_df.sort_values("date")
+        mask = second_half["season"] == season
+        sh_games = second_half.loc[mask].sort_values("date")
+
+        for idx, game in sh_games.iterrows():
+            prior = season_df[season_df["date"] < game["date"]]
+            probs.at[idx] = prior["result"].mean() if len(prior) > 0 else 0.5
+
+    return probs
 
 
 
@@ -42,11 +47,10 @@ if __name__ == "__main__":
 
         # model binary accuracies
         for method in all_methods:
-            # drop all first half of regular season games
+            # drop all first half games
             df_method = df[df["second_half"] == 1]
-            # drop all games where only this method probability is NaN
-            df_method = df_method[df_method[f"{method}_prob"].notna()]
-            # drop all games where only this method probability is 0.5
+
+            # drop games where method has prediction of 0.5
             df_method = df_method[df_method[f"{method}_prob"] != 0.5]
 
 
@@ -56,18 +60,14 @@ if __name__ == "__main__":
 
             row[method] = 100 * (pred_class == y).mean()
 
-        # seasonal home win baseline
-        season_home_rate = compute_home_win_probability(data_file)
-
+        # dynamic home win baseline
         df_home = df[df["second_half"] == 1].copy()
-        df_home["home_base_prob"] = df_home["season"].map(season_home_rate)
+        df_home["home_base_prob"] = compute_dynamic_home_win_probability(df)
 
         home_pred_class = (df_home["home_base_prob"] >= 0.5).astype(int)
         row["home_win_base"] = 100 * (home_pred_class == df_home["result"]).mean()
 
         results.append(row)
 
-
-    # save results
     output_df = pd.DataFrame(results)
     output_df.to_csv("results/binary_accuracy.csv", index=False)

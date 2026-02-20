@@ -6,7 +6,6 @@ import ast
 
 
 
-# formatting helper functions
 def format_date(raw_date_str: str) -> str:
     """
     Converts date from "dd mmm yyyy" format to "yyyy-mm-dd".
@@ -123,34 +122,82 @@ def get_season(game_url: str) -> int:
 
 
 
-def parse_moneylines(x):
+def parse_moneylines(x: str) -> list[tuple[int, int]]:
+    """
+    Parses a string as a list of pairs of home/away moneylines.
+
+    Args:
+        x (str): A list in string format containing pairs of home/away moneylines.
+    
+    Returns:
+        list[(int, int)]: A list of pairs of home/away moneylines.
+    """
+
     if pd.isna(x):
         return []
     return ast.literal_eval(x)
 
 
 
-def extract_max_ml(ml_list):
-    if not ml_list:
-        return pd.NA, pd.NA
-    
-    home_vals = [t[0] for t in ml_list if t[0] is not None]
-    away_vals = [t[1] for t in ml_list if t[1] is not None]
-    
-    home_max = max(home_vals) if home_vals else pd.NA
-    away_max = max(away_vals) if away_vals else pd.NA
-    
-    return home_max, away_max
+def american_to_prob(ml: int) -> float:
+    """
+    Converts a moneyline to implied probability.
 
+    Args:
+        ml (int): Moneyline value.
 
+    Returns:
+        float: Implied win probability.
+    """
 
-def american_to_prob(ml):
     if pd.isna(ml):
-        return np.nan
+        return pd.NA
     if ml > 0:
         return 100 / (ml + 100)
     else:
         return -ml / (-ml + 100)
+
+
+
+def prob_to_american(prob: float) -> int:
+    """
+    Converts an implied probability back to an American moneyline.
+
+    Args:
+        prob (float): Implied probability (0 to 1).
+
+    Returns:
+        int: American moneyline.
+    """
+
+    if pd.isna(prob):
+        return pd.NA
+    if prob >= 0.5:
+        return round(-prob / (1 - prob) * 100)
+    else:
+        return round((1 - prob) / prob * 100)
+
+
+
+def extract_avg_implied_probs(ml_list: list[tuple[int, int]]) -> tuple[float, float]:
+    """
+    Converts each bookmaker's moneylines to implied probabilities,
+    then averages across bookmakers.
+
+    Args:
+        ml_list (list[tuple[int, int]]): A list of pairs of moneylines.
+
+    Returns:
+        tuple[float, float]: Average implied probabilities for (home, away).
+    """
+
+    home_probs = [american_to_prob(t[0]) for t in ml_list if t[0] is not None and not pd.isna(t[0])]
+    away_probs = [american_to_prob(t[1]) for t in ml_list if t[1] is not None and not pd.isna(t[1])]
+
+    home_avg = sum(home_probs) / len(home_probs) if home_probs else pd.NA
+    away_avg = sum(away_probs) / len(away_probs) if away_probs else pd.NA
+
+    return home_avg, away_avg
 
 
 
@@ -335,19 +382,19 @@ def preprocess_league_games(raw_data_file: Path, team_abbr_file: Path, output_sa
 
     # calculate moneyline probabilistic prediction based on home away moneylines
     parsed = raw_df["moneylines"].apply(parse_moneylines)
-    ml_df = parsed.apply(lambda x: pd.Series(extract_max_ml(x)))
-    ml_df.columns = ["home_ml", "away_ml"]
+    prob_df = parsed.apply(lambda x: pd.Series(extract_avg_implied_probs(x)))
+    prob_df.columns = ["avg_home_imp_prob", "avg_away_imp_prob"]
 
-    new_df["home_ml"] = ml_df["home_ml"].astype("Int64")
-    new_df["away_ml"] = ml_df["away_ml"].astype("Int64")
+    # bookmaker profit from un-normalized implied probabilities
+    new_df["bookmaker_profit"] = prob_df["avg_home_imp_prob"] + prob_df["avg_away_imp_prob"] - 1
 
-    home_prob = new_df["home_ml"].apply(american_to_prob)
-    away_prob = new_df["away_ml"].apply(american_to_prob)
-    new_df["bookmaker_profit"] = home_prob + away_prob - 1
+    # convert averaged implied probs back to American moneylines with vig
+    new_df["home_ml"] = prob_df["avg_home_imp_prob"].apply(prob_to_american).astype("Int64")
+    new_df["away_ml"] = prob_df["avg_away_imp_prob"].apply(prob_to_american).astype("Int64")
 
-    prob_sum = home_prob + away_prob
-    normalized_home_prob = home_prob / prob_sum
-    new_df["ml_prob"] = normalized_home_prob
+    # normalize to get true home win probability
+    prob_sum = prob_df["avg_home_imp_prob"] + prob_df["avg_away_imp_prob"]
+    new_df["ml_prob"] = prob_df["avg_home_imp_prob"] / prob_sum
 
 
 
@@ -398,6 +445,11 @@ def preprocess_league_games(raw_data_file: Path, team_abbr_file: Path, output_sa
     for index, row in clean_df.iterrows():
         if index % 100 == 0:
             print(f"{index} / {len(clean_df)}")
+        
+        # skip first half games
+        if row["second_half"] == 0:
+            continue
+
         past_games = clean_df[
             (clean_df['Season'] == row['Season']) & 
             (pd.to_datetime(clean_df['Date'], format="%Y-%m-%d") < pd.to_datetime(row['Date'], format="%Y-%m-%d"))

@@ -9,7 +9,7 @@ This Python script computes the binary accuracy of various model based predictio
 - `league`: League name. 
 - `ml`: Binary accuracy of predictions derived from moneyline scores.
 - `bt`: Binary accuracy of predictions derived from Bradley-Terry rating algorithm.
-- `hom_win_base`: Binary accuracy of predictions based on if home or away teams won more from first half of each respective regular season.
+- `home_win_base`: Binary accuracy of using the expanding home win rate (the proportion of home wins across all same-season games played prior to the current game) as the predicted probability.
 
 
 ### `bookmaker_profit.py`
@@ -30,7 +30,7 @@ This Python script computes the Brier scores of various model based prediction m
 - `league`: League name.
 - `ml`: Brier score of probabilistic predictions derived from moneyline scores.
 - `bt`: Brier score of probabilistic predictions derived from Bradley-Terry rating algorithm.
-- `hom_win_base`: Brier score of always predicting home team to win with proportion of first half of regular season games won by home team. 
+- `home_win_base`: Brier score of using the expanding home win rate (the proportion of home wins across all same-season games played prior to the current game) as the predicted probability.
 
 
 ### `calibration_moneyline.py`
@@ -69,12 +69,25 @@ This Python script computes the density histogram statistics of the moneyline ba
 - `density`: Density of games with probabilistic prediction between `bin_left` and `bin_right`. 
 
 
+### `home_win_seasonal.py`
+This Python script computes the proportion of games won by the home team in each regular season for all leagues. The 4 leagues are MLB, NBA, NFL, and NHL. The results are saved to `results/home_win_seasonal.csv`. The columns of the results file are below.
+- `season`: The season as an integer, representing the year the season ended. 
+- `mlb`: The proportion of games won by the home team in the regular season for a specified season in the MLB.
+- `nba`: The proportion of games won by the home team in the regular season for a specified season in the NBA.
+- `nfl`: The proportion of games won by the home team in the regular season for a specified season in the NFL.
+- `nhl`: The proportion of games won by the home team in the regular season for a specified season in the NHL.
+
+
+### `home_win.py`
+This Python script computes the proportion of games won by the home team in each league. The 4 leagues are MLB, NBA, NFL, and NHL. The results are saved to `results/home_win.csv`.
+
+
 ### `log_loss.py`
 This Python script computes the log loss scores of various model based prediction methods for each league and saves the results to `results/log_loss.csv`. The 4 leagues are MLB, NBA, NFL, and NHL. The columns of the results file are below.
 - `league`: League name.
 - `ml`: Log loss score of probabilistic predictions derived from moneyline scores.
 - `bt`: Log loss score of probabilistic predictions derived from Bradley-Terry rating algorithm.
-- `hom_win_base`: Log loss score of always predicting home team to win with proportion of first half of regular season games won by home team.
+- `home_win_base`: Log loss score of using the expanding home win rate (the proportion of home wins across all same-season games played prior to the current game) as the predicted probability.
 
 
 ### `ml_seasonal_brier.py`
@@ -97,7 +110,7 @@ This Python script computes the binary accurcy of various model based probabilis
 - `season`: The season as an integer, representing the year the season ended. 
 - `ml_accuracy`: The binary accuracy of moneyline based probabilistic predictions.
 - `bt_accuracy`: The binary accuracy of Bradley-Terry based probabilistic predictions.
-- `home_bias_accuracy`: The binary accuracy of predictions using the home team win probability from the first half of each regular season.
+- `home_win_base`: The binary accuracy of using the expanding home win rate (the proportion of home wins across all same-season games played prior to the current game) as the predicted probability.
 - `coinflip_accuracy`: The binary accuracy of a constant 0.5 prediction for all games. 
 
 
@@ -106,8 +119,8 @@ This Python script computes the Brier score of various model based probabilistic
 - `season`: The season as an integer, representing the year the season ended. 
 - `ml_brier`: The Brier score of moneyline based probabilistic predictions.
 - `bt_brier`: The Brier score of Bradley-Terry based probabilistic predictions.
-- `home_bias_brier`: The Brier score of predictions using the home team win probability from the first half of each regular season.
-- `coinflip_brier`: The Brier score of a constant 0.5 prediction for all games. 
+- `home_win_base`: The Brier score of using the expanding home win rate (the proportion of home wins across all same-season games played prior to the current game) as the predicted probability.
+- `coinflip_brier`: The Brier score of a constant 0.5 prediction for all games (always 0.25). 
 
 
 ### `roi_binned.py`
@@ -140,12 +153,3 @@ For each probabilistic prediction method and league, the results are saved to `r
 - `n`: The number of samples (games).
 - `favorite_roi`: The ROI percentage of always betting on the favorite according to the specified prediction method. 
 - `underdog_roi`: The ROI percentage of always betting on the underdog according to the specified prediction method.
-
-
-### `seasonal_home_win.py`
-This Python script computes the proportion of games won by the home team in the first half of each regular season for all leagues. The 4 leagues are MLB, NBA, NFL, and NHL. The results are saved to `results/seasonal_home_win.csv`. The columns of the results file are below.
-- `season`: The season as an integer, representing the year the season ended. 
-- `mlb`: The proportion of games won by the home team in the first half of the regular season for a specified season in the MLB.
-- `nba`: The proportion of games won by the home team in the first half of the regular season for a specified season in the NBA.
-- `nfl`: The proportion of games won by the home team in the first half of the regular season for a specified season in the NFL.
-- `nhl`: The proportion of games won by the home team in the first half of the regular season for a specified season in the NHL.

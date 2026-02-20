@@ -3,6 +3,37 @@ from pathlib import Path
 
 
 
+def compute_dynamic_home_win_probability(df: pd.DataFrame) -> pd.Series:
+    """
+    For each second-half game, compute home win rate from all prior games
+    in the same season (first half + earlier second-half games).
+
+    Args:
+        df: DataFrame with columns: season, date, second_half, result
+
+    Returns:
+        pd.Series: home win probability aligned to second-half game indices.
+    """
+
+    df = df.copy()
+    df["date"] = pd.to_datetime(df["date"])
+
+    second_half = df[df["second_half"] == 1].copy()
+    probs = pd.Series(index=second_half.index, dtype=float)
+
+    for season, season_df in df.groupby("season"):
+        season_df = season_df.sort_values("date")
+        mask = second_half["season"] == season
+        sh_games = second_half.loc[mask].sort_values("date")
+
+        for idx, game in sh_games.iterrows():
+            prior = season_df[season_df["date"] < game["date"]]
+            probs.at[idx] = prior["result"].mean() if len(prior) > 0 else 0.5
+
+    return probs
+
+
+
 def compute_model_season_binary_accuracy(csv_path: Path) -> pd.DataFrame:
     """
     Compute binary accuracy by season for multiple prediction models.
@@ -10,7 +41,7 @@ def compute_model_season_binary_accuracy(csv_path: Path) -> pd.DataFrame:
     Models:
         - Moneyline probabilistic model (ml_prob)
         - Bradley-Terry probabilistic model (bt_prob)
-        - Home-bias coinflip model (predict home-team win rate in that season)
+        - Home-bias model (dynamic expanding home-team win rate)
         - Pure coinflip model (predict 0.5 for every game)
 
     Args:
@@ -18,19 +49,16 @@ def compute_model_season_binary_accuracy(csv_path: Path) -> pd.DataFrame:
 
     Returns:
         pd.DataFrame: DataFrame with 5 columns:
-            season, ml_accuracy, elo_accuracy, home_bias_accuracy, coinflip_accuracy.
+            season, ml_accuracy, bt_accuracy, home_bias_accuracy, coinflip_accuracy.
     """
 
     df = pd.read_csv(csv_path)
 
-    # compute first half home winrate by season
-    df_first = df[df["second_half"] == 0]
-    season_home_winrate = df_first.groupby("season")["result"].mean()
+    # compute dynamic home win probability before filtering
+    dynamic_home_probs = compute_dynamic_home_win_probability(df)
 
-    # drop all first half of regular season games for second half evaluation
+    # drop all first half of regular season games
     df = df[df["second_half"] == 1]
-
-
 
 
     # moneyline
@@ -44,9 +72,6 @@ def compute_model_season_binary_accuracy(csv_path: Path) -> pd.DataFrame:
         .mean()
         .reset_index()
     )
-
-
-
 
 
     # Bradley-Terry
@@ -73,13 +98,11 @@ def compute_model_season_binary_accuracy(csv_path: Path) -> pd.DataFrame:
     )
 
 
-
-
-    # home win rate is average of "result" column in first half of each regular season
+    # home win rate — dynamic expanding baseline
     df_home = df.copy()
-    df_home["home_bias_prob"] = df_home["season"].map(season_home_winrate)
+    df_home["home_bias_prob"] = dynamic_home_probs
     df_home["home_bias_accuracy"] = 100 * (
-        (df_home["home_bias_prob"] >= 0.5) == df_home["result"]
+        (df_home["home_bias_prob"] > 0.5) == df_home["result"]
     ).astype(int)
 
     home_season = (
