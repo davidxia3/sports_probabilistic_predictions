@@ -13,7 +13,7 @@ This folder contains all the raw data scraped from OddsPortal.
 
 
 ## `results/`
-This folder contains all CSV results and PDF/PNG figures from the analysis of processed data. All results are derived only from games from the second half of each regular season. 
+This folder contains all CSV results and PDF/PNG figures from the analysis of processed data.
 
 
 ## `src/`
