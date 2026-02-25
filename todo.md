@@ -3,8 +3,8 @@
 ## February 25
 - **Calculation of ML averages:**  
   - Potential (minor) issue:   The mapping m -> pstar(m) is not always reversible. Need to assume (1) m> 100 or m < -100, and (2) pstar != 1/2.
-    - Regarding (1): **Check if all moneylines satisfy this condition i.e., are >100 in absolute value.**
-    - Regarding (2): If |m|>100, pstar is always <1/2 or >1/2, so for individual moneylines p=1/2 cannot happen. However, if moneylines (or probabilities) are averaged, it is theoretically possible that the average is exactly 1/2.  **Check if this actually occurs in the data.**
+    - Regarding (1): **Check if all moneylines satisfy this condition i.e., are >100 in absolute value.**   (No: values of 100 occur in the original data.)
+    - Regarding (2): If |m|>100, pstar is always <1/2 or >1/2, so for individual moneylines p=1/2 cannot happen. However, if moneylines (or probabilities) are averaged, it is theoretically possible that the average is exactly 1/2.  **Check if this actually occurs in the data.** (Fix: Define the inverse mapping m(pstar) to be -100 if pstar = 1/2)
 - **Bookmaker profits:** Maybe put this table back in. **Do we have an updated version, based on the revised ML average calculations?**
 
 ## February 19
