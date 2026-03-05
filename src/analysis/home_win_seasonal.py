@@ -19,6 +19,9 @@ def compute_seasonal_home_win() -> None:
     for league in leagues:
         df = pd.read_csv(f"processed_data/{league}.csv")
 
+        # drop first half of season games
+        df = df[df["second_half"] == 1]
+
         # season-level home win percentage
         season_home = (
             df.groupby("season")["result"]

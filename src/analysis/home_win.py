@@ -19,6 +19,8 @@ def compute_home_win() -> None:
     for league in leagues:
         df = pd.read_csv(f"processed_data/{league}.csv")
 
+        # drop first half of season games
+        df = df[df["second_half"]==1]
         
 
         league_tables[league] = 100 * len(df[df["result"]==1]) / len(df)
