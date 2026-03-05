@@ -2,7 +2,7 @@
 
 ## March 5
 - **Tables:** Check that all tables reflect the most recent updates.
-- **Descriptive statistics tables/figures (Section 5.3):**  Home winrates (full season), bookmmaker profits (second half season), two negative moneylines (full season), distribution of home win probabilities (second half season): **Are these based on ALL games, or only second half season games?**
+- **Descriptive statistics tables/figures (Section 5.3):**  Home winrates (full season), bookmmaker profits (second half season), two negative moneylines (full season), distribution of home win probabilities (second half season): **Recalculate the home winrates and two negative moneylines data based on second half season only.**
 - **Home win probabilities for coin flip model:** These can vary from game to game, but they are based on at least half a season's worth of data.   **Are all of these strictly greater than 50%?** (See the footnote on page 10.)
   
 ## February 25
