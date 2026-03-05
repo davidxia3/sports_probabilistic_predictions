@@ -1,5 +1,8 @@
 # TODO
 
+## March 6
+- **Tables:** Check that all tables reflect the most recent updates. ( 
+  
 ## February 25
 - **Calculation of ML averages:**  
   - Potential (minor) issue:   The mapping m -> pstar(m) is not always reversible. Need to assume (1) m> 100 or m < -100, and (2) pstar != 1/2.
