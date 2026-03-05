@@ -1,7 +1,8 @@
 # TODO
 
-## March 6
-- **Tables:** Check that all tables reflect the most recent updates. ( 
+## March 5
+- **Tables:** Check that all tables reflect the most recent updates.
+- **Descriptive statistics tables (Section 5.3):**  Home winrates, bookmmaker profits, two negative moneylines tables: Are these based on ALL games, or only second half season games?
   
 ## February 25
 - **Calculation of ML averages:**  
