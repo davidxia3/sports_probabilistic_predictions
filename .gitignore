@@ -1,5 +1,8 @@
 *.DS_Store
 tempy.py
 deprecated/
-overleaf_folder_maker.py
+_analysis_runner.py
+_graphing_runner.py
+_overleaf_folder_maker.py
+_results_clearer.py
 Graphics/
