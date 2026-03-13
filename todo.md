@@ -1,5 +1,10 @@
 # TODO
 
+## March 13
+- **Accuracy calculations:** Exclude cases where the p-value used for home bias coinflip model was exactly 0.5, add column to Table 6.1. Redo the tables and graphics for accuracy calculations.
+
+
+
 ## March 5
 - **Tables:** Check that all tables reflect the most recent updates.
 - **Descriptive statistics tables/figures (Section 5.3):**  Home winrates (full season), bookmmaker profits (second half season), two negative moneylines (full season), distribution of home win probabilities (second half season): **Recalculate the home winrates and two negative moneylines data based on second half season only.**
