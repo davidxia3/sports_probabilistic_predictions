@@ -101,6 +101,9 @@ def compute_model_season_binary_accuracy(csv_path: Path) -> pd.DataFrame:
     # home win rate — dynamic expanding baseline
     df_home = df.copy()
     df_home["home_bias_prob"] = dynamic_home_probs
+    
+    df_home = df_home[df_home["home_bias_prob"] != 0.5]
+    
     df_home["home_bias_accuracy"] = 100 * (
         (df_home["home_bias_prob"] > 0.5) == df_home["result"]
     ).astype(int)

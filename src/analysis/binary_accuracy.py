@@ -63,7 +63,9 @@ if __name__ == "__main__":
         # dynamic home win baseline
         df_home = df[df["second_half"] == 1].copy()
         df_home["home_base_prob"] = compute_dynamic_home_win_probability(df)
-
+        
+        df_home = df_home[df_home["home_base_prob"] != 0.5]
+        
         home_pred_class = (df_home["home_base_prob"] >= 0.5).astype(int)
         row["home_win_base"] = 100 * (home_pred_class == df_home["result"]).mean()
 
