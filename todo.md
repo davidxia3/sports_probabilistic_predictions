@@ -1,5 +1,8 @@
 # TODO
 
+## March 27
+- **Proofreading:**  (David) Proofread Sections 5 (data.tex) and 6 (results.tex) (Description of Data and Results). Pay attention to spelling, punctuation, gramma/style; fix any obvious issues at Overleaf.  Hold off with any major changes.   Also check the mathematical accuracy of these two sections, in particular, check that the statements are consistent with the data and computations you did at Github.   Leave the other sections alone for now. 
+
 ## March 13
 - **Accuracy calculations:** Exclude cases where the p-value used for home bias coinflip model was exactly 0.5, add column to Table 6.1. Redo the tables and graphics for accuracy calculations.
 
