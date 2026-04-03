@@ -8,6 +8,7 @@
 - **Proofreading:**
   -    (David) Proofread remaining sections (Abstract, Introduction, Background, Prediction Models, Evaluation Metrics, Discussion)
   -    (AJH) Check formatting of bibliography items.
+- **References for explosion of sports betting market:** (David) Try to find recent (2025 or later) references on size of the sports betting market in the US in 2025 versus 2000s or 1990s etc (best would be references to economics literature) (use Google Scholar as starting point, then do tree-type search on hits Google Scholar generates upon searching for sports betting market legalization)  
    
 ## March 27
 - **Proofreading:**  (David) Proofread Sections 5 (data.tex) and 6 (results.tex) (Description of Data and Results). Pay attention to spelling, punctuation, gramma/style; fix any obvious issues at Overleaf.  Hold off with any major changes.   Also check the mathematical accuracy of these two sections, in particular, check that the statements are consistent with the data and computations you did at Github.   Leave the other sections alone for now.
