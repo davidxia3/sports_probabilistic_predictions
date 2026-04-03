@@ -1,5 +1,14 @@
 # TODO
 
+## April 3
+
+- **Standardizing terminology:**  Winrate (one word),  coinflip (one word), longshot (one word), oddsmakers (one word) (AJH - doublecheck for consistency)
+- **Standardizing table formatting (centering vs left/right columns):**   ROI tables: check for left/center/right alignment (AJH)
+- **Calibration section (Section 6.3):** Add footnote explaining missing data points due to bins not having any data points (MLB and NHL only) (AJH)
+- **Proofreading:**
+  -    (David) Proofread remaining sections (Abstract, Introduction, Background, Prediction Models, Evaluation Metrics, Discussion)
+  -    (AJH) Check formatting of bibliography items.
+   
 ## March 27
 - **Proofreading:**  (David) Proofread Sections 5 (data.tex) and 6 (results.tex) (Description of Data and Results). Pay attention to spelling, punctuation, gramma/style; fix any obvious issues at Overleaf.  Hold off with any major changes.   Also check the mathematical accuracy of these two sections, in particular, check that the statements are consistent with the data and computations you did at Github.   Leave the other sections alone for now.
 - **Next meeting:** Friday, April 3, 3 pm.
