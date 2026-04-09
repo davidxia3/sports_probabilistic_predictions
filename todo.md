@@ -1,5 +1,5 @@
 # TODO
--- David Notes:
+- David Notes:
   -  "home bias" or "home-bias"
   -  Consider using an alternative for the variable "o" to represent outcomes in Brier score definition (maybe theta or omega).
   -  Currently, probability bins in the calibration plot section use B_i, while Brier score is uses the variable B. Consider switching one of these.
