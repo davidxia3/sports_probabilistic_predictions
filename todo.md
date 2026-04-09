@@ -4,7 +4,7 @@
   -  Consider using an alternative for the variable "o" to represent outcomes in Brier score definition (maybe theta or omega).
   -  Currently, probability bins in the calibration plot section use B_i, while Brier score is uses the variable B. Consider switching one of these.
   -  https://www.nber.org/system/files/working_papers/w33108/w33108.pdf
-    - Search "legal" and will get many results.
+    - search "legal" and will get many results.
     - "We find that sports betting deposits are initially near-zero, but spike immediately upon legalization, producing an unconditional state-wide increase in average household betting deposits by about $25 per quarter."
     - "After legalization, treated households experience a relative reduction in net investments of about 14%." (investments into stocks. households are investing less, presumably because they are gambling the money)
     - "This rapid legalization of sports betting has led to an explosion in betting, with the total wagered amount rising from an average of $1.1 billion per month in 2019 to $14 billion in January 2024."
