@@ -1,4 +1,10 @@
 # TODO
+- **AJH To Do list:**
+  -   Add citation for legalization of gambling and explosion of betting market
+  -  **Standardizing terminology:**  Winrate (one word),  coinflip (one word), longshot (one word), oddsmakers (one word) (AJH - doublecheck for consistency)
+  - **Standardizing table formatting (centering vs left/right columns):**   ROI tables: check for left/center/right alignment (AJH)
+  - **Calibration section (Section 6.3):** Add footnote explaining missing data points due to bins not having any data points (MLB and NHL only) (AJH)
+  
 - David Notes:
   -  "home bias" or "home-bias" (**home bias (space, no dash)**)
   -  Consider using an alternative for the variable "o" to represent outcomes in Brier score definition (maybe theta or omega). (**keep as is (lower case letter "o")**)
@@ -18,7 +24,7 @@
 - **Calibration section (Section 6.3):** Add footnote explaining missing data points due to bins not having any data points (MLB and NHL only) (AJH)
 - **Proofreading:**
   -    (David) Proofread remaining sections (Abstract, Introduction, Background, Prediction Models, Evaluation Metrics, Discussion)
-  -    (AJH) Check formatting of bibliography items.
+  -    (AJH) Check formatting of bibliography items. **Done**
 - **References for explosion of sports betting market:** (David) Try to find recent (2025 or later) references on size of the sports betting market in the US in 2025 versus 2000s or 1990s etc (best would be references to economics literature) (use Google Scholar as starting point, then do tree-type search on hits Google Scholar generates upon searching for sports betting market legalization)
 - **Next meeting:** Friday, April 10, 3 pm
    
