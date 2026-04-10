@@ -1,4 +1,8 @@
 # TODO
+
+## April 10
+- **David:** Read over the new background section.
+
 - **AJH To Do list:**
   -   Add citation for legalization of gambling and explosion of betting market
   -  **Standardizing terminology:**  Winrate (one word),  coinflip (one word), longshot (one word), oddsmakers (one word) (AJH - doublecheck for consistency)
