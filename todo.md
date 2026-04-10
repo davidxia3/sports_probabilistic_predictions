@@ -2,7 +2,7 @@
 - David Notes:
   -  "home bias" or "home-bias" (**home bias (space, no dash)**)
   -  Consider using an alternative for the variable "o" to represent outcomes in Brier score definition (maybe theta or omega). (**keep as is (lower case letter "o")**)
-  -  Currently, probability bins in the calibration plot section use B_i, while Brier score is uses the variable B. Consider switching one of these.
+  -  Currently, probability bins in the calibration plot section use B_i, while Brier score is uses the variable B. Consider switching one of these. **(Change $B_i$ to $I_i$, ``bin'' to ``interval'')**
   -  https://www.nber.org/system/files/working_papers/w33108/w33108.pdf
   - search "legal" and will get many results.
     -   "We find that sports betting deposits are initially near-zero, but spike immediately upon legalization, producing an unconditional state-wide increase in average household betting deposits by about $25 per quarter."
