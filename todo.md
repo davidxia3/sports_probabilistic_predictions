@@ -1,7 +1,7 @@
 # TODO
 - David Notes:
-  -  "home bias" or "home-bias" **home bias** (space, no dash)
-  -  Consider using an alternative for the variable "o" to represent outcomes in Brier score definition (maybe theta or omega). (* keep as is (lower case letter "o") *)
+  -  "home bias" or "home-bias" (**home bias (space, no dash) **)
+  -  Consider using an alternative for the variable "o" to represent outcomes in Brier score definition (maybe theta or omega). (** keep as is (lower case letter "o") **)
   -  Currently, probability bins in the calibration plot section use B_i, while Brier score is uses the variable B. Consider switching one of these.
   -  https://www.nber.org/system/files/working_papers/w33108/w33108.pdf
   - search "legal" and will get many results.
