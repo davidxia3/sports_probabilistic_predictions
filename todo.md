@@ -4,10 +4,10 @@
 - **David:** Read over the new background section.
 
 - **AJH To Do list:**
-  -   Add citation for legalization of gambling and explosion of betting market
-  -  **Standardizing terminology:**  Winrate (one word),  coinflip (one word), longshot (one word), oddsmakers (one word) (AJH - doublecheck for consistency)
-  - **Standardizing table formatting (centering vs left/right columns):**   ROI tables: check for left/center/right alignment (AJH)
-  - **Calibration section (Section 6.3):** Add footnote explaining missing data points due to bins not having any data points (MLB and NHL only) (AJH)
+  -   Add citation for legalization of gambling and explosion of betting market **DONE - added footnote referencing Bisson  [Bi26]**
+  -  **Standardizing terminology:**  Winrate (one word),  coinflip (one word), longshot (one word), oddsmakers (one word) (AJH - doublecheck for consistency) **DONE**
+  - **Standardizing table formatting (centering vs left/right columns):**   ROI tables: check for left/center/right alignment (AJH) **DONE**
+  - **Calibration section (Section 6.3):** Add footnote explaining missing data points due to bins not having any data points (MLB and NHL only) (AJH) **DONE**
   
 - David Notes:
   -  "home bias" or "home-bias" (**home bias (space, no dash)**)
